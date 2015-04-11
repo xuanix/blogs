@@ -1,0 +1,49 @@
+/* nav */
+.navbar-brand h1 {
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.top-nav-collapse {
+  background-color: rgba(0,0,0,.7);
+}
+/* footer */
+footer {
+  background-color: rgba(0,0,0,.7);
+}
+
+footer a {
+  color: #4183C4;
+  font-weight: bold;
+}
+
+footer a:hover {
+  color: #0078e7;
+  text-decoration: none;
+}
+
+.svg-icon {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+}
+
+.svg-icon.email {
+  background-image: url('../img/icons/icon-mail.svg');
+}
+
+.svg-icon.facebook {
+  background-image: url('../img/icons/icon-facebook.svg');
+}
+
+.svg-icon.github {
+  background-image: url('../img/icons/icon-github.svg');
+}
+
+.svg-icon.linkedin {
+  background-image: url('../img/icons/icon-linkedin.svg');
+}
+
+.svg-icon.twitter {
+  background-image: url('../img/icons/icon-twitter.svg');
+}
