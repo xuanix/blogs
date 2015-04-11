@@ -1,9 +1,3 @@
-/*!
- * Clean Blog v1.0.0 (http://startbootstrap.com)
- * Copyright 2014 Start Bootstrap
- * Licensed under Apache 2.0 (https://github.com/IronSummitMedia/startbootstrap/blob/gh-pages/LICENSE)
- */
-
 body {
   font-family: 'Lora', 'Times New Roman', serif;
   font-size: 20px;
@@ -23,7 +17,7 @@ h4,
 h5,
 h6 {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: bold;
+  font-weight: 800;
 }
 a {
   color: #404040;
@@ -46,7 +40,8 @@ hr.small {
   border-width: 4px;
   border-color: white;
 }
-/* .navbar-custom {
+.navbar-custom {
+  background: white;
   position: absolute;
   top: 0;
   left: 0;
@@ -84,8 +79,7 @@ hr.small {
   .navbar-custom .nav li a:focus {
     color: rgba(255, 255, 255, 0.8);
   }
-} 
-*/
+}
 @media only screen and (min-width: 1170px) {
   .navbar-custom {
     -webkit-transition: background-color 0.3s;
@@ -134,8 +128,8 @@ hr.small {
   }
 }
 .intro-header {
-  background-color: #808080;
   background: no-repeat center center;
+  background-color: #808080;
   background-attachment: scroll;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -355,9 +349,16 @@ form .row:first-child .floating-label-form-group {
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 1px;
-  padding: 15px 25px;
+  padding: 10px 5px;
   background-color: white;
   border-radius: 0;
+}
+@media only screen and (min-width: 768px) {
+  .pager li > a,
+  .pager li > span {
+    font-size: 14px;
+    padding: 15px 25px;
+  }
 }
 .pager li > a:hover,
 .pager li > a:focus {
