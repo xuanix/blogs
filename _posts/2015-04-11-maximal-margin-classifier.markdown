@@ -120,6 +120,11 @@ Furthermore, the defination of margin is changed to
 	M=\cfrac{y(w^Tx+b)}{||w||}
 \end{equation}
 
+The reason why in the figure
+$
+M=\cfrac{1}{||\beta||}
+$
+is that people assumes the equations of those two dashed lines have the property $ y(w^Tx+b)=1 $, which will be explaned in detail in further blogs.
 
 
 [1]: http://www-bcf.usc.edu/~gareth/ISL/
