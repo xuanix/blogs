@@ -46,7 +46,7 @@ Suppose a training dataset is **linearly separable**, and it is possbile to cons
 
 > the smallest such distance is the minimal distance from the observations to the hyperplane, and is known as the margin. 
 
-<img src="/img/maximal-margin-classifier.png">
+<img src="{{ site.baseurl }}img/maximal-margin-classifier.png">
 
 The figure above shows two classes have been sperarated by three different but parallel hyperplanes. The solid line is the optimal (separating) hyperplane. The \eqref{hyperplane} can be wrote in vector format
 
