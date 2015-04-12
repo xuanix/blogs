@@ -1,0 +1,39 @@
+---
+layout:     post
+title: "Suport vector machine (1) - Maximal Margin Classifier"
+subtitle:   "Suport vector machine is an extention of a simple and intuitive classifier called the maximal margin classifier"
+author: "Tianxiang Gao"
+date: "April 12, 2015"
+header-img: "img/post-bg-01.jpg"
+---
+This is the first blog to introduce a powerful classifier *support vector machine* (**SVM**), an approach for classification that was developed in the computer science community in the 1990s and that has grown in popularity since then. This seris of blogs is complement of chapter 9 of a well-known textbook, [An Introduction to Statistical Learning (**ISL**)][1]. This textbook usually gives fantastic intuitive explanations to various epidemic classifiers. The explanation, however, is so intuitive that most of derivation has been skipped. Hence, I will try my best to give an detailed explanation to derivation. Most of images and datasets can be found in [ISL][1] and [The Elements of Statistical Learning (**ESL**)][2]. Before we get started, I would like to give a fridently remind firstly that *maximal margin classifier* can only deal with **linear separable** problmes. The others scenarios can be solved by its extension such *support vector classifier* that will be covered in the futurn blogs.
+
+## Hyperplane
+> In a p-dimensional space, a *hyperplane* is a flat affine subspace of dimension p-1.
+
+The word *affine* indicates that the subspace need not pass through the origin. For example, in two dimensional space, a hyperplane is just a line. The mathmatical definition of a two-dimensional hyperplan is the equation below
+
+(@foo) $$ \beta_0 + \beta_1X_1+\beta_2X_2 = 0 $$ 
+
+for parameters $\beta_0, \beta_1$, and $\beta_2$. We can see the equation above is an equation of a line and the data point $X = (X_1, X_2)^T$ is on that line (or hyperplane).
+
+The equation can be easily extended to the p-dimensional hyperplane:
+
+(@foo2) $$ \beta_0 + \beta_1X_1+\beta_2X_2+...+\beta_pX_p = 0 $$
+
+A p-dimensional data point $X = (X_1, X_2, ..., X_P)^T$ would lie on that hyperplane if it satisfies the equation, (@foo2).
+
+So, a hyperplane naturally divides a p-dimensional space into two halves. If a data point is not on the hyperplane, it would lie on sides of that hyperplane, then it either satisifies 
+
+(@foo3) $$ \beta_0 + \beta_1X_1+\beta_2X_2+...+\beta_pX_p > 0 $$
+
+or 
+
+(@foo4) $$ \beta_0 + \beta_1X_1+\beta_2X_2+...+\beta_pX_p < 0 $$
+
+
+
+
+
+[1]: http://www-bcf.usc.edu/~gareth/ISL/
+[2]: http://statweb.stanford.edu/~tibs/ElemStatLearn/
