@@ -1,3 +1,13 @@
+/* general */
+a {
+  color: #337ab7;
+}
+
+a:hover {
+  color: #28c3ab;
+}
+
+
 /* nav */
 .navbar-brand h1 {
   text-transform: capitalize;
