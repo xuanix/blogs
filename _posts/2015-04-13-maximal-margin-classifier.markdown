@@ -7,7 +7,7 @@ date: "April 13, 2015"
 header-img: "img/post-bg-02.jpg"
 ---
 
-In this blog, I am gonna cover the derivation of **maximal marigin classifier**. In order to understand the process, you need to know *KKT condition*, and *Lagrange dual*. If you are not so familier with those knowledge, please check another [blog](http://gaotx.com/blogs/2015/04/12/maximal-margin-classifier/).
+In this blog, I am gonna cover the derivation of **maximal marigin classifier**. In order to understand the process, you need to know *KKT condition*, and *Lagrange dual*. If you are not so familier with those knowledge, please check another [blog](http://gaotx.com/blogs/2015/04/14/kkt-cvx/).
 
 <img src="{{site.baseurl}}/img/maximal-margin/maximal-margin-classifier.png">
 
