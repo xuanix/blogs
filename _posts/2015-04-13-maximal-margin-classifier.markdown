@@ -34,7 +34,7 @@ is not realy constraint, since if $\beta^Tx+\beta_0=0$ defines a separating hype
 
 $$ \cfrac{1}{||\beta||}y_i(\beta^Tx_i+\beta_0) \geq M $$
 
-(which redefines \beta_0) or equivalently
+(which redefines $\beta_0$) or equivalently
 
 $$ y_i(\beta^Tx_i+\beta_0) \geq M||\beta|| $$
 
