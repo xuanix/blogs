@@ -6,7 +6,6 @@ author: "Tianxiang Gao"
 date: "April 12, 2015"
 header-img: "img/post-bg-01.jpg"
 ---
-This is the first blog to introduce a powerful classifier *support vector machine* (**SVM**), an approach for classification that was developed in the computer science community in the 1990s and that has grown in popularity since then. This seris of blogs is complement of chapter 9 in a well-known textbook, [An Introduction to Statistical Learning (**ISL**)][1]. This textbook usually gives fantastic intuitive introductions to various epidemic classifiers. The explanation, however, is so intuitive that most of derivation has been skipped. Hence, the purpose of these blogs is to give an detailed explanation to derivation. BTW, Most of images and datasets can be found in [ISL][1] and [The Elements of Statistical Learning (**ESL**)][2].
 
 In this blog, I am gonan define *hyperplanes*, *margin*. The concept of Maximal margin classifier, *support vector classifier* and  *support vector machine* that will be covered in future blogs.
 
