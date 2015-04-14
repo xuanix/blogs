@@ -1,7 +1,7 @@
 ---
 layout:     post
-title: "Suport vector machine #1 - hyperplane and margin"
-subtitle:   "Suport vector machine is an extention of a simple and intuitive classifier called the maximal margin classifier"
+title: "Suport vector machine #1 - Hyperplane and margin"
+subtitle:   "Hyperplane and margin are the foundation for maximal margin classifiers and suppor vector machines."
 author: "Tianxiang Gao"
 date: "April 12, 2015"
 header-img: "img/post-bg-01.jpg"
@@ -103,7 +103,3 @@ $
 M=\cfrac{1}{||\beta||}
 $
 is that people assumes the equations of those two dashed lines have the property $ y(w^Tx+b)=1 $, which will be explaned in detail in further blogs.
-
-
-[1]: http://www-bcf.usc.edu/~gareth/ISL/
-[2]: http://statweb.stanford.edu/~tibs/ElemStatLearn/

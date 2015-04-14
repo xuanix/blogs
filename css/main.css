@@ -1,4 +1,7 @@
 /* general */
+body p {
+    text-align: justify;
+}
 a {
   color: #337ab7;
 }
