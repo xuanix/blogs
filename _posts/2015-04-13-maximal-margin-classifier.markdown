@@ -38,7 +38,7 @@ $$ \cfrac{1}{||\beta||}y_i(\beta^Tx_i+\beta_0) \geq M $$
 
 $$ y_i(\beta^Tx_i+\beta_0) \geq M||\beta|| $$
 
-Since for any $\beta_0$ and $\beta$ satisfying these inequaties, any positively scaled multiple satisfies them too, just like define a separating hyperplane, we can arbitrarily set $\beta = 1/M$. Thus (2)-(3) is equivalent to 
+Since for any $\beta_0$ and $\beta$ satisfying these inequaties, any positively scaled multiple satisfies them too, just like define a separating hyperplane, we can arbitrarily set $||\beta|| = 1/M$. Thus (2)-(3) is equivalent to 
 
 \begin{align} 
 &\underset{\beta,\beta_0}{\text{max}}& & \cfrac{1}{||\beta||}\\\\ 
@@ -101,14 +101,14 @@ The dual problem is
 & & & \sum_{i=1}^{n}\alpha_iy_i = 0
 \end{align}
 
-The solution is obtained by solving this maximization problem through a standard software. In addition, the solution  satisfy the Karush-Kuhn-Tucher conditions, which include \eqref{primal:contraint},\eqref{beta}, \eqref{0}, \eqref{alpha} and
+The solution is obtained by solving this optimal problem through a standard software. In addition, the solution  satisfy the Karush-Kuhn-Tucher conditions, which include \eqref{primal:contraint},\eqref{beta}, \eqref{0}, \eqref{alpha} and
 
 \begin{equation}
 	\alpha_i[y_i(\beta^Tx_i+\beta_0)-1]=0, \forall i.
 	\label{16}
 \end{equation}
 
-From thes we can see that,
+From these we can see that,
 
 * If $\alpha>0$, then $y_i(\beta^Tx_i+\beta_0)=1$, in other words, $x_i$ is support vector;
 * If $\alpha=0$, then $y_i(\beta^Tx_i+\beta_0)>1$, and $x_i$ is not support vector.
@@ -125,4 +125,4 @@ for classifying new test observations:
 	\label{17}
 \end{equation}
 
-Although none of the training observations fall in the margin, this will not necessarily the case for test observations. The intuition is that a large margin on the training data will lead to good separation on the test data. The higher the magnitude of $\hat{f}(x)$, the more confidence of classification to test observations.
+Although none of the training observations fall in the margin, this will not necessarily the case for test observations. The intuition is that a large margin on the training data will lead to good separation on the test data. The higher the magnitude of $\hat{f}(x)$, the more confidence we are to classify the test observations.
