@@ -9,12 +9,12 @@
     <title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="{{ "/css/bootstrap.css" }}">
-    <link rel="stylesheet" href="{{ "/css/style.css" }}">
+    <link rel="stylesheet" href="{{ "/css/bootstrap.css" | prepend: site.baseurl }}">
+    <link rel="stylesheet" href="{{ "/css/style.css" | prepend: site.baseurl }}">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ "/css/clean-blog.css" }}">
-    <link rel="stylesheet" href="{{ "/css/main.css" }}">
+    <link rel="stylesheet" href="{{ "/css/clean-blog.css" | prepend: site.baseurl }}">
+    <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
 
     <!-- Pygments Github CSS 
     <link rel="stylesheet" href="{{ "/css/syntax.css" | prepend: site.baseurl }}"> -->
