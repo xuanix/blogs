@@ -3,7 +3,7 @@ title: Tianxiang's Blog
 header-img: img/home-bg.jpg
 email: gaotx88@gmail.com
 description: "Write your site description here. It will be used as your sites meta description as well!"
-baseurl: "/blogs"
+baseurl: "blogs"
 url: "http://gaotx.com"
 
 # Build settings
