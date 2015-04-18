@@ -81,8 +81,8 @@ Then,
 This is quadratic optimization problem. Let's solve it by langrange dual. We drop the contrains \eqref{12} and \eqref{13} by multiplying the langrange multipliers $\alpha$ and $\mu$. Then lagrange function 
 
 \begin{align}
-L_p(\beta, \beta_0,\xi; \alpha,\mu)= & \cfrac{1}{2}\beta^T\beta+C\sum_{i=1}^{n}\xi_i \nonumber \newline
-	& -\xi_i
+L_p(\beta, \beta_0,\xi; \alpha,\mu)=&\cfrac{1}{2}\beta^T\beta+C\sum_{i=1}^{n}\xi_i\nonumber\newline
+&-\sum_{i=1}^{n}\alpha_i[y_i(\beta^Tx_i+\beta_0)-(1 - \xi_i)]-\sum_{i=1}^{n}\mu_i\xi_i\label{14} 
 \end{align}
 
 Then the dual function is 
