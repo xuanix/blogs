@@ -9,7 +9,7 @@ header-img: "img/post-bg-02.jpg"
 
 In this blog, I am gonna cover the derivation of **maximal marigin classifier**. In order to understand the process, you need to know *KKT condition*, and *Lagrange dual*. If you are not so familier with those knowledge, please check another [blog](http://gaotx.com/blogs/2015/04/14/kkt-cvx/).
 
-<img src="{{site.baseurl}}/img/maximal-margin/maximal-margin-classifier.png">
+<img src="{{site.baseurl}}/img/svm/maximal-margin-classifier.png">
 
 In the [previous blog](http://gaotx.com/blogs/2015/04/12/maximal-margin-classifier/), we derived the formulation of $M$, which is half of margin.
 
@@ -38,7 +38,8 @@ $$ \cfrac{1}{||\beta||}y_i(\beta^Tx_i+\beta_0) \geq M $$
 
 $$ y_i(\beta^Tx_i+\beta_0) \geq M||\beta|| $$
 
-Since for any $\beta_0$ and $\beta$ satisfying these inequaties, any positively scaled multiple satisfies them too, just like define a separating hyperplane, we can arbitrarily set $||\beta|| = 1/M$. Thus (2)-(3) is equivalent to 
+Since for any $\beta_0$ and $\beta$ satisfying these inequaties, any positively scaled multiple satisfies them too, just like define a separating hyperplane, we can arbitrarily set 
+$||\beta|| = 1/M$. Thus (2)-(3) is equivalent to 
 
 \begin{align} 
 &\underset{\beta,\beta_0}{\text{max}}& & \cfrac{1}{||\beta||}\\\\ 

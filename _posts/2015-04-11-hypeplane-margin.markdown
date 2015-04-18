@@ -51,7 +51,7 @@ One can easily determine on which side of hyperplane a data point lies by calcul
 
 Suppose a training dataset is **linearly separable**, and it is possbile to construct at lease a hyperplane that sperates all training observations perfectly. 
 
-<img src="{{site.baseurl}}/img/maximal-margin/maximal-margin-classifier.png">
+<img src="{{site.baseurl}}/img/svm/maximal-margin-classifier.png">
 
 The figure above shows there are three possible hyperplanes, two dash line and one solid line, that are able to sperate all training data perfectly. However, if we only can pick one, which one should be selected? 
 
