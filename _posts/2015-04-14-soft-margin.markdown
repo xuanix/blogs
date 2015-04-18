@@ -82,7 +82,7 @@ This is quadratic optimization problem. Let's solve it by langrange dual. We dro
 
 \begin{align}
 L_p(\beta, \beta_0,\xi; \alpha,\mu)= & \cfrac{1}{2}\beta^T\beta+C\sum_{i=1}^{n}\xi_i \nonumber \newline
-	& -\sum\limits_{i=1}^n \alpha_i[y_i(\beta^Tx_i+\beta_0) -(1 - \xi_i)] - \sum\limits_{i=1}^n\mu_i\xi_i\label{14}
+	& -\sum__{i=1}^{n} \alpha_i[y_i(\beta^Tx_i+\beta_0) -(1 - \xi_i)] - \sum__{i=1}^{n}\mu_i\xi_i\label{14}
 \end{align}
 
 Then the dual function is 
