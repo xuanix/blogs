@@ -95,21 +95,26 @@ Then the dual function is
 
 In order to the minimum, set the partial derivatives to zero w.r.t $\beta, \beta_0$ and $\xi_i$, we obtain
 
+<div markdown="0">
 \begin{align}
 &\frac{\partial L_p}{\partial \beta} \rightarrow \beta=\sum_{i=1}^{n}\alpha_iy_ix_i,\label{16}\newline
 &\frac{\partial L_p}{\partial \beta} \rightarrow 0= \sum_{i=1}^{n}\alpha_iy_i,\label{17}\newline
 &\frac{\partial L_p}{\partial \beta} \rightarrow \alpha_i=C-\mu_i, \label{18}\forall i.
 \end{align}
+</div>
 
 By substituting \eqref{16}-\eqref{18} into \eqref{14}, we obtain 
 
+<div markdown="0">
 \begin{equation}
 g(\alpha, \mu)
 = \sum_{i=1}^{n}\alpha_i-\cfrac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{n}\alpha_i\alpha_jy_iy_jx_i^Tx_j
 \end{equation}
+</div>
 
 which gives us a lower bound on the objective function\eqref{11}. Then the dual problem is 
 
+<div markdown="0">
 \begin{align}
 &\underset{\alpha,\mu}{\text{max}}& & g(\alpha, \mu)
 = \sum_{i=1}^{n}\alpha_i-\cfrac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{n}\alpha_i\alpha_jy_iy_jx_i^Tx_j\newline 
@@ -118,9 +123,11 @@ which gives us a lower bound on the objective function\eqref{11}. Then the dual 
 & & & \alpha_i + \mu_i = C, \; i = 1, \ldots, n.\label{22}\newline
 & & & \alpha_i, \mu_i \geq 0, \; i = 1, \ldots, n.\newline
 \end{align}
+</div>
 
 We can make it easier by droping variable $\mu$ and replacing constrain\eqref{22} with $\alpha_i\leq C$. Then we obtain
 
+<div markdown="0">
 \begin{align}
 &\underset{\alpha}{\text{max}}& & 
 \sum_{i=1}^{n}\alpha_i-\cfrac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{n}\alpha_i\alpha_jy_iy_jx_i^Tx_j\newline 
@@ -128,6 +135,7 @@ We can make it easier by droping variable $\mu$ and replacing constrain\eqref{22
 & & \sum_{i=1}^{n}\alpha_iy_i=0 \newline
 & & & 0 \leq \alpha_i \leq C, \; i = 1, \ldots, n.\newline
 \end{align}
+</div>
 
 Any standard software can help us solve this problem. Substituting the optimal $\alpha^{*}$ into \eqref{16} obtains $\hat{\beta}$. In order to get $\hat{\beta_0}$, we use KKT conditions including the constrains
 
