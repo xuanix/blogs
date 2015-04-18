@@ -80,9 +80,154 @@ Then,
 
 This is quadratic optimization problem. Let's solve it by langrange dual. We drop the contrains \eqref{12} and \eqref{13} by multiplying the langrange multipliers $\alpha$ and $\mu$. Then lagrange function 
 
-\begin{align}
-L_p(\beta,\beta_0,\xi;\alpha,\mu)=&\cfrac{1}{2}\beta^T\beta+C\sum_{i=1}^n\xi_i+C\sum_{i=1}^n\xi_i
-\end{align}
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mtable columnalign="right left right left right left right left right left right left" rowspacing="3pt" columnspacing="0em 2em 0em 2em 0em 2em 0em 2em 0em 2em 0em" displaystyle="true">
+    <mtr>
+      <mtd>
+        <msub>
+          <mi>L</mi>
+          <mi>p</mi>
+        </msub>
+        <mo stretchy="false">(</mo>
+        <mi>&#x03B2;<!-- β --></mi>
+        <mo>,</mo>
+        <msub>
+          <mi>&#x03B2;<!-- β --></mi>
+          <mn>0</mn>
+        </msub>
+        <mo>,</mo>
+        <mi>&#x03BE;<!-- ξ --></mi>
+        <mo>;</mo>
+        <mi>&#x03B1;<!-- α --></mi>
+        <mo>,</mo>
+        <mi>&#x03BC;<!-- μ --></mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+      </mtd>
+      <mtd>
+        <mfrac>
+          <mrow>
+            <mpadded width="0" height="8.6pt" depth="3pt">
+              <mrow />
+            </mpadded>
+            <mstyle displaystyle="false" scriptlevel="0">
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>1</mn>
+              </mrow>
+            </mstyle>
+          </mrow>
+          <mrow>
+            <mpadded width="0" height="8.6pt" depth="3pt">
+              <mrow />
+            </mpadded>
+            <mstyle displaystyle="false" scriptlevel="0">
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </mstyle>
+          </mrow>
+        </mfrac>
+        <msup>
+          <mi>&#x03B2;<!-- β --></mi>
+          <mi>T</mi>
+        </msup>
+        <mi>&#x03B2;<!-- β --></mi>
+        <mo>+</mo>
+        <mi>C</mi>
+        <munderover>
+          <mo>&#x2211;<!-- ∑ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+            <mo>=</mo>
+            <mn>1</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>n</mi>
+          </mrow>
+        </munderover>
+        <msub>
+          <mi>&#x03BE;<!-- ξ --></mi>
+          <mi>i</mi>
+        </msub>
+      </mtd>
+    </mtr>
+    <mlabeledtr>
+      <mtd id="mjx-eqn-14">
+        <mtext>(14)</mtext>
+      </mtd>
+      <mtd />
+      <mtd>
+        <mi></mi>
+        <mo>&#x2212;<!-- − --></mo>
+        <munderover>
+          <mo>&#x2211;<!-- ∑ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+            <mo>=</mo>
+            <mn>1</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>n</mi>
+          </mrow>
+        </munderover>
+        <msub>
+          <mi>&#x03B1;<!-- α --></mi>
+          <mi>i</mi>
+        </msub>
+        <mo stretchy="false">[</mo>
+        <msub>
+          <mi>y</mi>
+          <mi>i</mi>
+        </msub>
+        <mo stretchy="false">(</mo>
+        <msup>
+          <mi>&#x03B2;<!-- β --></mi>
+          <mi>T</mi>
+        </msup>
+        <msub>
+          <mi>x</mi>
+          <mi>i</mi>
+        </msub>
+        <mo>+</mo>
+        <msub>
+          <mi>&#x03B2;<!-- β --></mi>
+          <mn>0</mn>
+        </msub>
+        <mo stretchy="false">)</mo>
+        <mo>&#x2212;<!-- − --></mo>
+        <mo stretchy="false">(</mo>
+        <mn>1</mn>
+        <mo>&#x2212;<!-- − --></mo>
+        <msub>
+          <mi>&#x03BE;<!-- ξ --></mi>
+          <mi>i</mi>
+        </msub>
+        <mo stretchy="false">)</mo>
+        <mo stretchy="false">]</mo>
+        <mo>&#x2212;<!-- − --></mo>
+        <munderover>
+          <mo>&#x2211;<!-- ∑ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+            <mo>=</mo>
+            <mn>1</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>n</mi>
+          </mrow>
+        </munderover>
+        <msub>
+          <mi>&#x03BC;<!-- μ --></mi>
+          <mi>i</mi>
+        </msub>
+        <msub>
+          <mi>&#x03BE;<!-- ξ --></mi>
+          <mi>i</mi>
+        </msub>
+      </mtd>
+    </mlabeledtr>
+  </mtable>
+</math>
 
 Then the dual function is 
 
