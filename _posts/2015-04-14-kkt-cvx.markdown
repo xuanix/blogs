@@ -5,6 +5,7 @@ subtitle:   "KKT condition and Lagrange dual."
 author: "Tianxiang Gao"
 date: "April 14, 2015"
 header-img: "img/post-bg-02.jpg"
+comments: true
 ---
 Convext optimization have been widely used in data science area. This blog will cover some basic knowledge about it, such as Lagrange dual and KKT conditions. I will not state the function is whether convex or not, becasue that will confuse people if they don't have those background.
 
