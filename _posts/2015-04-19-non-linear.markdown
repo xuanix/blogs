@@ -70,7 +70,7 @@ $\cfrac{1}{2}\beta^T\beta$ for easier solving.
 \begin{align} 
 &\underset{\beta,\beta_0}{\text{min}}& & \cfrac{1}{2}\beta^T\beta\newline 
 & \text{subject to}
-& & y_i(\beta^T h(x)_i+\beta_0) \geq 1 - \xi_i, \; i = 1, \ldots, n. \newline
+& & y_i[\beta^T h(x)_i+\beta_0] \geq 1 - \xi_i, \; i = 1, \ldots, n. \newline
 & & & \xi_i \geq 0, \; i = 1, \ldots, n.\newline
 & & & \sum_{i=1}^{n}\xi_i \leq C\label{18}
 \end{align}
@@ -81,7 +81,7 @@ We drop the "budget" constrain \eqref{18} by introducing it to the objective fun
 \begin{align} 
 &\underset{\beta,\beta_0}{\text{min}}& & \cfrac{1}{2}\beta^T\beta+C\sum_{i=1}^{n}\xi_i\label{19}\newline 
 & \text{subject to}
-& & y_i(\beta^Th(x_i)+\beta_0) \geq 1 - \xi_i, \; i = 1, \ldots, n. \label{20}\newline
+& & y_i[\beta^Th(x_i)+\beta_0] \geq 1 - \xi_i, \; i = 1, \ldots, n. \label{20}\newline
 & & & \xi_i \geq 0, \; i = 1, \ldots, n.\label{21}\newline
 \end{align}
 
