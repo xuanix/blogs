@@ -32,7 +32,7 @@ It is obvious that the decision function $\hat{f}(x)$ is a linear function. The 
 
 <img src="{{site.baseurl}}/img/svm/nonlinear.png">
 
-In order to deal with nonlinear case, we consider enlarging the feature space by using **functions of the predictors** such as quadratic and cubic term. Assume the original feature space is $p$-dimention, $X_1, X_2, ..., X_P$. Then we introduce quadratic terms to enlarg the feature space to $2p$-dimention, $X_1, X_1^2, X_2, X_2^2, ..., X_P, X_P^2$. Hence, $\beta = \begin{bmatrix}\beta_1\newline \beta_2\end{bmatrix}$, and the optimization problem can be reformulated as 
+You can find the figures from the website of [Introduction to Statistical Learning (**ISL**)][#1]. In order to deal with nonlinear case, we consider enlarging the feature space by using **functions of the predictors** such as quadratic and cubic term. Assume the original feature space is $p$-dimention, $X_1, X_2, ..., X_P$. Then we introduce quadratic terms to enlarge the feature space to $2p$-dimention, $X_1, X_1^2, X_2, X_2^2, ..., X_P, X_P^2$. Hence, $\beta = \begin{bmatrix}\beta_1\newline \beta_2\end{bmatrix}$, and the optimization problem can be reformulated as 
 
 \begin{align} 
 &\underset{\beta,\beta_0, ||\beta||=1}{\text{max}}& & M\newline 
@@ -63,7 +63,9 @@ Such as [previous blog](http://gaotx.com/blogs/2015/04/18/soft-margin/#), in ord
 $$ \cfrac{1}{||\beta||}y_i[\beta^Th(x_i)+\beta_0] \geq M(1-\xi_i) $$
 
 Since for any $\beta$ and $\beta_0$ satisfying the inequation, its scaled positively multiple also satisifies the inequation, we just arbitrarily assume 
-$ M = \cfrac{1}{||\beta||} $. Then, we minimizing $ \cfrac{1}{2}\beta^T\beta$ for easier solving. 
+$ M = \cfrac{1}{||\beta||} $. Then, we minimizing 
+$\cfrac{1}{2}\beta^T\beta$ for easier solving. 
+
 <div markdown="0">
 \begin{align} 
 &\underset{\beta,\beta_0}{\text{min}}& & \cfrac{1}{2}\beta^T\beta\newline 
@@ -173,4 +175,3 @@ The tunning parameter $C$ can be obtained through *cross-validation*.
 ## Kernel Function
 
 [#1]:http://www-bcf.usc.edu/~gareth/ISL/index.html
-[#2]: http://gaotx.com/blogs/2015/04/14/kkt-cvx/
