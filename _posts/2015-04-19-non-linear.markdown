@@ -144,7 +144,7 @@ We can make it easier by droping variable $\mu$ and replacing constrain\eqref{22
 \end{align}
 </div>
 
-Any standard software can help us solve this problem. Substituting the optimal $\alpha^{*}$ into \eqref{24} obtains $\hat{\beta}$. In order to get $\hat{\beta_0}$, we use KKT conditions including the constrains
+Any standard software can help us solve this problem. Substituting the optimal $\alpha^{*}$ into \eqref{24} obtains $\hat{\beta}$. In order to get $\hat{\beta}_0$, we use KKT conditions including the constrains
 
 \begin{align}
 	\alpha_i[y_i(\beta^Th(x_i)+\beta_0) -(1 - \xi_i)] = 0,\label{27}\newline
