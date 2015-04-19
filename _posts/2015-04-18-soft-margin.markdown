@@ -160,7 +160,7 @@ Given the solutions for $\hat{\beta}$ and $\hat{\beta}_0$, the decision function
 
 \begin{align}
 	G(x) = & sign[\hat{f}(x)] \nonumber \newline
-		   & sign[\hat{\beta}^T(x) + \hat{\beta}_0]
+         = & sign[\hat{\beta}^Tx + \hat{\beta}_0]
 \end{align}
 
 The tunning parameter $C$ can be obtained through *cross-validation*.
