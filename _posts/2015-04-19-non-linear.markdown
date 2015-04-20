@@ -167,11 +167,54 @@ Given the solutions for $\hat{\beta}$ and $\hat{\beta}_0$, the decision function
 
 \begin{align}
 	G(x) = & sign[\hat{f}(x)] \nonumber \newline
-		   & sign[\hat{\beta}^Th(x) + \hat{\beta}_0]
+		   & sign[\hat{\beta}^Th(x) + \hat{\beta}_0]\label{39}
 \end{align}
 
 The tunning parameter $C$ can be obtained through *cross-validation*.
 
 ## Kernel Function
+
+There are so many ways to define a mapping $h(x)$ to enlarge feature space. In addition, enlarging dimensions invovles more time comsumption. Actually we need not to specificy the transformation $h(x)$, but require a knowledge of the **kernel function**
+
+\begin{equation}
+	K(x_i, x_j) = h(x_i)^Th(x_j)
+\end{equation}
+
+that computes the inter products in the transformed space. The equation above is valid if and only if, for any $g(x)$ such that
+
+\begin{equation}
+	\int g(x)^2dx\;\;\text{is finite,}
+\end{equation}
+
+one has 
+\begin{equation}
+	\int K(x,y)g(x)g(y)dxdy \geq 0.
+\end{equation}
+
+Hence, the kernel should be **(semi-) positive definite**. The statement above is knwon as **Mercer condition** (often called the **kernel trick**). For example, assume a given dataset is in $\mathbb{R}^2$, every $x=\begin{bmatrix} x_1\\\\ x_2\end{bmatrix}$. We enlarge the feature space onto  define the mapping function $h(x)=\begin{bmatrix} x_1^2\\\\ x_1x_2\newline x_2^2\end{bmatrix}$. Therefore, for any $x,y\in \mathbb{R}^2$ we obtain
+
+\begin{align}
+	h(x)^Th(y) = & \begin{bmatrix} x_1^2&x_1x_2&x_2^2\end{bmatrix} \begin{bmatrix} y_1^2\newline y_1y_2\newline y_2^2\end{bmatrix} \nonumber \newline
+		   = & x_1^2y_1^2+x_1x_2y_1y_2+x_2^2y_2^2
+\end{align}
+
+which is equal to kernel function 
+
+\begin{align}
+K(x,y)	=&(x^Ty)^2 \label{44} \newline
+		=&(x_1y_1+x_2y_2)^2\newline
+		=&x_1^2y_1^2+x_1x_2y_1y_2+x_2^2y_2^2
+\end{align}
+
+Thus, based on \eqref{24}, we can reformulated classifier \eqref{39} as
+
+<div markdown="0">
+\begin{align}
+	G(x) = & sign[\sum_{i=1}^{n}\alpha_iy_ih(x_i)^Th(x) + \hat{\beta}_0]\newline
+		 = & sign[\sum_{i=1}^{n}\alpha_iy_iK(x_i,x) + \hat{\beta}_0]
+\end{align}
+</div>
+
+The kernel function used in \eqref{44} is known as *homogeneous polynomial* kernel. You can find other alternatives of kernel function in [Wikipidia](http://en.wikipedia.org/wiki/Support_vector_machine#Nonlinear_classification).
 
 [#1]:http://www-bcf.usc.edu/~gareth/ISL/index.html
