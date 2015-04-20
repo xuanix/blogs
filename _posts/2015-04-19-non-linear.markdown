@@ -42,7 +42,7 @@ You can find the figures from the website of [Introduction to Statistical Learni
 & & & \sum_{i=1}^{n}\xi_i \leq C
 \end{align}
 
-One could enlarge the feature space by introducing higher-order dimension and intersection temrs, and even not polynomial terms. So we can define a mapping (or function)
+One could enlarge the feature space by introducing higher-order dimension and intersection terms, and even not polynomial terms. So we can define a mapping (or function)
 
 \begin{equation}
     h(x): \mathbb{R}^p \rightarrow \mathbb{R}^H
@@ -157,7 +157,7 @@ for $i=1,2, ..., n$. For any $\alpha_i>0$, associated observations are support v
 	\mu_i=C-\alpha_i>0,
 \end{align}
 
-based on \eqref{27} and \eqref{18}, respectively. Hence, $\xi_i=0$ because of KKT condition \eqref{28}. $\hat{\beta}_0$ can be obtained by 
+based on \eqref{27} and \eqref{26}, respectively. Hence, $\xi_i=0$ because of KKT condition \eqref{28}. $\hat{\beta}_0$ can be obtained by 
 
 $$ y_i(\hat{\beta}^Th(x_i)+\beta_0) =1$$
 
@@ -191,11 +191,11 @@ one has
 	\int K(x,y)g(x)g(y)dxdy \geq 0.
 \end{equation}
 
-Hence, the kernel should be **(semi-) positive definite**. The statement above is knwon as **Mercer condition** (often called the **kernel trick**). For example, assume a given dataset is in $\mathbb{R}^2$, every $x=\begin{bmatrix} x_1\\\\ x_2\end{bmatrix}$. We enlarge the feature space onto  define the mapping function $h(x)=\begin{bmatrix} x_1^2\\\\ x_1x_2\newline x_2^2\end{bmatrix}$. Therefore, for any $x,y\in \mathbb{R}^2$ we obtain
+Hence, the kernel should be **(semi-) positive definite**. The statement above is knwon as **Mercer condition** (often called the **kernel trick**). Instead of mathmatical proof, we take an example to see how it works. Assume a given dataset is in $\mathbb{R}^2$, every $x=\begin{bmatrix} x_1\\\\ x_2\end{bmatrix}$. We enlarge the feature space onto $\mathbb{R}^3$ by defining a mapping function $h(x)=\begin{bmatrix} x_1^2\\\\ \sqrt{2} x_1x_2\\\\ x_2^2\end{bmatrix}$. Therefore, for any $x,y\in \mathbb{R}^2$ we obtain
 
 \begin{align}
-	h(x)^Th(y) = & \begin{bmatrix} x_1^2&x_1x_2&x_2^2\end{bmatrix} \begin{bmatrix} y_1^2\newline y_1y_2\newline y_2^2\end{bmatrix} \nonumber \newline
-		   = & x_1^2y_1^2+x_1x_2y_1y_2+x_2^2y_2^2
+	h(x)^Th(y) = & \begin{bmatrix} x_1^2&\sqrt{2}x_1x_2&x_2^2\end{bmatrix} \begin{bmatrix} y_1^2\newline \sqrt{2}y_1y_2\newline y_2^2\end{bmatrix} \nonumber \newline
+		   = & x_1^2y_1^2+2x_1x_2y_1y_2+x_2^2y_2^2
 \end{align}
 
 which is equal to kernel function 
@@ -203,7 +203,7 @@ which is equal to kernel function
 \begin{align}
 K(x,y)	=&(x^Ty)^2 \label{44} \newline
 		=&(x_1y_1+x_2y_2)^2\newline
-		=&x_1^2y_1^2+x_1x_2y_1y_2+x_2^2y_2^2
+		=&x_1^2y_1^2+2x_1x_2y_1y_2+x_2^2y_2^2
 \end{align}
 
 Thus, based on \eqref{24}, we can reformulated classifier \eqref{39} as
