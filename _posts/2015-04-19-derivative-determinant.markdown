@@ -175,12 +175,13 @@ In another blog, I used directly derivative the $det(A)$. If you are interested,
 
 
 ## Leibnize Formula
- We have **Leibnize formula** to calcualte the $det(A)$
+
+We have **Leibnize formula** to calcualte the $det(A)$
 
 <div markdown="0">
-\begin{align}
+\begin{equation}
 	det(A)=\sum_{\sigma\in P_n} \color{blue}{sgn(\sigma)} \prod_{i=1}^{n}a_{i,\color{red}{\sigma(i)}}
-\end{align}
+\end{equation}
 </div>
 
 where $P_n$ is the set of all permutation of (1,2,..,n), and 
