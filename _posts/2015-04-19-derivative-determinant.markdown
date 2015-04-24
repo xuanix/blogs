@@ -158,25 +158,24 @@ which is known as <strong>Jacobi's formula</strong>. We have an important coroll
 by using property of adjugade matrix 
 
 <div markdown="0">
-\begin{align}
-	A\; adj(A) = det(A)\; I_{n\times n}\newline
-\end{align}
+\begin{equation}
+	A\; adj(A) = det(A)\; I_{n\times n}
+\end{equation}
 </div>
 
 If A is invertiable
 
 <div markdown="0">
-\begin{align}
+\begin{equation}
 	A^{-1}= \frac{1}{det(A)}\; adj(A)
-\end{align}
+\end{equation}
 </div>
 
 In another blog, I used directly derivative the $det(A)$. If you are interested, please take a look at it.
 
+<h2> Leibnize Formula</h2>
 
-## Leibnize Formula
-
-We have **Leibnize formula** to calcualte the $det(A)$
+We have <strong>Leibnize formula</strong> to calcualte the $det(A)$
 
 <div markdown="0">
 \begin{equation}
