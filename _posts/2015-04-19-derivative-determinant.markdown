@@ -13,9 +13,11 @@ No introduction of previous knwoledge are here. Instead, I will just go through 
 
 Typically, we need to derivate 
 
+<div markdown="0">
 \begin{equation}
  \frac{\partial }{\partial x}det(A)\label{1}
 \end{equation}
+</div>
 
 where $A$ is a $n\times n$ square matrix and any such kind of matrix can be representative as
 
@@ -37,10 +39,12 @@ A_{n\times n} =
 
 Let $x=x(t)$ and $y=y(t)$ be differentiable at $t$ and suppose that $z=f(x,y)$ is differentiable at the point $[x(t), y(t)]$. Then $z=f[x(t), y(t)]$ is differentiable and 
 
+<div markdown="0">
 \begin{equation}
 	\frac{\partial z}{\partial t}=\frac{\partial z}{\partial x}\frac{\partial x}{\partial t}
 	+\frac{\partial z}{\partial y}\frac{\partial y}{\partial t}.
 \end{equation}
+</div>
 
 The [proof](http://en.wikipedia.org/wiki/Chain_rule) is on the wiki for those who are interested in. Here, instead, we can just intuitively understand it through an example of transport. We have a batch of goods needed to be delivered from city $z$ to $t$. We decided to use two different ways to ship them, one is expedited shipping $x$, another is regular shipping $y$. Though the batch of goods have been divided into two parts and shipped through two different ways. However, at the end, we sum the goods and they are equal to the original.
 
@@ -165,6 +169,8 @@ If A is invertiable
 \end{align}
 </div>
 
+In another blog, I used directly derivative the $det(A)$. If you are interested, please take a look at it.
+
 ## Leibnize Formula
  We have **Leibnize formula** to calcualte the $det(A)$
 
@@ -203,6 +209,5 @@ Example.
 Based on this formula, we know
 
 * There are $n!$ products in the formulate since there are $n!$ permutation for a $n\times n$ matrix.
-
 
 [#1]: http://ocw.mit.edu/courses/mathematics/18-06sc-linear-algebra-fall-2011/
