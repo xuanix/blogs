@@ -7,7 +7,7 @@ date: "April 24, 2015"
 header-img: "img/post-bg-02.jpg"
 ---
 
-In this blog, we only consider **square** matricies. The properties we used or derivatived works for all square matrices. If some properties that can be extended to other kind of matrices, they will be noted. In addition, methods or formulas used in this blog can be reviewed in an online course, [Linear Algribra][#1] which is offered by [Prof. Gilbert Strang](http://www-math.mit.edu/~gs/) on [MIT Open Courseware](http://ocw.mit.edu/index.htm).
+In this blog, we only consider **square** matricies. The properties we used or derivatived works for all square matrices. If some properties that can be extended to other kind of matrices, they will be noted. In addition, methods or formulas used in this blog can be reviewed in an online course, [Linear Algribra](http://ocw.mit.edu/courses/mathematics/18-06sc-linear-algebra-fall-2011/) which is offered by [Prof. Gilbert Strang](http://www-math.mit.edu/~gs/) on [MIT Open Courseware](http://ocw.mit.edu/index.htm).
 
 No introduction of previous knwoledge are here. Instead, I will just go through main steps, but whenever needs, the knowledge will be introduced.
 
@@ -60,19 +60,21 @@ Thus, we can condiser \eqref{1} to be divided into $n^2$ parts wrt each <span ma
 ## Laplace Expansion:
 
 Laplace expansion also is known as **Co-factor formula**
+
 <div markdown="0">
-\begin{align}
+\begin{equation}
 	det(A)=\sum_{j=1}^{n}a_{ij}C_{ij}
-\end{align}
+\end{equation}
 </div>
 
 where the *co-factor* $C_{ij}$ is equal to $(-1)^{i+j}$ multiplying the determiant of the matrix that results from $A$ by removing the $i^{th}$ row and the $j^{th}$ column.
 
 Thus, 
+
 <div markdown="0">
-\begin{align}
+\begin{equation}
 	\frac{\partial det(A)}{\partial a_{ij}} = C_{ij}
-\end{align}
+\end{equation}
 </div>
 
 So \eqref{4} is equal to 
@@ -114,7 +116,7 @@ We also extends $\frac{\partial A}{\partial x}$
 \end{equation}
 <div>
 
-**Adjugate matrix** is the transpose of Co-factor matrix $C$ and denote as $adj(A)$.
+<strong>Adjugate matrix</strong> is the transpose of Co-factor matrix $C$ and denote as $adj(A)$.
 We multiply $adj(A)$ by $\frac{\partial A}{\partial x}$ and obtain
 
 <div markdown="0">
@@ -129,7 +131,7 @@ adj(A)\frac{\partial A}{\partial x} =
 \end{equation}
 </div>
 
-Take the sume of the diagonal of the matrix above, that is definition of the **Trace**, and for any suqare matrix $A$, its trace denotes as $Tr(A)$. Hence, we obtian
+Take the sume of the diagonal of the matrix above, that is definition of the <strong>Trace</strong>, and for any suqare matrix $A$, its trace denotes as $Tr(A)$. Hence, we obtian
 
 <div markdown="0">
 \begin{equation}
@@ -145,7 +147,7 @@ which is equal to \eqref{7}. Then we obtain
 \end{equation}
 </div>
 
-which is known as **Jacobi's formula**. We have an important corollary
+which is known as <strong>Jacobi's formula</strong>. We have an important corollary
 
 <div markdown="0">
 \begin{equation}
@@ -170,6 +172,7 @@ If A is invertiable
 </div>
 
 In another blog, I used directly derivative the $det(A)$. If you are interested, please take a look at it.
+
 
 ## Leibnize Formula
  We have **Leibnize formula** to calcualte the $det(A)$
@@ -209,5 +212,3 @@ Example.
 Based on this formula, we know
 
 * There are $n!$ products in the formulate since there are $n!$ permutation for a $n\times n$ matrix.
-
-[#1]: http://ocw.mit.edu/courses/mathematics/18-06sc-linear-algebra-fall-2011/
