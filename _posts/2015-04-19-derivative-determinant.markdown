@@ -19,6 +19,7 @@ Typically, we need to derivate
 
 where $A$ is a $n\times n$ square matrix and any such kind of matrix can be representative as
 
+<div markdown="0">
 \begin{equation}
 A_{n\times n} =
  \begin{bmatrix}
@@ -28,6 +29,7 @@ A_{n\times n} =
   a_{n1} & a_{n2} & \cdots & a_{nn}
  \end{bmatrix}
  \end{equation}
+</div>
 
  and each element $a_{ij}$ is a function of a scalar $x$. In \eqref{1}, $det(A)$ is to denote the **Determinant** of $A$ that is the product of *pivots* multiplying $(-1)^m$, where $m$ is the number of row exchanges. Sometimes, $det(A)$ write as <span markdown="0">$|A|$</span>, but I use $det(A)$ here.
 
@@ -42,12 +44,14 @@ Let $x=x(t)$ and $y=y(t)$ be differentiable at $t$ and suppose that $z=f(x,y)$ i
 
 The [proof](http://en.wikipedia.org/wiki/Chain_rule) is on the wiki for those who are interested in. Here, instead, we can just intuitively understand it through an example of transport. We have a batch of goods needed to be delivered from city $z$ to $t$. We decided to use two different ways to ship them, one is expedited shipping $x$, another is regular shipping $y$. Though the batch of goods have been divided into two parts and shipped through two different ways. However, at the end, we sum the goods and they are equal to the original.
 
-Thus, we can condiser \eqref{1} to be divided into $n^2$ parts wrt each $a_{ij}$. Condiser each $a_{ij}$ as a method to deliver the part to $x$. Then, we obtain
+Thus, we can condiser \eqref{1} to be divided into $n^2$ parts wrt each <span markdown="0">$a_{ij}$</span>. Condiser each $a_{ij}$ as a method to deliver the part to $x$. Then, we obtain
 
+<div markdown="0">
 \begin{equation}
  \frac{\partial }{\partial x}det(A) 
  = \sum_{i=1}^{n}\sum_{j=1}^{n}\frac{\partial det(A)}{\partial a_{ij}}\frac{\partial a_{ij}}{\partial x}\label{4}
 \end{equation}
+</div>
 
 ## Laplace Expansion:
 
@@ -61,9 +65,11 @@ Laplace expansion also is known as **Co-factor formula**
 where the *co-factor* $C_{ij}$ is equal to $(-1)^{i+j}$ multiplying the determiant of the matrix that results from $A$ by removing the $i^{th}$ row and the $j^{th}$ column.
 
 Thus, 
+<div markdown="0">
 \begin{align}
 	\frac{\partial det(A)}{\partial a_{ij}} = C_{ij}
 \end{align}
+</div>
 
 So \eqref{4} is equal to 
 
@@ -78,6 +84,7 @@ So \eqref{4} is equal to
 ## Adjugate matrix and Co-factor matrix
 We can generate the **co-factor matrix of A**, denote $C$ by calculating all co-factor $C_{ij}$ and puting them into a matrix
 
+<div markdown="0">
 \begin{equation}
 C_{n\times n} =
  \begin{bmatrix}
@@ -87,9 +94,11 @@ C_{n\times n} =
   C_{n1} & C_{n2} & \cdots & C_{nn}
  \end{bmatrix}
  \end{equation}
+</div>
 
 We also extends $\frac{\partial A}{\partial x}$
 
+<div markdown="0">
 \begin{equation}
 \frac{\partial A}{\partial x} =
  \begin{bmatrix}
@@ -99,10 +108,12 @@ We also extends $\frac{\partial A}{\partial x}$
   \frac{\partial a_{n1}}{\partial x} & \frac{\partial a_{n2}}{\partial x} & \cdots & \frac{\partial a_{nn}}{\partial x}
  \end{bmatrix}
 \end{equation}
+<div>
 
 **Adjugate matrix** is the transpose of Co-factor matrix $C$ and denote as $adj(A)$.
 We multiply $adj(A)$ by $\frac{\partial A}{\partial x}$ and obtain
 
+<div markdown="0">
 \begin{equation}
 adj(A)\frac{\partial A}{\partial x} =
  \begin{bmatrix}
@@ -112,36 +123,47 @@ adj(A)\frac{\partial A}{\partial x} =
   \sum_{i=1}^{n}C_{in}\frac{\partial a_{i1}}{\partial x} & \sum_{i=1}^{n}C_{in}\frac{\partial a_{i2}}{\partial x} & \cdots & \sum_{i=1}^{n}C_{in}\frac{\partial a_{in}}{\partial x}
  \end{bmatrix}
 \end{equation}
+</div>
 
 Take the sume of the diagonal of the matrix above, that is definition of the **Trace**, and for any suqare matrix $A$, its trace denotes as $Tr(A)$. Hence, we obtian
 
+<div markdown="0">
 \begin{equation}
 	Tr(adj(A)\frac{\partial A}{\partial x})= \sum_{i=1}^{n}\sum_{j=1}^{n}C_{ij}\frac{\partial a_{ij}}{\partial x}
 \end{equation}
+</div>
 
 which is equal to \eqref{7}. Then we obtain
 
+<div markdown="0">
 \begin{equation}
 	\frac{\partial det(A)}{\partial x} = Tr(adj(A)\frac{\partial A}{\partial x})
 \end{equation}
+</div>
 
 which is known as **Jacobi's formula**. We have an important corollary
 
+<div markdown="0">
 \begin{equation}
 	\frac{\partial In \; det(A)}{\partial x} = Tr(A^{-1}\frac{\partial A}{\partial x})
 \end{equation}
+</div>
 
 by using property of adjugade matrix 
 
+<div markdown="0">
 \begin{align}
 	A\; adj(A) = det(A)\; I_{n\times n}\newline
 \end{align}
+</div>
 
 If A is invertiable
 
+<div markdown="0">
 \begin{align}
 	A^{-1}= \frac{1}{det(A)}\; adj(A)
 \end{align}
+</div>
 
 ## Leibnize Formula
  We have **Leibnize formula** to calcualte the $det(A)$
