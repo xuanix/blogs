@@ -1,0 +1,27 @@
+---
+layout:     post
+title: "CS61A, 2014 Fall"
+subtitle:   "Instructor: John DeNero"
+author: "Tianxiang Gao"
+date: "April 25, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+
+CS61A是CS61系列的第一门课，是其他高阶CS课程的基础，不论对以后的深入学习还是找工作都会很有帮助。引用[Berkely][#1]
+ [CS Division][#2]的官方对[本科生的建议][#3]中说
+
+> #### Basic Programming Skills for Entry Level Employment
+> If you are planning a CS career, you should take at least **CS 61A**, **61B**, and **61C**.
+>
+> There are many levels of sophistication required for different jobs, so whatever you learn will be helpful, but even **having completed CS61ABC is enough for many jobs**.
+
+如果我们再看一下，对CS本专业的<a href="http://www.eecs.berkeley.edu/csugrad/freshman-samples.pdf" target="_blank">Sample Class Schedule</a>会发现，请按三个学期一定要上完这三门课。综上，足见CS61三门课的重要性。因此，我们打算利用暑期的时间按顺序学习这三门课。
+
+第一门课是CS61A，我们选择上2014Fall的课程，我对原资料进行了筛选，并且重现规划了Calendar，大家可以去我做的[CS61A](#4)的网页查询课程的进度和相关资料。当然也可以去[CS61A/fall14](http://www-inst.eecs.berkeley.edu/~cs61a/fa14/about.html)的官网去看全部的资料。注意，官网上，每个lecture被切割成了5个10分钟的小段，并被放到了YouTube上。我在Berkely的webcast上，找到了[50分钟的版本](http://webcast.berkeley.edu/playlist#c,d,Computer_Science,-XXv-cvA_iDbsAvTYyJnMkObr12IIkyg)，但也是在YouTube上的。对于国内的不能上YouTube的同学，请到去我的[CS61A](#4)去下载50分钟lecture的相关视频。
+
+最后，这是我第一次领课，没有什么经验，大家有任何经验或者建议，可以在下面留言，或者到我在[一亩三分地](http://www.1point3acres.com/bbs/thread-132595-1-1.html)的帖子里留言，谢谢。
+
+[#1]:http://www.berkeley.edu/
+[#2]:http://www.cs.berkeley.edu/
+[#3]:http://www.eecs.berkeley.edu/csugrad/index.shtml
+[#4]:http://gaotx.com/cs61a

@@ -1,6 +1,6 @@
 ---
 layout:     post
-title: "Derivation of Determinant of Square Matrix"
+title: "Derivation of Square Matrix Determinant"
 subtitle:   ""
 author: "Tianxiang Gao"
 date: "April 24, 2015"
