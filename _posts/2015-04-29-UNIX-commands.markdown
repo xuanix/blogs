@@ -15,8 +15,6 @@ Comments in UNIX usually has three parts: **comment** itself, **arguments** in o
 
 Here is an example commend in UNIX. <code>rm</code> is comment itself, <code>-r</code> is flag to recursively remove a specified directory, and <code>temp</code> is argument, in this case, it's the specified directory.
 
-## Frequently commands
-
 Directories:
 ------------
 
@@ -27,12 +25,12 @@ Directories:
 
 Files:
 ------
-* 'cat': displays the contents of a file on the screen.
-* 'mv': <strong>moves</strong> a file/directory to another file/directory. Can be used for <strong>rename</strong>.
-* 'cp': <strong>copies</strong> a file to another file/directory.
-* 'rm': <strong>removes</strong> a file.
+* <code>cat</code>: displays the contents of a file on the screen.
+* <code>mv</code>: <strong>moves</strong> a file/directory to another file/directory. Can be used for <strong>rename</strong>. <code>..</code> <strong>parent</strong> directory. <code>.</code> <strong>current</strong> directory.
+* <code>cp</code>: <strong>copies</strong> a file to another file/directory.
+* <code>rm</code>: <strong>removes</strong> a file.
 
 Miscellaneous:
 --------------
-* 'echo': <strong>echo</strong>(repeat) the words typed.
-* 'man some_command': displays <strong>manual</strong> pages for a specified command
+* <code>echo</code>echo: <strong>echo</strong>(repeat) the words typed.
+* <code>man some_command</code>: displays <strong>manual</strong> pages for a specified command
