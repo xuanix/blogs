@@ -1,6 +1,6 @@
 ---
 layout:     post
-title: "Frequently commands in UNIX"
+title: "Frequently Commands in UNIX"
 subtitle:   ""
 author: "Tianxiang Gao"
 date: "April 29, 2015"
