@@ -1,12 +1,14 @@
 ---
 layout:     post
-title: "CS61A, 2014 Fall"
+title: "CS61A, 2015 Spring"
 subtitle:   "Instructor: John DeNero"
 author: "Tianxiang Gao"
 date: "April 25, 2015"
 header-img: "img/post-bg-02.jpg"
 ---
 
+Introduction
+------------
 CS61A是CS61系列的第一门课，是其他高阶CS课程的基础，不论对以后的深入学习还是找工作都会很有帮助。引用[Berkely][#1]
  [CS Division][#2]的官方对[本科生的建议][#3]中说
 
@@ -18,9 +20,24 @@ CS61A是CS61系列的第一门课，是其他高阶CS课程的基础，不论对
 
 另外，我想表达一下我对MOOCs的观点：<strong>大神全部都在教基础课</strong>。为甚么我这么说呢？因为当你有一定得基础和背景知识的时候，给你介绍一个新事物，你是比较容易理解的。但是，当你一窍不通，要想给你讲明白，那对instructor的要求就会很高，知识积累到一定深度深度，才能举重若轻，厚积薄发，而有丰富的教学经验和表达能力，才能深入浅出。所以，不要盲目的去上什么神课，跟的累，打击兴趣，最后可能还没学到什么，就算学到了，因为一段时间不用，而且课程又很难，很快就忘得就差不多了。比较难的课，我觉得还是自己看书来得实际，就算以后忘了，我能立即知道从哪本书查到。
 
-根据次序，第一门课是CS61A，我们选择上2014Fall的课程，课程是目前最新更新最完整的。我对原资料进行了筛选，并且重现规划了Calendar，大家可以去我做的[CS61A][#4]的网页查询课程的进度和相关资料。当然也可以去[CS61A/fall14](http://www-inst.eecs.berkeley.edu/~cs61a/fa14/about.html)的官网去看全部的资料。注意，官网上，每个lecture被切割成了5个10分钟的小段，并放到了YouTube上。我在Berkely的webcast上，找到了[50分钟的版本](http://webcast.berkeley.edu/playlist#c,d,Computer_Science,-XXv-cvA_iDbsAvTYyJnMkObr12IIkyg)，但也是在YouTube上的。对于国内的不能上YouTube的同学，请到去我的[CS61A][#4]去下载50分钟lecture的相关视频。
+根据次序，第一门课是CS61A，我们选择上2015Spring的课程，课程是目前最新更新最完整的。我对原资料进行了筛选，并且重现规划了Calendar，大家可以去我做的[CS61A][#4]的网页查询课程的进度和相关资料。当然也可以去[CS61A/Spring2015](http://www-inst.eecs.berkeley.edu/~cs61a/fa14/about.html)的官网去看全部的资料。注意，官网上，每个lecture被切割成了5个10分钟的小段，并放到了YouTube上。我在Berkely的webcast上，找到了[50分钟的版本](http://webcast.berkeley.edu/playlist#c,d,Computer_Science,-XXv-cvA_iDbsAvTYyJnMkObr12IIkyg)，但也是在YouTube上的。对于国内的不能上YouTube的同学，请到去我的[CS61A][#4]去下载50分钟lecture的相关视频。
 
 最后，这是我第一次领课，没有什么经验，大家有任何经验或者建议，可以在下面留言，或者到我在[一亩三分地](http://www.1point3acres.com/bbs/thread-132595-1-1.html)的帖子里留言，谢谢。
+
+Summary by Date
+-------
+<strong class="date">05/04/2015. Functions. Reading 1.1 and 1.2.</strong> 
+
+* An **Expression** describes a computation and evaluates to a value. All expression can use *function call notation*, known as **Call Expression**. *Anatomy* of a call expression are **Operator** and **operand**. 
+
+* Python defines a very large number of functions, but some of them are not available by default. Instead, one need to **Import Library Functions**. 
+
+* In python, computational objects can be refered by <strong>names</strong>, that can be maintained and tracked in some of memory known as <strong>Environment</strong>.
+
+* We use <strong>Expression Tree</strong> to understand and evaluate nested expressions.
+
+* <strong>Pure functions</strong> have input and return output, whereas <strong>Non-Pure Functions</strong> have additional <strong>side effects</strong> such as <code>print</code> function which return <code>None</code> but its side effect displays the printed value.
+
 
 [#1]:http://www.berkeley.edu/
 [#2]:http://www.cs.berkeley.edu/

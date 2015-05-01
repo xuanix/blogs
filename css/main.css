@@ -10,6 +10,10 @@ a:hover {
   color: #28c3ab;
 }
 
+.date {
+  color: #337ab7;
+}
+
 
 /* nav */
 .navbar-brand h1 {
