@@ -84,3 +84,34 @@ header-img: "img/post-bg-02.jpg"
 * *Adding a local frame* is the first step of *calling user-defined functions*. 
 * Name evaluation firstly looks in *local frame*. If not found, try *global frame* such as <code>max</code>. To clearly understand, draw **environment diagrams**.
 * **Pure Functions** have *input* and return *output*, whereas *Non-Pure Functions* have additional **side effect** to change the state of interpreter or computer. For example, <code>print</code> returns <code>None</code> and displays contents by side effect.
+
+<strong class="date">05/06/2015.</strong> 
+
+## Reading 1.5
+
+* **Control statement** consists of **expression** (**headers**), and **suites**.
+* **Boolean contexts**. <code>0, None, False</code> are false values.
+* Functions return a *boolean values* typically begin with <code>is</code>, not followed by an *underscore*. (e.g. isfinite).
+* Use <code>assert</code> statement to **Testing**, and contexts are quoted by <code>'</code>. Test files are write in a neighboring file with suffix &nbsp; *_text.py*.
+
+<pre>&gt;&gt;&gt;def fib_test():
+        assert fib(2) == 1, 'The 2nd Fibonacci number should be 1'
+        assert fib(3) == 1, 'The 3rd Fibonacci number should be 1'
+        assert fib(50) == 7778742049, 'Error at the 50th Fibonacci number'
+</pre>
+* **Doctests**. *Simple test directly* in the *docstring* of a function. First line is *description* of function, followed by a **blank line**. such as
+<pre>&gt;&gt;&gt;def sum_naturals(n):
+        """Return the sum of the first n natural numbers.
+
+        >>> sum_naturals(10)
+        55
+        >>> sum_naturals(100)
+        5050
+        """
+        total, k = 0, 1
+        while k <= n:
+            total, k = total + k, k + 1
+        return total
+</pre>
+* All doctests in a file can be run by starting Python with doctest
+<pre>python3 -m doctest <python_source_file></pre>
