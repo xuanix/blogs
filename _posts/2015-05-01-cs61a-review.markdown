@@ -1,0 +1,86 @@
+---
+layout:     post
+title: "Review of CS61A Spring 2015"
+subtitle:   "Daily Summary"
+author: "Tianxiang Gao"
+date: "May 1, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+<strong class="date">05/04/2015.</strong> 
+
+## Reading 1.1, Reading 1.2 and Lecture
+
+* An **Expression** describes a computation and evaluates to a value. All expression can use *function call notation*, known as **Call Expression**. *Anatomy* of a call expression are **Operator** and **operand**. 
+
+* Python defines a very large number of functions, but some of them are not available by default. Instead, one need to **Import Library Functions**. 
+
+* In python, computational objects can be refered by <strong>names</strong>, that can be maintained and tracked in some of memory known as <strong>Environment</strong>.
+
+* We use <strong>Expression Tree</strong> to understand and evaluate nested expressions.
+
+* <strong>Pure functions</strong> have input and return output, whereas <strong>Non-Pure Functions</strong> have additional <strong>side effects</strong> such as <code>print</code> function which return <code>None</code> but its side effect displays the printed value.
+
+## lab 00
+
+* Introduction
+  * Comments in UNIX usually has three parts: **comment** itself, **arguments** in order to make comments to work, **flags** which are ways to specify modified behavior for commands.
+	<pre><code>rm -r tmp</code></pre>
+  * Here is an example commend in UNIX. <code>rm</code> is comment itself, <code>-r</code> is flag to recursively remove a specified directory, and <code>temp</code> is argument, in this case, it's the specified directory.
+
+* Directories:
+  * <code>ls</code>: <strong>list</strong> files and directories (folders).
+  * <code>mkdir</code>: <strong>make</strong> a new <strong>directory</strong>.
+  * <code>cd</code>: <strong>change directory</strong>.
+  * <code>rm -r</code>: <strong>remove</strong> a specified directory <strong>recursively</strong>.
+
+* Files:
+  * <code>cat</code>: displays the contents of a file on the screen.
+  * <code>mv</code>: <strong>moves</strong> a file/directory to another file/directory. Can be used for <strong>rename</strong>. <code>..</code> <strong>parent</strong> directory. <code>.</code> <strong>current</strong> directory.
+  * <code>cp</code>: <strong>copies</strong> a file to another file/directory.
+  * <code>rm</code>: <strong>removes</strong> a file.
+
+* Miscellaneous:
+  * <code>echo</code>echo: <strong>echo</strong>(repeat) the words typed.
+  * <code>man some_command</code>: displays <strong>manual</strong> pages for a specified command
+
+## Lab 01
+
+* **Running doctests**
+  *	<pre><code>python3 -m doctest lab01.py</code></pre>
+  * Running the code above to **debug** the function.
+  * <pre><code>def my_email():
+    """Return your last name as a string.
+
+    &gt;&gt;&gt; my_email() != 'oski@berkeley.edu'
+    True
+    """
+    return 'jane.doe@berkeley.edu'</code></pre>
+  * Content quoted by <code>"""</code> is **docstring**. Within the *docstring*, lines begin with <code>>>></code> are **doctests**.
+  * Be default, doctests only output **failures**. If one prefer to see all, call "verbose"
+  * <pre><code>python3 -m doctest -v lab01.py</code></pre>
+
+  
+
+<strong class="date">05/05/2015.</strong> 
+
+## Reading 1.3 and 1.4
+
+* The *scope* of **Local Names** only survives in its local frame. 
+* Functions usually have three core attributes: *domain* (formal parameters), *range* (return), and *intent* (relationship between the two).
+* When designing functions, **docstring** introduces the function, which must be quoted by <code>"""</code>. One can call <code>help(function)</code> to see its docstring (type <code>q</code> to quit help). <code>#</code> to comment.
+* Set up **Default Argument Values** for convinent. 
+
+## Lecture
+
+* **Names** is one of *primitive expressions (number, name, string)* that can be *bound* to refer a value or an *object (function)*.
+* *Names* are stored in *environment* also called **Frame**. Calling a function creates a specific **Local Frame**. The root frame is **Global Frame**. If a name cannot be found in local frame, then try to find it in global frame such as <code>max</code>. *Name* between local frame and global frame can be **repeated**.
+* **Assignment** statements evaluate expressions starts at *right* of = from left to right. *Bind* all names to the *left* of = to those resulting values *in the current frame*. 
+* *Assignment* is one simple means of **abstraction**: binds names to values, while **Function defination** is a more powerfull abstraction: binds names to expressions. Every function can be considered as an *object*. To define a function has the form 
+
+>	>>> def <name>(<formal parameters>): 
+>	....return <return expression>
+
+* **Function Signature** is the first line content after <code>def</code>; The rest is **Function body**. The following lines must **indented**.
+* *Adding a local frame* is the first step of *calling user-defined functions*. 
+* Name evaluation firstly looks in *local frame*. If not found, try *global frame* such as <code>max</code>. To clearly understand, draw **environment diagrams**.
+* **Pure Functions** have *input* and return *output*, whereas *Non-Pure Functions* have additional **side effect** to change the state of interpreter or computer. For example, <code>print</code> returns <code>None</code> and displays contents by side effect.
