@@ -77,8 +77,9 @@ header-img: "img/post-bg-02.jpg"
 * **Assignment** statements evaluate expressions starts at *right* of = from left to right. *Bind* all names to the *left* of = to those resulting values *in the current frame*. 
 * *Assignment* is one simple means of **abstraction**: binds names to values, while **Function defination** is a more powerfull abstraction: binds names to expressions. Every function can be considered as an *object*. To define a function has the form 
 
->	>>> def <name>(<formal parameters>): 
->	....return <return expression>
+<pre>
+&gt;&gt;&gt; def &lt;name&gt;(&lt;formal parameters&gt;): 
+          return &lt;return expression&gt;</pre>
 
 * **Function Signature** is the first line content after <code>def</code>; The rest is **Function body**. The following lines must **indented**.
 * *Adding a local frame* is the first step of *calling user-defined functions*. 
@@ -94,24 +95,50 @@ header-img: "img/post-bg-02.jpg"
 * Functions return a *boolean values* typically begin with <code>is</code>, not followed by an *underscore*. (e.g. isfinite).
 * Use <code>assert</code> statement to **Testing**, and contexts are quoted by <code>'</code>. Test files are write in a neighboring file with suffix &nbsp; *_text.py*.
 
-<pre>&gt;&gt;&gt;def fib_test():
+<pre>&gt;&gt;&gt; def fib_test():
         assert fib(2) == 1, 'The 2nd Fibonacci number should be 1'
         assert fib(3) == 1, 'The 3rd Fibonacci number should be 1'
         assert fib(50) == 7778742049, 'Error at the 50th Fibonacci number'
 </pre>
 * **Doctests**. *Simple test directly* in the *docstring* of a function. First line is *description* of function, followed by a **blank line**. such as
-<pre>&gt;&gt;&gt;def sum_naturals(n):
-        """Return the sum of the first n natural numbers.
 
-        >>> sum_naturals(10)
-        55
-        >>> sum_naturals(100)
-        5050
-        """
-        total, k = 0, 1
-        while k <= n:
-            total, k = total + k, k + 1
-        return total
+<pre>
+&gt;&gt;&gt; def sum_naturals(n):
+    """Return the sum of the first n natural numbers.
+
+    >>> sum_naturals(10)
+    55
+    >>> sum_naturals(100)
+    5050
+    """
+    total, k = 0, 1
+    while k <= n:
+        total, k = total + k, k + 1
+    return total
 </pre>
-* All doctests in a file can be run by starting Python with doctest
-<pre>python3 -m doctest <python_source_file></pre>
+
+* All *global functions* can test by **doctest module**
+
+<pre>
+&gt;&gt;&gt; from doctest import testmod
+&gt;&gt;&gt; testmod()
+TestResults(failed=0, attempted=2)
+
+</pre>
+* If want to test one function, use
+
+<pre>
+&gt;&gt;&gt; from doctest import run_docstring_examples
+&gt;&gt;&gt; run_docstring_examples(sum_naturals, globals(), True)
+</pre>
+* All doctests *in one file* can be run by starting Python with doctest
+
+<pre>
+&gt;&gt;&gt; python3 -m doctest &lt;python_source_file&gt;</pre>
+
+## Lecture
+
+* In **Multiple Environments**, the *last* generated frame is considered as *earliest frame* of the current environment
+* Test function by **doctest** within **docstring**.
+* **Conditional statement**, <code>if, elif, else</code>
+* **Iteration statement**, <code>while</code>
