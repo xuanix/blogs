@@ -142,3 +142,8 @@ TestResults(failed=0, attempted=2)
 * Test function by **doctest** within **docstring**.
 * **Conditional statement**, <code>if, elif, else</code>
 * **Iteration statement**, <code>while</code>
+
+<strong class="date">05/07/2015.</strong> 
+
+* In a **guide** to designing function, each function has one job, don't repeat yourself, and **generally** define function.
+* Function can be used as **arguments**, **return**, **locally defined**. 
