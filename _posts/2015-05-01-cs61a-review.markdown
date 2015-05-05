@@ -145,5 +145,24 @@ TestResults(failed=0, attempted=2)
 
 <strong class="date">05/07/2015.</strong> 
 
-* In a **guide** to designing function, each function has one job, don't repeat yourself, and **generally** define function.
+* A **guide** to designing function: each function has one job, don't repeat yourself, and **generally** define function.
 * Function can be used as **arguments**, **return**, **locally defined**. 
+
+## Extra Lecture 1
+* **Lambda Expressions**
+<pre>
+&gt;&gt;&gt; square = lambda x: x * x
+</pre>
+Read it in English: Define a function with formal parameter x that returns the value of "x * x".
+
+* **Newton's Method**
+
+Newton's method quickly finds accurate approximations to *zeros* of differentiable function. In another word, finds $x_0$ in $f(x)$ such that $f(x_0)=0$, where $x_0$ is known as **zero** of $f(x)$. 
+
+<img src="{{site.baseurl}}/img/newton.png">
+
+Given a function $f$ and initial *guess* x, improve current $x$ by using slop (derivative) $f^\prime (x)$. Based on the current length $-f(x)$ from $0$, the $x$ need to change $\frac{f(x)}{f^\prime (x)}$ according to $tan(\alpha)$. So x can be updated by 
+
+$$x = x-\frac{f(x)}{f^\prime (x)}$$
+#### Let's implement newton's method
+
