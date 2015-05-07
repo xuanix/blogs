@@ -1,7 +1,7 @@
 ---
 layout:     post
-title: "CS61A-Lab 0: Introduction to Unix"
-subtitle:   ""
+title: "CS61A-Lab 0 & Lab 1: Introduction to Unix"
+subtitle:   "Basic Commends"
 author: "Tianxiang Gao"
 date: "May 04, 2015"
 header-img: "img/post-bg-04.jpg"
