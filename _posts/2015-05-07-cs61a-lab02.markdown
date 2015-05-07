@@ -1,0 +1,404 @@
+---
+layout:     post
+title: "CS61A-Lab 2: Expressions and Control Structures"
+subtitle:   "Recursion, Tree Recursion"
+author: "Tianxiang Gao"
+date: "May 10, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+Expressions
+------------
+<h3>Question 1: What would Python print?</h3> 
+
+<pre><code>>>> 3
+3
+>>> 2 + 3
+5
+>>> -16 - -16
+0
+>>> 3 * 4 + 1
+13
+>>> 3 * (4 + 1)
+15
+>>> 2 ** 3
+8
+</code></pre>
+<pre><code>>>> x = 4
+>>> 3 + x
+7
+>>> x + y
+NameError
+>>> x, y = 1, 2
+>>> 3 + x
+4
+>>> x + y
+3
+</code></pre>
+<pre><code>>>> from operator import mul, add
+>>> mul(3, 4)
+12
+>>> mul(3, add(4, 1))
+15
+>>> pow(2, 3)
+8
+>>> pow(pow(2, 3), abs(-2))
+64
+</code></pre>
+<strong>Primitive Expression</strong><br>
+Evaluate the *literal value* directly such as *numbers*, *names*, *strings*
+
+<strong>Call Expressions</strong><br>
+A call expression applies a *functions* that consists of *operator* and *operand(s)*. To evaluate a function **firstly** evaluate the operator and **secondly** apply operator to operand(s). 
+<h3>Question 2: What would Python print?</h3> 
+<pre><code>>>> from operator import add
+>>> def double(x):
+        return x + x
+
+>>> def square(y):
+        return y * y
+
+>>> def f(z): 
+        add(square(double(z)), 1)
+
+>>> f(4)
+# evaluated f(4)=65, but the return value is None     
+</code></pre>
+<pre><code>>>> def welcome():
+        print('welcome to')
+        return 'hello'
+
+>>> def cs61a():
+        print('cs61a')
+        return 'world'
+   
+>>> print(welcome(), cs61a())
+welcome to 
+cs61a
+hello word
+</code></pre>
+
+Division
+------------
+* <code>/</code>True division
+* <code>//</code>Floor division
+* <code>%</code>Modulo
+
+Pure and Non-Pure Functions
+------------
+<h3>Question 3: What Would Python Print?</h3>
+
+<pre><code>>>> x = print(9 + 1)
+10
+
+>>> x == 10
+False
+
+>>> print(print(2))
+2
+None</code></pre>
+<pre><code>>>> def om(foo):
+        return -foo
+   
+>>> def nom(foo):
+        print(foo)
+   
+>>> nom(4)
+4
+
+>>> om(-4)
+4
+
+>>> brian = nom(4)
+>>> brian + 1
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'int'
+
+>>> michelle = om(-4)
+>>> michelle + 1
+5
+
+</code></pre>
+<pre><code>>>> x = 6
+>>> def beep(x):
+        print(x)
+   
+>>> def boop(x):
+        y = x
+        x = 7
+        print(x)
+   
+>>> y = beep(x)
+6
+
+>>> boop(x)
+7
+
+>>> y + beep(8)
+8
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'NoneType'`
+</code></pre>
+
+Boolean operators
+-----------------
+<h3>Question 4: What Would Python Print?</h3>
+<pre><code>>>> a, b = 10, 6
+>>> a != 0 and b > 5
+True
+
+>>> a < b or not a
+False
+
+>>> not not a
+True
+
+>>> not (not a or not not b)
+False
+</code></pre>
+
+<strong>Boolean order of operations</strong><br>
+<code>not > and > or</code>
+
+<strong>Short-circuit operators</strong>
+
+* For <code>and</code> statements, Python will go **left to right** until it runs into the **first** value that is **false-y** — then it will immediately evaluate to that value. If all of the values are truth-y, it returns the last value.
+* For <code>or</code> statements, Python will go **left to right** until it runs into the **first** value that is **truth-y** — then it will immediately evaluate to that value. If all of the values are false-y, it returns the last value.
+* **false-y** means things are "empty". In python, they are <code>0</code>, <code>None</code>, and <code>""</code>.
+
+<h3>Question 5: What Would Python Print?</h3>
+<pre><code>>>> True and 1 / 0 and False
+ZeroDivisionError
+
+>>> True or 1 / 0 or False
+True
+
+>>> True and 0
+0
+
+>>> False or 1
+1
+
+>>> 1 and 3 and 6 and 10 and 15
+15
+
+>>> 0 or False or 2 or 1 / 0
+2
+</code></pre>
+
+<h3>Question 6: Fix the Bug</h3>
+<pre><code>def both_positive(x, y):
+    """
+    Returns True if both x and y are positive.
+    >>> both_positive(-1, 1)
+    False
+    >>> both_positive(1, 1)
+    True
+    """
+    return x > 0 and y > 0
+</code></pre>
+
+If statements
+-------------
+<h3>Question 7: What Would Python Print?</h3>
+<pre><code>>>> a, b = 10, 6
+>>> if a == 4:
+...     6
+... elif b >= 4:
+...     6 + 7 + a
+... else:
+...     25
+...
+23
+</code></pre>
+<pre><code>>>> def abs(x):
+...     if x >= 0:
+...         return x
+...     return -x
+...
+>>> abs(-5)
+5
+
+>>> abs(5)
+5
+</code></pre>
+<pre><code>>>> def abs(x):
+...     if x >= 0:
+...         print(x)
+...     print(-x)
+...
+>>> abs(-5)
+5
+
+>>> abs(5)
+5
+-5</code></pre>
+
+While loops
+-----------
+<h3>Question 8: What Would Python Print?</h3>
+<pre><code>>>> n = 3
+>>> while n >= 0:
+...     n -= 1
+...     print(n)
+...
+2
+1
+0
+-1
+
+>>> n, i = 7, 0
+>>> while i < n:
+...     i += 2
+...     print(i)
+...
+2
+4
+6
+8
+
+>>> # typing Ctrl-C will stop infinite loops
+>>> n = 4
+>>> while True:
+...     n -= 1
+...     print(n)
+...
+3
+2
+1
+0
+-1
+-2
+# continues forever
+
+>>> n = 2
+>>> def exp_decay(n):
+...     if n % 2 != 0:
+...         return
+...     while n > 0:
+...         print(n)
+...         n = n // 2
+...
+>>> exp_decay(64)
+64
+32
+16
+8
+4
+2
+1
+
+>>> exp_decay(5)
+# No output</code></pre>
+
+<h3>Question 9: Factor This II</h3>
+<pre><code>def factors(n):
+    """Prints out all of the numbers that divide `n` evenly.
+
+    >>> factors(20)
+    20
+    10
+    5
+    4
+    2
+    1
+    """
+    x = n
+    while x > 0:
+        if n % x == 0:
+            print(x)
+        x -= 1</code></pre>
+
+<h3>Question 10: Fibonacci</h3>
+The *n*th element is defined $ F_n = F_{n-1} + F_{n_2}$, and $F_1=0$, $F_2=1$.
+<pre><code>def fib(n):
+    """Returns the nth Fibonacci number.
+
+    >>> fib(0)
+    0
+    >>> fib(1)
+    1
+    >>> fib(2)
+    1
+    >>> fib(3)
+    2
+    >>> fib(4)
+    3
+    >>> fib(5)
+    5
+    >>> fib(6)
+    8
+    """
+    cur, next = 0, 1
+    while n > 0:
+        cur, next = next, cur + next
+        n -= 1
+    return cur
+</code></pre>
+
+Error messages
+--------------
+**SyntaxError, IndentationError, TypeError**, and **ZeroDivisionError**
+
+Extra Questions
+---------------
+<h3>Question 11: Disneyland Discounts</h3>
+<pre><code>def gets_discount(x, y):
+    """ Returns True if this is a combination of a senior citizen
+    and a child, False otherwise.
+
+    >>> gets_discount(65, 12)
+    True
+    >>> gets_discount(9, 70)
+    True
+    >>> gets_discount(40, 45)
+    False
+    >>> gets_discount(40, 75)
+    False
+    >>> gets_discount(65, 13)
+    False
+    >>> gets_discount(7, 9)
+    False
+    >>> gets_discount(73, 77)
+    False
+    >>> gets_discount(70, 31)
+    False
+    >>> gets_discount(10, 25)
+    False
+    """
+    return (x <= 12 and y >= 65) or (x >= 65 and y <= 12)
+</code></pre>
+<h3>Question 12: Factor This</h3>
+<pre><code>def is_factor(x, y):
+    """ Returns True if x is a factor of y, False otherwise.
+
+    >>> is_factor(3, 6)
+    True
+    >>> is_factor(4, 10)
+    False
+    >>> is_factor(0, 5)
+    False
+    >>> is_factor(0, 0)
+    False
+    """
+    return x != 0 and y % x == 0
+</code></pre>
+
+<h3>Question 13: Factorials</h3>
+<pre><code>def falling(n, k):
+    """Compute the falling factorial of n to depth k.
+
+    >>> falling(6, 3)  # 6 * 5 * 4
+    120
+    >>> falling(4, 0)
+    1
+    >>> falling(4, 3)  # 4 * 3 * 2
+    24
+    >>> falling(4, 1)  # 4
+    4
+    """
+    total, stop = 1, n-k
+    while n > stop:
+        total, n = total*n, n-1
+    return total
+</code></pre>
+
+
+
