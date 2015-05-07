@@ -1,9 +1,9 @@
 ---
 layout:     post
-title: "CS61A-Lab 2: Expressions and Control Structures"
-subtitle:   "Recursion, Tree Recursion"
+title: "CS61A-Lab 2"
+subtitle:   "Expressions and Control Structures"
 author: "Tianxiang Gao"
-date: "May 10, 2015"
+date: "May 7, 2015"
 header-img: "img/post-bg-02.jpg"
 ---
 Expressions
