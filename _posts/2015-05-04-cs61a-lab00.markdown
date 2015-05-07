@@ -1,17 +1,17 @@
 ---
 layout:     post
-title: "Frequently Commands in UNIX"
+title: "CS61A-Lab 0: Introduction to Unix"
 subtitle:   ""
 author: "Tianxiang Gao"
-date: "April 29, 2015"
+date: "May 04, 2015"
 header-img: "img/post-bg-04.jpg"
 ---
 
 ## Introduction
 
 Comments in UNIX usually has three parts: **comment** itself, **arguments** in order to make comments to work, **flags** which are ways to specify modified behavior for commands.
-
-	rm -r tmp
+<pre><code>rm -r tmp</code></pre>
+	
 
 Here is an example commend in UNIX. <code>rm</code> is comment itself, <code>-r</code> is flag to recursively remove a specified directory, and <code>temp</code> is argument, in this case, it's the specified directory.
 
@@ -32,5 +32,5 @@ Files:
 
 Miscellaneous:
 --------------
-* <code>echo</code>echo: <strong>echo</strong>(repeat) the words typed.
+* <code>echo</code>echo: <strong>echo</strong>(repeat) the words typed. <br><code>echo "" > file.extention</code> can be used to create new file.
 * <code>man some_command</code>: displays <strong>manual</strong> pages for a specified command

@@ -3,7 +3,7 @@ layout:     post
 title: "CS61A-Discussion 02"
 subtitle:   "Recursion, Tree Recursion"
 author: "Tianxiang Gao"
-date: "May 1, 2015"
+date: "May 10, 2015"
 header-img: "img/post-bg-02.jpg"
 ---
 Discussion 02: Recursion and Tree Recusion
