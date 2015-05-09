@@ -72,7 +72,7 @@ Hint: We wrote this iteratively last week, but this time use recursion!</li>
     return 1
 rec(3, 2)
 </code></pre>
-<img src="{{site.baseurl}}/img/disc0206.jpg" style="width:710px">
+<img src="{{site.baseurl}}/img/cs61a/disc02-06.jpg" style="width:710px">
 Bonus question: what does this function do?
 <pre><code>pow(x, y)
 </code></pre>
