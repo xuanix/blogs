@@ -200,19 +200,19 @@ If statements
 <h3>Question 7: What Would Python Print?</h3>
 <pre><code>>>> a, b = 10, 6
 >>> if a == 4:
-...     6
-... elif b >= 4:
-...     6 + 7 + a
-... else:
-...     25
-...
+        6
+    elif b >= 4:
+        6 + 7 + a
+    else:
+        25
+   
 23
 </code></pre>
 <pre><code>>>> def abs(x):
-...     if x >= 0:
-...         return x
-...     return -x
-...
+        if x >= 0:
+            return x
+        return -x
+   
 >>> abs(-5)
 5
 
@@ -220,10 +220,10 @@ If statements
 5
 </code></pre>
 <pre><code>>>> def abs(x):
-...     if x >= 0:
-...         print(x)
-...     print(-x)
-...
+        if x >= 0:
+            print(x)
+        print(-x)
+   
 >>> abs(-5)
 5
 
@@ -236,9 +236,9 @@ While loops
 <h3>Question 8: What Would Python Print?</h3>
 <pre><code>>>> n = 3
 >>> while n >= 0:
-...     n -= 1
-...     print(n)
-...
+        n -= 1
+        print(n)
+   
 2
 1
 0
@@ -246,9 +246,9 @@ While loops
 
 >>> n, i = 7, 0
 >>> while i < n:
-...     i += 2
-...     print(i)
-...
+        i += 2
+        print(i)
+   
 2
 4
 6
@@ -257,9 +257,9 @@ While loops
 >>> # typing Ctrl-C will stop infinite loops
 >>> n = 4
 >>> while True:
-...     n -= 1
-...     print(n)
-...
+        n -= 1
+        print(n)
+   
 3
 2
 1
@@ -270,12 +270,12 @@ While loops
 
 >>> n = 2
 >>> def exp_decay(n):
-...     if n % 2 != 0:
-...         return
-...     while n > 0:
-...         print(n)
-...         n = n // 2
-...
+        if n % 2 != 0:
+            return
+        while n > 0:
+            print(n)
+            n = n // 2
+   
 >>> exp_decay(64)
 64
 32

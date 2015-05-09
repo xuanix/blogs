@@ -148,7 +148,7 @@ def f(f, x):
 
 m = f(g, n)
 </code></pre>
-<img src="{{site.baseurl}}/img/disc01-24-2.jpg" style="width:710px">
+<img src="{{site.baseurl}}/img/cs61a/disc01-24-2.jpg" style="width:710px">
 </ol>
 
 <h3>2.5 Extra Questions</h3>
@@ -208,7 +208,7 @@ make_adder = curry2(add)
 add_three = make_adder(3)
 five = add_three(2)
 </code></pre>
-<img src="{{site.baseurl}}/img/disc01-25-3.jpg" style="width:710px">
+<img src="{{site.baseurl}}/img/cs61a/disc01-25-3.jpg" style="width:710px">
 </ol>
 
 3 Addendum: Environment Diagrams
@@ -222,9 +222,9 @@ def b(b):
 a = b(a)
 a = b(a)
 </code></pre>
-<img src="{{site.baseurl}}/img/disc01-31-1.jpg" style="width:710px">
+<img src="{{site.baseurl}}/img/cs61a/disc01-31-1.jpg" style="width:710px">
 <li>Draw the environment diagram that results from executing the code below.</li>
-<img src="{{site.baseurl}}/img/disc01-31-2.jpg" style="width:710px">
+<img src="{{site.baseurl}}/img/cs61a/disc01-31-2.jpg" style="width:710px">
 </ol>
 
 <h3>3.2 Extra Questions</h3>
@@ -241,7 +241,7 @@ def fif(teen):
 six = ty(add, mul(six, six))
 spring = fif(six)
 </code></pre>
-<img src="{{site.baseurl}}/img/disc01-32-1.jpg" style="width:710px">
+<img src="{{site.baseurl}}/img/cs61a/disc01-32-1.jpg" style="width:710px">
 
 
 
