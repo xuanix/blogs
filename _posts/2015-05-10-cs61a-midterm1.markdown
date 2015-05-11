@@ -56,8 +56,7 @@ Error
 <h3>2. Envy, Iron, Mint</h3>
 <ol type="a">
 <li>Fill in the environment diagram that results from executing the code below until the entire program is finished, an error occurs, or all frames are filled.</li>
-<pre><code>
-def peace(today):
+<pre><code>def peace(today):
     harmony = love+2
     return harmony + today(love+1)
 
@@ -70,8 +69,7 @@ peace(joy)
 </code></pre>
 <img src="{{site.baseurl}}/img/cs61a/midterm01-2a.jpg">
 <li>Fill in the environment diagram that results from executing the code below until the entire program is finished, an error occurs, or all frames are filled.</li>
-<pre><code>
-def k(g, b):
+<pre><code>def k(g, b):
     def n(s, a):
         return g-p
     return b(n(b, p))
@@ -85,8 +83,7 @@ k(p+1, lambda s: g+3)
 <h3>3. Express Yourself</h3>
 <ol style="a">
 <li>A k-bonacci sequence starts with K-1 zeros and then a one. Each subsequent element is the sum of the previous K elements</li>
-<pre><code>
-def kbonacci(n, k):
+<pre><code>def kbonacci(n, k):
     """ Return element N of a K- bonacci sequence .
     >>> kbonacci (3, 4)
     1
@@ -111,8 +108,7 @@ def kbonacci(n, k):
 </code></pre>
 <li>Fill in the blanks of the following functions defined together in the same file. Assume that all
 arguments to all of these functions are positive integers that do not contain any zero digits.</li>
-<pre><code>
-def combine(left , right):
+<pre><code>def combine(left , right):
     """ Return all of LEFT ’s digits followed by all of RIGHT ’s digits ."""
     factor = 1
     while factor <= right:
@@ -155,8 +151,7 @@ two_thousand(7)(lambda four: lambda teen: 2000 + four + teen)
 </code></pre>
 
 <li>The if_fn returns a two-argument function that can be used to select among alternatives, similar to an if statement. Fill in the return expression of factorial so that it is defined correctly for non-negative arguments. You may only use the names if_fn, condition, a, b, n, factorial, base, and recursive and parentheses in your expression (no numbers, operators, etc.).</li>
-<pre><code>
-def if_fn(condition):
+<pre><code>def if_fn(condition):
     if condition:
         return lambda a, b: a
     else:
