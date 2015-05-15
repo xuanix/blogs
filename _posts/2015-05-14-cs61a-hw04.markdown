@@ -1,0 +1,102 @@
+---
+layout:     post
+title: "CS61A-Homework 4"
+subtitle:   "Section 2.2"
+author: "Tianxiang Gao"
+date: "May 14, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+<h3>Question 1</h3>
+
+<pre><code>def interval(a, b):
+    """Construct an interval from a to b."""
+    return [a, b]
+
+def lower_bound(x):
+    """Return the lower bound of interval x."""
+    return x[0]
+
+def upper_bound(x):
+    """Return the upper bound of interval x."""
+    return x[1]
+</code></pre>
+
+<h3>Question 2</h3>
+
+<pre><code>def div_interval(x, y):
+    """Return the interval that contains the quotient of any value in x divided
+    by any value in y.
+
+    Division is implemented as the multiplication of x by the reciprocal of y.
+
+    >>> str_interval(div_interval(interval(-1, 2), interval(4, 8)))
+    '-0.25 to 0.5'
+    """
+    assert upper_bound(y) < 0 or lower_bound(y) > 0, 'Divided by zero' 
+    reciprocal_y = interval(1/upper_bound(y), 1/lower_bound(y))
+    return mul_interval(x, reciprocal_y)
+</code></pre>
+
+<h3 class="question" id="q3">Question 3</h3>
+
+<pre><code>def sub_interval(x, y):
+    """Return the interval that contains the difference between any value in x
+    and any value in y.
+
+    >>> str_interval(sub_interval(interval(-1, 2), interval(4, 8)))
+    '-9 to -2'
+    """
+    lower = lower_bound(x) - upper_bound(y)
+    upper = upper_bound(x) - lower_bound(y)
+    return interval(lower, upper)</code></pre>
+
+<h3 class="question" id="q4">Question 4</h3>
+
+<pre><code># These two intervals give different results for parallel resistors:
+a = interval(1,2)
+b = interval(1,2)
+print(str_interval(par1(a, b)), '!=', str_interval(par2(a, b)))
+
+</code></pre>
+
+<h3 class="question" id="q5">Question 5</h3>
+
+<pre><code>def multiple_references_explanation():
+    return """The mulitple reference problem exists in part1
+    because r1 and r2 are refered in mul_interval and add_interval respectively, 
+    in the mean while r1 and r2 only are refered onece."""
+</code></pre>
+
+<h3 class="question" id="q6">Question 6: Challenge Problem (optional)</h3>
+
+<p>The recursive factorial function can be written as a single expression
+by using a <a href="http://docs.python.org/py3k/reference/expressions.html#conditional-expressions">conditional expression</a>.</p>
+
+<pre><code>&gt;&gt;&gt; fact = lambda n: 1 if n == 1 else mul(n, fact(sub(n, 1)))
+&gt;&gt;&gt; fact(5)
+120</code></pre>
+
+<p>However, this implementation relies on the fact (no pun intended) that
+<code>fact</code> has a name, to which we refer in the body of <code>fact</code>.  To write a
+recursive function, we have always given it a name using a <code>def</code> or
+assignment statement so that we can refer to the function within its
+own body.  In this question, your job is to define fact recursively
+without giving it a name!</p>
+
+<p>Write an expression that computes <code>n</code> factorial using only call
+expressions, conditional expressions, and lambda expressions (no
+assignment or def statements).  <em>Note in particular that you are not
+allowed to use <code>make_anonymous_factorial</code> in your return expression.</em>
+The <code>sub</code> and <code>mul</code> functions from the <code>operator</code> module are the only
+built-in function required to solve this problem:</p>
+
+<pre><code>from operator import sub, mul
+
+def make_anonymous_factorial():
+    """Return the value of an expression that computes factorial.
+
+    &gt;&gt;&gt; make_anonymous_factorial()(5)
+    120
+    """
+    eturn (lambda f: lambda n: f(f, n))(lambda f, n: 1 if n == 1 else mul(n, f(f, sub(n, 1))))
+</code></pre>
