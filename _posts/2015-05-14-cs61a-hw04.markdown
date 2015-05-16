@@ -67,36 +67,34 @@ print(str_interval(par1(a, b)), '!=', str_interval(par2(a, b)))
     in the mean while r1 and r2 only are refered onece."""
 </code></pre>
 
-<h3 class="question" id="q6">Question 6: Challenge Problem (optional)</h3>
+<h3 class="question" id="q6">Question 6</h3>
 
-<p>The recursive factorial function can be written as a single expression
-by using a <a href="http://docs.python.org/py3k/reference/expressions.html#conditional-expressions">conditional expression</a>.</p>
+<p>Write a function <code>quadratic</code> that returns the interval of all values
+<code>f(t)</code> such that <code>t</code> is in the argument interval <code>x</code> and <code>f(t)</code> is a
+<a href="http://en.wikipedia.org/wiki/Quadratic_function">quadratic function</a>:</p>
 
-<pre><code>&gt;&gt;&gt; fact = lambda n: 1 if n == 1 else mul(n, fact(sub(n, 1)))
-&gt;&gt;&gt; fact(5)
-120</code></pre>
+<pre><code>f(t) = a*t*t + b*t + c</code></pre>
 
-<p>However, this implementation relies on the fact (no pun intended) that
-<code>fact</code> has a name, to which we refer in the body of <code>fact</code>.  To write a
-recursive function, we have always given it a name using a <code>def</code> or
-assignment statement so that we can refer to the function within its
-own body.  In this question, your job is to define fact recursively
-without giving it a name!</p>
+<p>Make sure that your implementation returns the smallest such interval,
+one that does not suffer from the multiple references problem.</p>
 
-<p>Write an expression that computes <code>n</code> factorial using only call
-expressions, conditional expressions, and lambda expressions (no
-assignment or def statements).  <em>Note in particular that you are not
-allowed to use <code>make_anonymous_factorial</code> in your return expression.</em>
-The <code>sub</code> and <code>mul</code> functions from the <code>operator</code> module are the only
-built-in function required to solve this problem:</p>
+<p><em>Hint</em>: the derivative <code>f'(t) = 2*a*t + b</code>, and so the extreme
+point of the quadratic is <code>-b/(2*a)</code>:</p>
 
-<pre><code>from operator import sub, mul
+<pre><code>def quadratic(x, a, b, c):
+    """Return the interval that is the range of the quadratic defined by
+    coefficients a, b, and c, for domain interval x.
 
-def make_anonymous_factorial():
-    """Return the value of an expression that computes factorial.
-
-    &gt;&gt;&gt; make_anonymous_factorial()(5)
-    120
+    &gt;&gt;&gt; str_interval(quadratic(interval(0, 2), -2, 3, -1))
+    '-3 to 0.125'
+    &gt;&gt;&gt; str_interval(quadratic(interval(1, 3), 2, -3, 1))
+    '0 to 10'
     """
-    eturn (lambda f: lambda n: f(f, n))(lambda f, n: 1 if n == 1 else mul(n, f(f, sub(n, 1))))
-</code></pre>
+    extremum = -b /(2*a)
+    f = lambda t: a*t*t + b*t + c
+    l, u, e = map(f, (lower_bound(x), upper_bound(x), extremum))
+    if extremum >= lower_bound(x) and extremum <= upper_bound(x):
+        return interval(min(l,u,e), max(l,u,e))
+    else:
+        return interval(min(l,u), max(l,u))</code></pre>
+
