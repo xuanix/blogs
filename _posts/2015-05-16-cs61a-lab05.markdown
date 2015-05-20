@@ -117,7 +117,7 @@ False
 </code></pre>
 
 Extra Questions
----------------
+---------------------------
 
 <h3>Question 5</h3>
 <pre><code>def height(t):
@@ -179,7 +179,8 @@ def preorder(t):
 </code></pre>
 
 Dictionaries + Shakespeare
---------------------------
+----------------------------------
+
 <h3>Question 8</h3>
 <pre><code>def build_successors_table(tokens):
     """Return a dictionary: keys are words; values are lists of
