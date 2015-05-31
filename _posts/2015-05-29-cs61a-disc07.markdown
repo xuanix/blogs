@@ -1,0 +1,281 @@
+---
+layout:     post
+title: "CS61A-Discussion 07"
+subtitle:   "Orders of Growth"
+author: "Tianxiang Gao"
+date: "May 29, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+
+<h2>1 Trees in OOP</h2>
+<h3>1.1 Our Implementation</h3>
+<pre><code>class Tree:
+    """docstring for Tree
+    >>> t = Tree(1, [Tree(2, [Tree(3)]), Tree(4), Tree(5)])
+    >>> t
+    Tree(1, [Tree(2, [Tree(3)]), Tree(4), Tree(5)])
+    """
+    def __init__(self, entry, branches=[]):
+        self.entry = entry
+        for b in branches:
+            assert isinstance(b, Tree)
+        self.branches = branches
+
+    def __repr__(self):
+        if self.branches:
+            branches_str = ', ' + repr(self.branches)
+        else:
+            branches_str = ''
+        return 'Tree({0}{1})'.format(self.entry, branches_str)
+
+    def is_leaf(self):
+        return not self.branches</code></pre>
+
+<h3>1.2 Questions</h3>
+<ol>
+<li><code>square_tree(t)</code></li>
+<pre><code>def square_tree(t):
+    """Mutates a Tree t by squaring all its elements.
+    >>> t = Tree(1, [Tree(2, [Tree(3)]), Tree(4), Tree(5)])
+    >>> square_tree(t)
+    >>> t
+    Tree(1, [Tree(4, [Tree(9)]), Tree(16), Tree(25)])
+    """
+    t.entry = t.entry**2
+    for b in t.branches:
+        square_tree(b)</code></pre>
+<li><code>make_even</code></li>
+<pre><code>def make_even(t):
+    """
+    >>> t = Tree(1, [Tree(2, [Tree(3)]), Tree(4), Tree(5)])
+    >>> make_even(t)
+    >>> t 
+    Tree(2, [Tree(2, [Tree(4)]), Tree(4), Tree(6)])
+    """
+    if t.entry % 2 != 0:
+        t.entry += 1
+    for b in t.branches:
+        make_even(b)</code></pre>
+
+<li><code>average(t)</code></li>
+<pre><code>def average(t):
+    """Assume every entry in t is a number, this function return the average of all the entries
+    >>> t = Tree(1, [Tree(2, [Tree(3)]), Tree(4), Tree(5)])
+    >>> average(t)
+    3.0
+    """
+    def helper(t):
+        helper.n += 1
+        if t.is_leaf():
+            return t.entry
+        else:
+            return t.entry + sum(helper(b) for b in t.branches)
+    helper.n = 0
+    return helper(t)/helper.n</code></pre>
+<h3>1.3 Extra Questions</h3>
+<li><code>find_path</code></li>
+<pre><code>def find_path(t, entry):
+    """ Given a tree and an entry, return a list containing the nodes along the path required to get from the root of t to entry. If entry is not present, return False. Assume the entries in t are unique.
+    >>> tree_ex = Tree(2, [Tree(7, [Tree(3), Tree(6, [Tree(5), Tree(11)])]), Tree(1)])
+    >>> find_path(tree_ex, 5)
+    [2, 7, 6, 5]
+    """
+    if t.entry == entry:
+        return [t.entry]
+    for b in t.branches:
+        path = find_path(b, entry)
+        if path:
+            return [t.entry] + path
+    return False</code></pre>
+
+<pre><code>find_shortest</code></pre>
+<pre><code>def find_shortest(t, entry):
+    """ Now assume that the elements of the tree not be unique.
+    breadth-first search as new tuple added at the end
+    >>> tree_ex = Tree(2, [Tree(7, [Tree(3), Tree(6, [Tree(5), Tree(11)])]), Tree(1)])
+    >>> find_path(tree_ex, 5)
+    [2, 7, 6, 5]
+    """
+    tree_queue = [(t, [])]
+    while len(tree_queue) > 0:
+        curr_tree, path = tree_queue.pop(0)
+        if curr_tree.entry == entry:
+            return path + [entry]
+        for b in curr_tree.branches:
+            tree_queue.append((b, path + [curr_tree.entry]))
+    return False</code></pre>
+<li><code>first_to_last</code></li>
+<pre><code>def first_to_last(self, other):
+    """swaps a tree’s own first child with the last child of other. 
+    Don’t forget to make sure the parents are still correct after the swap!
+    >>> t = Tree(1, [Tree(2, [Tree(3)]), Tree(4), Tree(5)])
+    >>> s = Tree(1, [Tree(2, [Tree(3)]), Tree(4), Tree(5)])
+    >>> first_to_last(t,s)
+    >>> t
+    Tree(1, [Tree(5), Tree(4), Tree(5)])
+    >>> s
+    Tree(1, [Tree(2, [Tree(3)]), Tree(4), Tree(2, [Tree(3)])])
+    >>> t.branches[0].parent
+    Tree(1, [Tree(5), Tree(4), Tree(5)])
+    >>> s.branches[len(s.branches)-1].parent
+    Tree(1, [Tree(2, [Tree(3)]), Tree(4), Tree(2, [Tree(3)])])
+    """
+    assert len(self.branches) > 0 and len(other.branches) > 0, "Must have children to swap."
+    self.branches[0], other.branches[-1] = other.branches[len(other.branches)-1], self.branches[0]
+    self.branches[0].parent, other.branches[-1].parent = self, other
+</code></pre>
+</ol>
+
+<h3>1.4 Binary Trees</h3>
+<pre><code>class BinaryTrees(Tree):
+    empty = Tree(None)
+    empty.is_empty = True
+
+    def __init__(self, entry, left=empty, right=empty):
+        for branch in (left, right):
+            assert isinstance(branch, BinaryTrees) or branch.is_empty   
+        Tree.__init__(self, entry, (left, right))
+        self.is_empty = False
+
+    @property
+    def left(self):
+        return self.branches[0]
+
+    @property
+    def right(self):
+        return self.branches[1]</code></pre>
+
+<h3>1.5 Conceptual Questions</h3>
+<ol>
+<li>
+    <ol type="a">
+        <li>What is the purpose of the assert statement in the second line? Why must we write this explicityy instead of relying on <code>Tree.__init__</code>'s assert? <br>We want to enforce the closeure property for BinaryTree, that each subtree BinaryTree is a BinaryTree instance. Because we defined a different empty branch, while in Tree class it is just an empty list.</li>
+        <li>Summarize the process of creating a new BinearyTree. How does <code>Tree.__init__</code>contribute? <br>Fist, an empty instance of BinaryTree is created. Then, after the assert, we will *fill in* the empty instance by calling Tree.__init__ with particular arguments so that our tree will be a binary tree. Note that Tree.__init__ does not create a new object, nor is it used as a bound method.</li>
+        <li>Why do we use <code>@property</code> instead of writing self.left = self.braches[0] in __init__? <br><code>self.left = self.branches[0]</code> will only copy the current value of <code>self.branches[0]</code> not whatever that list element contains. Since the value of the list element can change anytime, we shiould instead of re-compute the value of self.left every time we need the attribute. The <code>@property</code> construct helps us implement that easily.</li>
+    </ol>
+</li>
+</ol>
+
+<h3>1.6 Questions</h3>
+<ol>
+<li><code>height(t)</code></li>
+<pre><code>def height(t):
+    """Returns the height of a BinaryTree. The height is the length of the longest path from the root node dwon to a leaf node.
+    If a BinaryTree consists of a root with no children, its height is 0
+    >>> t = BinaryTree(1, BinaryTree(2), BinaryTree(3, BinaryTree(4)))
+    >>> height(t)
+    2
+    """
+    if t.is_empty:
+        return 0
+    elif t.left.is_empty and t.left.is_empty:
+        return 0
+    else:
+        return 1 + max(height(t.left), height(t.right))</code></pre>
+</ol>
+
+
+<h2>2 Orders of Growth</h2>
+$\theta (n^2)$ means that the running time of the process will grow **proportionally** to the square fo the size of the input as it increases to infinity.
+<h3>2.1 Kinds of Growth</h3>
+Here are some common orders of growth, ranked from no growth to fastest growth:
+
+* $\theta (1)$: constant time
+* $\theta (logn)$: logarithmic time
+* $\theta (n)$: linear time
+* $\theta (n^2), \theta (n^3)$, etc: polynomial time
+* $\theta (2^n)$: exponential time
+
+<h3>2.2 Orders of Growth in Time</h3>
+"Time" here refers to the number of primitive operations completed, such as +, *, and assignment. The time it takes for these operations is $\theta (1)$.
+<h3>2.3 Questions</h3>
+<ol>
+<li></li>
+<pre><code>def factorial(n):
+    if n == 0:
+        return 1
+    return n * factorial(n - 1)
+
+def sum_of_factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return factorial(n) + sum_of_factorial(n - 1)</code></pre> 
+<code>factorial(n)</code> $\theta (n)$<br>
+<code>sum_of_factorial(n)</code>$\theta (n^2)$
+<li></li>
+<pre><code>def fib_iter(n):
+    prev, curr, i = 0, 1, 1
+    while i < n:
+        prev, curr = curr, prev + curr
+        i += 1
+    return curr</code></pre>
+$\theta (n)$
+<li></li>
+<pre><code>def mod_7(n):
+    if n % 7 == 0:
+        return 0
+    else:
+        return 1 + mod_7(n - 1)</code></pre>
+$\theta (1)$
+
+<li></li>
+<pre><code>def bonk(n):
+    total = 0
+    while n >= 2:
+        total += n
+        n = n / 2
+    return total</code></pre>
+$\theta (logn)$
+<li></li>
+<pre><code>def bar(n):
+    if n % 2 == 1:
+        return n + 1
+    return n
+
+def foo(n):
+    if n < 1:
+        return 2
+    if n % 2 == 0:
+        return foo(n - 1) + foo(n - 2)
+    else:
+        return 1 + foo(n - 2)</code></pre>
+$\theta (n^2)$
+<li></li>
+<pre><code>def steven(x, y):
+    # x and y are lists
+    sum = 0
+    for elem1 in x:
+        for elem2 in y:
+            sum += elem1 * elem2
+    return sum</code></pre>
+$\theta (|x||y|)$
+</ol>
+
+<h2>3 Extra Questions</h2>
+<ol>
+<li></li>
+<pre><code>def list_to_bst(lst):
+    if lst:
+        mid = len(lst) // 2
+        left = list_to_bst(lst[:mid])
+        right = list_to_bst(lst[mid+1:])
+        return BinaryTree(lst[mid], left, right)</code></pre>
+<li>Give the running times of the functions g and h in terms of n. Then, for a bigger challenge, give the runtime of f in terms of x and y.</li>
+<pre><code>def f(x, y):
+    if x == 0 or y == 0:
+        return 1
+    if x < y:
+        return f(x, y-1)
+    if x > y:
+        return f(x-1, y)
+    else:
+        return f(x-1, y) + f(x, y-1)
+def g(n):
+    return f(n, n)
+def h(n):
+    return f(n, 1)</code></pre>
+<code>g(n)</code>: $\theta (2^n)$ <br>
+<code>h(n)</code>: $\theta (n)$ <br>
+<code>f(x,y)</code>: $\theta (|x-y| + 2^{min(x,y)})$
+</ol>
