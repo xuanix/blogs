@@ -1,6 +1,6 @@
 ---
 layout:     post
-title: "CS61A-Lab 6"
+title: "CS61A-Lab 7"
 subtitle:   "Recursive Objects"
 author: "Tianxiang Gao"
 date: "May 28, 2015"
