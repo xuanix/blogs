@@ -6,7 +6,7 @@ author: "Tianxiang Gao"
 date: "Jun 8, 2015"
 header-img: "img/post-bg-02.jpg"
 ---
-You may use <code>map</code> and <map>filter</map> procedures defined below in your solutions.
+You may use <code>map</code> and <code>filter</code> procedures defined below in your solutions.
 <pre><code>(define (map f s)
   ; List the result of applying f to each element in s.
   (if (null? s) s
