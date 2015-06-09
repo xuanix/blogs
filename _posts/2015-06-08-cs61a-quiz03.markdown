@@ -1,0 +1,38 @@
+---
+layout:     post
+title: "CS61A-Quiz 3"
+subtitle:   "Section 3.2"
+author: "Tianxiang Gao"
+date: "Jun 8, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+You may use <code>map</code> and <map>filter</map> procedures defined below in your solutions.
+<pre><code>(define (map f s)
+  ; List the result of applying f to each element in s.
+  (if (null? s) s
+    (cons (f (car s)) (map f (cdr s)))))
+
+(define (filter f s)
+  ; List the elements of s for which f returns a true value.
+  (if (null? s) s
+    (let ((rest (filter f (cdr s))))
+      (if (f (car s)) (cons (car s) rest) rest))))
+</code></pre>
+<h3>Question 1</h3>
+<pre><code>(define (no-repeats s)
+  ; YOUR-CODE-HERE
+  (if (null? s) 
+    s
+    (cons (car s) (no-repeats (filter (lambda (x) (not (= (car s) x))) (cdr s))))
+  )
+)</code></pre>
+
+<h3>Question 2</h3>
+<pre><code>(define (how-many-dots s)
+  ; YOUR-CODE-HERE
+  (if (not (pair? s)) 0
+    (+ (if (number? (cdr s)) 1 0)
+       (how-many-dots (car s))
+       (how-many-dots (cdr s)))
+    ) 
+)</code></pre>
