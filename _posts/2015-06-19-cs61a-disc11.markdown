@@ -1,0 +1,119 @@
+---
+layout:     post
+title: "CS61A-Discussion 11"
+subtitle:   "Declarative Programming"
+author: "Tianxiang Gao"
+date: "Jun 19, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+<h2>1 Declarative Programming</h2>
+*Imperative programming* is a programming style where code is written as a set of instructins for the computer. In this section, we introduce *declarative programming* - code that declares *what* we want, not *how* to compute it.
+
+<h3>1.1 The SQL Language</h3>
+Syntax
+
+<pre><code>select [columns] from [tables] where [condition] order by [order]</code></pre>
+
+<h2>2 Creating Tables</h2>
+<h3>2.1 Questions</h3>
+<ol>
+<li></li>
+<pre><code>select name from records where supervisor = 'Oliver Warbucks';</code></pre>
+<li></li>
+<pre><code>select * from records where name = supervisor;</code></pre>
+<li></li>
+<pre><code>select name from records where salary > 50000 order by name;</code></pre>
+</ol>
+
+<h3>2.2 Joins</h3>
+<h3>2.3 Questions</h3>
+<ol>
+<li></li>
+<pre><code>select e.name, e.salary, s.name, s.salary 
+    from records as e, records as s
+    where e.supervisor = s.name and s.salary > 2 * e.salary;
+</code></pre>
+<li></li>
+<pre><code>select e.name from records as e, records as s
+    where e.supervisor = s.name and e.division &lt;&gt; s.division;
+</code></pre>
+<li></li>
+<pre><code>
+select day, time from records as r, meeting as m
+    where r.division = m.division and r.suppervisor = 'Oliver Warbucks';
+</code></pre>
+</ol>
+
+<h3>2.4 Extra Questions</h3>
+<ol>
+<li></li>
+<pre><code>select b.name from records as a, records as b 
+    where a.supervisor = b.name and b.supervisor &lt;&gt; b.name
+</code></pre>
+<li></li>
+<pre><code>Alyssa P Hacker
+Ben Bitdiddle
+Ben Bitdiddle
+Ben Bitdiddle</code></pre>
+There are multiple people with Ben Bitdiddle as supervisor, and joining tables together does not remove these duplicates.
+<li></li>
+<pre><code>select from records as e, records as s, meeting as em, meeting as sm
+    where e.supervisor = s.name and e.division = em.division and s.division = sm.division and em.day = sm.day
+</code></pre>
+</ol>
+
+<h2>Local Tables</h2>
+Syntax
+<pre><code>with
+    table(columns) as (
+    select [cols] from [nms] where [cond] order by [order]
+    )
+</code></pre>
+
+<h3>3.1 Recursion</h3>
+<pre><code>create table natural as
+    with num(n) as (
+        select 0 union
+        select n + 1from num
+            where n &lt; 3
+    )
+    select * from num;
+</code></pre>
+
+<h3>3.2 Questions</h3>
+<ol>
+<li></li>
+<pre><code>create table factorial as 
+    with fact(n, nfact) (
+        select 0, 1 union
+        select n+1, nfact*n from fact
+            where n &lt; 10
+    )
+    select nfact from fact;
+</code></pre>
+<li></li>create table squares as 
+    with sq(n, nsq) as (
+        select 1, 1 union
+        select n+1, (n+1) * (n+1) from sq
+            where n &lt; 10
+    )
+    select nsq from sq;
+<li></li>
+<pre><code>create table cycles_of_3 as 
+    with mod_3(a, b, c) as (
+        select 0, 1, 2 union
+        select a + 3, b + 3, c + 3 from mod_3
+        where a &lt; 12
+    )
+    select * from mod_3;
+</code></pre>
+</ol>
+
+<h3>3.3 Extra Questions</h3>
+<ol>
+<li></li>
+<pre><code>create table permutation as
+    select a.n as p, b.n as q, c.n as r 
+    from natural as a, natural as b, natural as c;</code></pre>
+</ol>
+
