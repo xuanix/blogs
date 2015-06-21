@@ -1,0 +1,8 @@
+---
+layout:     post
+title: "CS61A-Lab 13"
+subtitle:   "SQL"
+author: "Tianxiang Gao"
+date: "Jun 19, 2015"
+header-img: "img/post-bg-02.jpg"
+---
