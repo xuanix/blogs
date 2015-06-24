@@ -1,0 +1,53 @@
+---
+layout:     post
+title: "CS61B-Lab 00"
+subtitle:   "javac, java, Git"
+author: "Tianxiang Gao"
+date: "Jun 22, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+
+<h2>A. Java Compilation & Development</h2>
+
+<h3>Why Compilation?</h3>
+Compilers are quite helpful for reasons:
+
+* Compilers can check for errors such as *type errors* and *syntax errors*. 
+
+* Compilers can help speed up programs since translate high level language into lower or machine language and saves the instruction in a file called *binary*.
+
+* Compilers can verify access rights to classes and methods.
+
+* Others introudced in CS61C.
+
+<h3>Compiling Java Programs</h3>
+
+We will be using <code>javac</code> as compiler which is included in Oracle's Java Development Kit(JDK).
+
+<pre><code>$ javac (-g) File.java</code></pre>
+Where flag "-g" is helpful for generatting debugging information
+
+<h3>Running Java programs</h3>
+Compiling your program give you <code>.class</code> files which contain bytecode.
+
+<pre><code>$ java File</code></pre>
+
+<h2>B. Writing Java Programs</h2>
+
+<h3>Java is Object-Oriented</h3>
+
+<pre><code>import java.io.*;
+
+class LeapYear {
+	public static void main(String[] args) throws Exception {
+		BufferedReader keybd = new BufferedReader(new InputStreamReader(System.in));
+		int year = Integer.parseInt(keybd.readLine());
+		if (year % 400 == 0) {
+			System.out.println(year + " is a leap year.");
+		} else if (year % 100 != 0 && year % 4 == 0) {
+			System.out.println(year + " is a leap year.");
+		} else {
+			System.out.println(year + " is not a leap year.");
+		}
+	}
+}</code></pre>
