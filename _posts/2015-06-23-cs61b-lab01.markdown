@@ -1,7 +1,7 @@
 ---
 layout:     post
-title: "CS61B-Lab 00"
-subtitle:   "javac, java, Git"
+title: "CS61B-Lab 01"
+subtitle:   "Java, Emacs"
 author: "Tianxiang Gao"
 date: "Jun 22, 2015"
 header-img: "img/post-bg-02.jpg"
