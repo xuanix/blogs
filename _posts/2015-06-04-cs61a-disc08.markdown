@@ -1,0 +1,189 @@
+---
+layout:     post
+title: "CS61A-Discussion 08"
+subtitle:   "Scheme"
+author: "Tianxiang Gao"
+date: "Jun 04, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+
+<h2>1 The Scheme Interpreter</h2>
+Keep this one thing in mind: **everying is an expression.**
+
+<h2>2 Primitives</h2>
+Scheme has certain set of *atomic* primitive expressions. Atomic means that these expressions cannot be divided up, or at lease are not usually created out of smaller expressions such as numbers, boolean and symbols.
+
+<h3>2.1 Questions</h3>
+<ol>
+<li>What would Scheme print</li>
+<pre><code>scm> (define a 1)
+a
+scm> a
+1
+scm> (define b a)
+b
+scm> b
+1
+scm> (define c ’a)
+c
+scm> c
+a</code></pre>
+</ol>
+
+<h2>3 Evaluating Function Calls and Special Forms</h2>
+<h3>3.1 Functions</h3>
+Some importanat functions you'll want to use are:
+<ul>
+<li>+, -, *, /</li>
+<li>eq?, =, &gt;, &gt;=, &lt;=, &lt;</li>
+</ul>
+
+<h3>3.2 Questions</h3>
+<ol>
+<li>What does the folloing return?</li>
+<pre><code>scm> (+ 1)
+1
+scm> (* 3)
+3
+scm> (+ (* 3 3) (* 4 4))
+25
+scm> (define a (define b 3))
+a
+scm> a
+b
+</code></pre>
+</ol>
+
+<h3>3.3 Special Forms</h3>
+<strong>if</strong> expression looks like:
+<pre><code>(if &lt;condition> &lt;then> &lt;else>)</code></pre>
+<pre><code>scm> (and 1 2 3)
+3
+scm> (or 1 2 3)
+1
+scm> (or #t (/ 1 0))
+True
+scm> (and #f (/1 0))
+False
+scm> (not 3)
+False
+scm> (not #t)
+False</code></pre>
+
+<h3>3.4 Questions</h3>
+<ol>
+<li>What does the following do?</li>
+<pre><code>
+scm> (if (or #t (/ 1 0)) 1 (/ 1 0))
+1
+scm> (if (> 4 3) (+ 1 2 3 4) (+ 3 4 (* 3 2)))
+10
+scm> ((if (< 4 3) + -) 4 100)
+-96
+</code></pre>
+</ol>
+
+<h2>Lambdas, Environments and Defining Functions</h2>
+The syntax of lambda is <pre><code>(lambda (&lt;args>) &lt;expression>)</code></pre>
+Definie a function.
+<pre><code>(define (&lt;name> &lt;args) &lt;body>)</code></pre>
+There is also special form based around <pre><code>lambda: let</code></pre>. The sctucture of <pre><code>let</code></pre> is as follows:
+<pre><code>(let ( (&lt;SYMBOL1> &lt;EXPR1>)
+        ...
+       (&lt;SYMBOLN> &lt;EXPRN>) )
+        &lt;BODY> )
+</code></pre>
+This special form really just gets transformed to:
+<pre><code>
+( (lambda (&lt;SYMBOL1> ... &lt;SYMBOLN>) &lt;BODY>) &lt;EXPR1> ... &lt;EXPRN>)
+</code></pre>
+
+<h3>4.1 Questions</h3>
+<ol>
+<li>Write a function to calculate factorial</li>
+<pre><code>(define (factorial x)
+    (if (or (= x 0) (= x 1))
+        1
+        (* x (factorial (- x 1)))
+    )
+)</code></pre>
+
+<li>Write a function that calcuates the nth Fibonacci number</li>
+<pre><code>(define (fib n)
+    (if (< n 2)
+        1
+        (+ (fib (- n 2)) (fib (- n 1)))
+    )
+)</code></pre>
+</ol>
+
+<h2>5 Pairs and Lists</h2>
+Empty list is another primitive represented as <pre><code>'()</code></pre> or <pre><code>nil</code></pre>. 
+You can check if a list is <pre><code>nil</code></pre> with <pre><code>null?</code></pre> function.
+
+<h3>5.1 Questions</h3>
+<ol>
+<li>Fill in the following to complete an abstract data type for binary trees, in which each node has at most 2 children, left and right:</li>
+<pre><code>(define (make-btree entry left right)
+    (cons entry (cons left right))
+)
+
+(define (entry tree)
+    (car tree)
+)
+
+(define (left tree)
+    (car (cdr tree))
+)
+
+(define (right tree)
+    (cdr (cdr tree))
+)
+</code></pre>
+
+<li>Using the above definition, write a function that sums up the entries of a binary tree, assuming that the entries are all numbers.</li>
+<pre><code>(define (btree-sum tree)
+    (if (null? tree) 
+        0
+        (+ (entry tree) 
+            (btree-sum (left tree)) 
+            (btree-sum (right tree)))
+    )
+)</code></pre>
+
+<li>Define <pre><code>map</code></pre>, where the first argument is a function and the second a list. This should work like Python's map.</li>
+<pre><code>(define (map fn lst)
+    (if (null? lst) lst
+        (cons (fn (car lst)) (map fn (cdr lst)))
+    )
+)</code></pre>
+
+<li>Define <pre><code>reduce</code></pre>, where the first argument is a function that takes two arguments, the second is a starting value, and the third is a list. This should work like Python's reduce.</li>
+<pre><code>(define (reduce fn s lst)
+    (if (null? lst) 
+        s
+        (reduce fn (fn s (car lst)) (cdr lst))
+    )
+
+)</code></pre>
+</ol>
+
+<h3>5.2 Extra Questions</h3>
+<ol>
+<li>Write a Scheme functiont that, when given an element, a list, and a position, inserts the element into the list at that position.</li>
+<pre><code>(define (insert element lst position)
+    (cond   ((or (null? lst) (> position (length lst))) lst)
+            ((= position 0) (cons element lst))
+            (else (cons (car lst) (insert element (cdr lst) (- position 1))))
+    )
+)</code></pre>
+<li>Write a Scheme function that, when given a list, such as (1 2 3 4), duplicates every element in the list (i.e. (1 1 2 2 3 3 4 4))</li>
+
+<pre><code>(define (duplicate lst)
+    (if (null? lst) 
+        lst
+        (cons (car lst) (cons (car lst) (duplicate (cdr lst))))
+    )
+
+)</code></pre>
+</ol>

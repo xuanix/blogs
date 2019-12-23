@@ -1,0 +1,394 @@
+I"‘ <h2 id="higher-order-functions">Higher Order Functions</h2>
+<h3>Question 1: What would Python print?</h3>
+
+<pre><code>&gt;&gt;&gt; def square(x):
+        return x*x
+   
+&gt;&gt;&gt; def neg(f, x):
+        return -f(x)
+   
+&gt;&gt;&gt; neg(square, 4)
+-16
+</code></pre>
+<pre><code>&gt;&gt;&gt; def even(f):
+        def odd(x):
+            if x &lt; 0:
+                return f(-x)
+            return f(x)
+        return odd
+   
+&gt;&gt;&gt; def identity(x):
+        return x
+   
+&gt;&gt;&gt; triangle = even(identity)
+&gt;&gt;&gt; triangle
+&lt;function even.&lt;locals&gt;.odd at ...&gt;
+
+&gt;&gt;&gt; triangle(61)
+61
+
+&gt;&gt;&gt; triangle(-4)
+4
+</code></pre>
+
+<pre><code>&gt;&gt;&gt; def first(x):
+        x += 8
+        def second(y):
+            print('second')
+            return x + y
+        print('first')
+        return second
+   
+&gt;&gt;&gt; f = first(15)
+first
+
+&gt;&gt;&gt; f
+&lt;function first.&lt;locals&gt;.second at ...&gt;
+
+&gt;&gt;&gt; f(16)
+second
+39
+</code></pre>
+
+<h3>Question 2: Flight of the Bumblebee</h3>
+<pre><code>def make_buzzer(n):
+    """ Returns a function that prints numbers in a specified
+    range except those divisible by n.
+
+    &gt;&gt;&gt; i_hate_fives = make_buzzer(5)
+    &gt;&gt;&gt; i_hate_fives(10)
+    Buzz!
+    1
+    2
+    3
+    4
+    Buzz!
+    6
+    7
+    8
+    9
+    """
+    def f(range):
+        i = 0
+        while i &lt; range:
+            if i % n != 0:
+                print(i)
+            else:
+                print('Buzz!')
+            i = i + 1
+</code></pre>
+
+<h2 id="lambdas">Lambdas</h2>
+<pre><code>lambda &lt;parameters&gt;: &lt;return value&gt;</code></pre>
+
+<h3>Question 3: What would Python print?</h3>
+
+<pre><code>&gt;&gt;&gt; a = lambda: 5
+&gt;&gt;&gt; a()
+5
+
+&gt;&gt;&gt; a(5)
+TypeError: &lt;lambda&gt;() takes 0 positional arguments but 1 was given
+
+&gt;&gt;&gt; a()()
+TypeError: 'int' object is not callable
+
+&gt;&gt;&gt; lambda x: x # Can we access this function?
+&lt;function &lt;lambda&gt; at ...&gt;
+
+&gt;&gt;&gt; b = lambda: lambda x: 3
+&gt;&gt;&gt; b()(15)
+3
+
+&gt;&gt;&gt; c = lambda x, y: x + y
+&gt;&gt;&gt; c(4, 5)
+9
+
+&gt;&gt;&gt; d = lambda x: c(a(), b()(x))
+&gt;&gt;&gt; d(2)
+8
+
+&gt;&gt;&gt; b = lambda: lambda x: x
+&gt;&gt;&gt; d(2)
+7
+
+&gt;&gt;&gt; e = lambda x: lambda y: x * y
+&gt;&gt;&gt; e(3)
+&lt;function &lt;lambda&gt;.&lt;locals&gt;.&lt;lambda&gt; at ...&gt;
+
+&gt;&gt;&gt; e(3)(3)
+9
+
+&gt;&gt;&gt; f = e(2)
+&gt;&gt;&gt; f(5)
+10
+
+&gt;&gt;&gt; f(6)
+12
+
+&gt;&gt;&gt; g = lambda: print(1) # When is the body of this function run?
+# Nothing gets printed by the interpreter
+
+&gt;&gt;&gt; h = g()
+1
+
+&gt;&gt;&gt; print(h)
+None
+</code></pre>
+
+<h3>Question 4: Make your own lambdas</h3>
+<pre><code>def f1():
+    """
+    &gt;&gt;&gt; f1()
+    3
+    """
+    return 3
+
+def f2():
+    """
+    &gt;&gt;&gt; f2()()
+    3
+    """
+    return lambda: 3
+
+def f3():
+    """
+    &gt;&gt;&gt; f3()(3)
+    3
+    """
+    return lambda x: x
+
+def f4():
+    """
+    &gt;&gt;&gt; f4()()(3)()
+    3
+    """
+    return lambda: lambda x: lambda: x
+</code></pre>
+
+<h3>Question 5: Environment Diagrams with Lambdas</h3>
+<pre><code>&gt;&gt;&gt; # Part 1
+&gt;&gt;&gt; a = lambda x : x * 2 + 1
+&gt;&gt;&gt; def b(x):
+...     return x * y
+...
+&gt;&gt;&gt; y = 3
+&gt;&gt;&gt; b(y)
+9
+
+&gt;&gt;&gt; def c(x):
+...     y = a(x)
+...     return b(x) + a(x+y)
+...
+&gt;&gt;&gt; c(y)
+30
+
+&gt;&gt;&gt; # Part 2: This one is pretty tough. A carefully drawn environment
+&gt;&gt;&gt; # diagram will be really useful.
+&gt;&gt;&gt; g = lambda x: x + 3
+&gt;&gt;&gt; def wow(f):
+...     def boom(g):
+...       return f(g)
+...     return boom
+...
+&gt;&gt;&gt; f = wow(g)
+&gt;&gt;&gt; f(2)
+5
+
+&gt;&gt;&gt; g = lambda x: x * x
+&gt;&gt;&gt; f(3)
+6
+</code></pre>
+
+<h2 id="recursion">Recursion</h2>
+<h3>Question 6: In sum...</h3>
+<pre><code>def sum(n):
+    """Computes the sum of all integers between 1 and n, inclusive.
+    Assume n is positive.
+
+    &gt;&gt;&gt; sum(1)
+    1
+    &gt;&gt;&gt; sum(5)  # 1 + 2 + 3 + 4 + 5
+    15
+    """
+    if n == 1:
+        return 1
+    return n + sum(n-1)
+</code></pre>
+
+<h3>Question 7: Misconceptions</h3>
+<pre><code>def sum_every_other_number(n):
+    """Return the sum of every other natural number 
+    up to n, inclusive.
+
+    &gt;&gt;&gt; sum_every_other_number(8)
+    20
+    &gt;&gt;&gt; sum_every_other_number(9)
+    25
+    """
+    if n == 0 or n == 1:
+        return n
+    else:
+        return n + sum_every_other_number(n - 2)
+</code></pre>
+
+<pre><code>def fibonacci(n):
+    """Return the nth fibonacci number.
+
+    &gt;&gt;&gt; fibonacci(11)
+    89
+    """
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fibonacci(n - 1) + fibonacci(n - 2)
+</code></pre>
+
+<h3>Question 8: Hailstone</h3>
+<p>For the <code>hailstone</code> function from homework 1,  you pick a positive
+integer <code>n</code> as the start. If <code>n</code> is even, divide it by 2. If <code>n</code> is
+odd, multiply it by 3 and add 1. Repeat this process until <code>n</code> is 1.
+Write a recursive version of hailstone that prints out the values of
+the sequence and returns the number of steps.</p>
+
+<pre><code>
+def hailstone(n):
+    """Print out the hailstone sequence starting at n, and return the
+    number of elements in the sequence.
+
+    &gt;&gt;&gt; a = hailstone(10)
+    10
+    5
+    16
+    8
+    4
+    2
+    1
+    &gt;&gt;&gt; a
+    7
+    """
+    print(n)
+    if n == 1:
+        return 1
+    elif n % 2 == 0:
+        return 1 + hailstone(n // 2)
+    else:
+        return 1 + hailstone(3 * n + 1)
+</code></pre>
+
+<h2 id="extra-questions">Extra Questions</h2>
+<h3>Question 9: I Hear You Like Functions...</h3>
+<pre><code>def cycle(f1, f2, f3):
+    """ Returns a function that is itself a higher order function
+    &gt;&gt;&gt; def add1(x):
+    ...     return x + 1
+    &gt;&gt;&gt; def times2(x):
+    ...     return x * 2
+    &gt;&gt;&gt; def add3(x):
+    ...     return x + 3
+    &gt;&gt;&gt; my_cycle = cycle(add1, times2, add3)
+    &gt;&gt;&gt; identity = my_cycle(0)
+    &gt;&gt;&gt; identity(5)
+    5
+    &gt;&gt;&gt; add_one_then_double = my_cycle(2)
+    &gt;&gt;&gt; add_one_then_double(1)
+    4
+    &gt;&gt;&gt; do_all_functions = my_cycle(3)
+    &gt;&gt;&gt; do_all_functions(2)
+    9
+    &gt;&gt;&gt; do_more_than_a_cycle = my_cycle(4)
+    &gt;&gt;&gt; do_more_than_a_cycle(2)
+    10
+    &gt;&gt;&gt; do_two_cycles = my_cycle(6)
+    &gt;&gt;&gt; do_two_cycles(1)
+    19
+    """
+    def g(n):
+        def h(x):
+            i = 1
+            while i &lt;= n:
+                if i % 3 == 1:
+                    return x = f1(x)
+                elif n % 3 == 2:
+                    return x = f2(x)
+                else:
+                    return x = f3(x)
+            return x
+        return h
+    return g
+</code></pre>
+
+<h3>Question 10: Lambdas and Currying</h3>
+<pre><code>def lambda_curry2(func):
+    """
+    Returns a Curried version of a two argument function func.
+    &gt;&gt;&gt; from operator import add
+    &gt;&gt;&gt; x = lambda_curry2(add)
+    &gt;&gt;&gt; y = x(3)
+    &gt;&gt;&gt; y(5)
+    8
+    """
+    return lambda x: lambda y: func(x, y)
+</code></pre>
+
+<h3>Question 11: Community</h3>
+<pre><code>&gt;&gt;&gt; def troy():
+...     abed = 0
+...     while abed &lt; 10:
+...         britta = lambda: abed
+...         abed += 1
+...     abed = 20
+...     return britta
+...
+&gt;&gt;&gt; jeff = troy()
+&gt;&gt;&gt; shirley = lambda : jeff
+&gt;&gt;&gt; pierce = shirley()
+&gt;&gt;&gt; pierce()
+20
+</code></pre>
+<p><img src="/blogs/img/cs61a/lab03-q11.jpg" style="width:710px" /></p>
+
+<h3>Question 12: Insect Combinatorics</h3>
+<pre><code>def paths(m, n):
+    """Return the number of paths from one corner of an
+    M by N grid to the opposite corner.
+
+    &gt;&gt;&gt; paths(2, 2)
+    2
+    &gt;&gt;&gt; paths(5, 7)
+    210
+    &gt;&gt;&gt; paths(117, 1)
+    1
+    &gt;&gt;&gt; paths(1, 157)
+    1
+    """
+    if m == 1 or n == 1:
+        return 1
+    return paths(m - 1, n) + paths(m, n - 1)
+</code></pre>
+
+<h3>Question 13: GCD</h3>
+<pre><code>def gcd(a, b):
+    """Returns the greatest common divisor of a and b.
+    Should be implemented using recursion.
+
+    &gt;&gt;&gt; gcd(34, 19)
+    1
+    &gt;&gt;&gt; gcd(39, 91)
+    13
+    &gt;&gt;&gt; gcd(20, 30)
+    10
+    &gt;&gt;&gt; gcd(40, 40)
+    40
+    """
+    if a &gt; b:
+        return gcd(b, a)
+    if b % a == 0:
+        return a
+    return gcd(a, b % a)
+
+</code></pre>
+
+:ET

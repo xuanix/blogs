@@ -1,0 +1,194 @@
+I"…<h3>Question 1</h3>
+<pre><code>def make_withdraw(balance, password):
+    """Return a password-protected withdraw function.
+
+    &gt;&gt;&gt; w = make_withdraw(100, 'hax0r')
+    &gt;&gt;&gt; w(25, 'hax0r')
+    75
+    &gt;&gt;&gt; w(90, 'hax0r')
+    'Insufficient funds'
+    &gt;&gt;&gt; w(25, 'hwat')
+    'Incorrect password'
+    &gt;&gt;&gt; w(25, 'hax0r')
+    50
+    &gt;&gt;&gt; w(75, 'a')
+    'Incorrect password'
+    &gt;&gt;&gt; w(10, 'hax0r')
+    40
+    &gt;&gt;&gt; w(20, 'n00b')
+    'Incorrect password'
+    &gt;&gt;&gt; w(10, 'hax0r')
+    "Your account is locked. Attempts: ['hwat', 'a', 'n00b']"
+    &gt;&gt;&gt; w(10, 'l33t')
+    "Your account is locked. Attempts: ['hwat', 'a', 'n00b']"
+    """
+    attempts = []
+    def withdraw(amount, attempt):
+        nonlocal balance
+        if len(attempts) == 3:
+            return 'Your account is locked. Attempts: ' + str(attempts)
+        if attempt != password:
+            attempts.append(attempt)
+            return 'Incorrect password'
+        if amount &gt; balance:
+            return 'Insufficient funds'
+        balance -= amount
+        return balance
+    return withdraw
+
+</code></pre>
+
+<h3>Question 2</h3>
+<pre><code>def make_joint(withdraw, old_password, new_password):
+    """Return a password-protected withdraw function that has joint access to
+    the balance of withdraw.
+
+    &gt;&gt;&gt; w = make_withdraw(100, 'hax0r')
+    &gt;&gt;&gt; w(25, 'hax0r')
+    75
+    &gt;&gt;&gt; make_joint(w, 'my', 'secret')
+    'Incorrect password'
+    &gt;&gt;&gt; j = make_joint(w, 'hax0r', 'secret')
+    &gt;&gt;&gt; w(25, 'secret')
+    'Incorrect password'
+    &gt;&gt;&gt; j(25, 'secret')
+    50
+    &gt;&gt;&gt; j(25, 'hax0r')
+    25
+    &gt;&gt;&gt; j(100, 'secret')
+    'Insufficient funds'
+
+    &gt;&gt;&gt; j2 = make_joint(j, 'secret', 'code')
+    &gt;&gt;&gt; j2(5, 'code')
+    20
+    &gt;&gt;&gt; j2(5, 'secret')
+    15
+    &gt;&gt;&gt; j2(5, 'hax0r')
+    10
+
+    &gt;&gt;&gt; j2(25, 'password')
+    'Incorrect password'
+    &gt;&gt;&gt; j2(5, 'secret')
+    "Your account is locked. Attempts: ['my', 'secret', 'password']"
+    &gt;&gt;&gt; j(5, 'secret')
+    "Your account is locked. Attempts: ['my', 'secret', 'password']"
+    &gt;&gt;&gt; w(5, 'hax0r')
+    "Your account is locked. Attempts: ['my', 'secret', 'password']"
+    &gt;&gt;&gt; make_joint(w, 'hax0r', 'hello')
+    "Your account is locked. Attempts: ['my', 'secret', 'password']"
+    """
+    rt = withdraw(0, old_password)
+    if type(rt) == str:
+        return rt
+    def joint(amount, attempt):
+        if attempt == old_password or attempt == new_password:
+            return withdraw(amount, old_password)
+        return withdraw(amount, attempt)
+    return joint</code></pre>
+
+<h3>Question 3</h3>
+<pre><code>class VendingMachine:
+    """A vending machine that vends some product for some price.
+
+    &gt;&gt;&gt; v = VendingMachine('candy', 10)
+    &gt;&gt;&gt; v.vend()
+    'Machine is out of stock.'
+    &gt;&gt;&gt; v.restock(2)
+    'Current candy stock: 2'
+    &gt;&gt;&gt; v.vend()
+    'You must deposit $10 more.'
+    &gt;&gt;&gt; v.deposit(7)
+    'Current balance: $7'
+    &gt;&gt;&gt; v.vend()
+    'You must deposit $3 more.'
+    &gt;&gt;&gt; v.deposit(5)
+    'Current balance: $12'
+    &gt;&gt;&gt; v.vend()
+    'Here is your candy and $2 change.'
+    &gt;&gt;&gt; v.deposit(10)
+    'Current balance: $10'
+    &gt;&gt;&gt; v.vend()
+    'Here is your candy.'
+    &gt;&gt;&gt; v.deposit(15)
+    'Machine is out of stock. Here is your $15.'
+    """
+    def __init__(self, product, price):
+        self.product = product
+        self.price = price
+        self.stock = 0
+        self.balance = 0
+    def restock(self, n):
+        self.stock += n
+        return 'Current '+self.product+' stock: '+str(self.stock)
+    def vend(self):
+        if self.stock &lt; 1:
+            return 'Machine is out of stock.'
+        if self.balance &lt; self.price:
+            return 'You must deposit $'+str(self.price-self.balance)+' more.'
+        
+        rt = 'Here is your '+self.product+'.'
+        self.stock -= 1
+        if self.balance &gt; self.price:
+            rt = 'Here is your '+self.product+' and $'+str(self.balance-self.price)+' change.'
+        else:
+            rt = 'Here is your '+self.product+'.'
+        self.balance = 0
+        return rt
+    def deposit(self, amount):
+        if self.stock &lt; 1:
+            return 'Machine is out of stock. Here is your $'+str(amount)+'.'
+        self.balance += amount
+        return 'Current balance: $' + str(self.balance)
+    </code></pre>
+
+<h3>Question 4</h3>
+<pre><code>class MissManners:
+    """A container class that only forward messages that say please.
+
+    &gt;&gt;&gt; v = VendingMachine('teaspoon', 10)
+    &gt;&gt;&gt; v.restock(2)
+    'Current teaspoon stock: 2'
+    &gt;&gt;&gt; m = MissManners(v)
+    &gt;&gt;&gt; m.ask('vend')
+    'You must learn to say please first.'
+    &gt;&gt;&gt; m.ask('please vend')
+    'You must deposit $10 more.'
+    &gt;&gt;&gt; m.ask('please deposit', 20)
+    'Current balance: $20'
+    &gt;&gt;&gt; m.ask('now will you vend?')
+    'You must learn to say please first.'
+    &gt;&gt;&gt; m.ask('please hand over a teaspoon')
+    'Thanks for asking, but I know not how to hand over a teaspoon'
+    &gt;&gt;&gt; m.ask('please vend')
+    'Here is your teaspoon and $10 change.'
+    &gt;&gt;&gt; really_fussy = MissManners(m)
+    &gt;&gt;&gt; really_fussy.ask('deposit', 10)
+    'You must learn to say please first.'
+    &gt;&gt;&gt; really_fussy.ask('please deposit', 10)
+    'Thanks for asking, but I know not how to deposit'
+    &gt;&gt;&gt; really_fussy.ask('please please deposit', 10)
+    'Thanks for asking, but I know not how to please deposit'
+    &gt;&gt;&gt; really_fussy.ask('please ask', 'please deposit', 10)
+    'Current balance: $10'
+    &gt;&gt;&gt; fussy_three = MissManners(3)
+    &gt;&gt;&gt; fussy_three.ask('add', 4)
+    'You must learn to say please first.'
+    &gt;&gt;&gt; fussy_three.ask('please add', 4)
+    'Thanks for asking, but I know not how to add'
+    &gt;&gt;&gt; fussy_three.ask('please __add__', 4)
+    7
+    """
+    def __init__(self, object):
+        self.object = object
+
+    def ask(self, message, *args):
+        magic_word = 'please '
+        if not message.startswith(magic_word):
+            return 'You must learn to say please first.'
+        attr = message[len(magic_word):]
+        if not hasattr(self.object, attr):
+            return 'Thanks for asking, but I know not how to ' + attr
+        return getattr(self.object, attr)(*args)
+
+</code></pre>
+:ET

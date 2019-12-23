@@ -1,0 +1,169 @@
+I"´<h3>Question 1</h3>
+<pre><code>(define (cddr s)
+  (cdr (cdr s)))
+
+(define (cadr s)
+  (car (cdr s))
+)
+
+(define (caddr s)
+  (car (cddr s))
+)</code></pre>
+
+<h3>Conditional Expressions</h3>
+<pre><code>(cond 
+    (&lt;p1&gt; &lt;e1&gt;)
+    (&lt;p2&gt; &lt;e2&gt;)
+    ...
+    (&lt;pn&gt; &lt;en&gt;)
+    (else &lt;else-expression&gt;)
+)
+</code></pre>
+<p>Consisiting of the symbol <code>cond</code> followed by pairs of expressions (<code>&lt;p&gt; &lt;e&gt;</code>) called <strong>clauses</strong>. <code>&lt;p&gt;</code> is called <strong>predicate</strong>.</p>
+
+<h3>Question 2</h3>
+<pre><code>(define (sign x)
+  (cond
+      ((&lt; x 0) -1)
+      ((= x 0) 0)
+      (else 1)
+  )
+)</code></pre>
+
+<h3>Question 3</h3>
+<pre><code>(define (pow b n)
+  (cond
+    ((= n 0) 1)
+    ((even? n) (pow (square b) (/ n 2)))
+    (else (* b (pow (square b) (/ (- n 1) 2))))
+  )
+)</code></pre>
+
+<h3>Question 4</h3>
+<pre><code>(define (ordered? s)
+  (if (or (null? s) (null? (cdr s)))
+      True
+      (and (&lt;= (car s) (cadr s)) (ordered? (cdr s)))
+  )
+)</code></pre>
+
+<h3>Question 5</h3>
+<pre><code>(define (nodots s)
+  (define (dotted? s) (and (pair? s)
+                           (not (or (pair? (cdr s))
+                                    (null? (cdr s))))))
+  (cond
+    ((null? s) s)
+    ((dotted? s) (list (nodots (car s)) (cdr s)))
+    ((pair? s) (cons (nodots (car s)) (nodots (cdr s))))
+    (else s)
+  )
+)</code></pre>
+
+<h3>Question 6</h3>
+<pre><code>; Sets as sorted lists
+
+(define (empty? s) (null? s))
+
+(define (contains? s v)
+    (cond ((empty? s) #f)
+          ((&gt; (car s) v) #f)
+          ((= (car s) v) #t)
+          (else (contains? (cdr s) v))
+          ))
+
+; Equivalent Python code, for your reference:
+;
+; def empty(s):
+;     return len(s) == 0
+;
+; def contains(s, v):
+;     if empty(s):
+;         return False
+;     elif s.first &gt; v:
+;         return False
+;     elif s.first == v:
+;         return True
+;     else:
+;         return contains(s.rest, v)</code></pre>
+
+<h3>Question 7</h3>
+<pre><code>(define (add s v)
+    (cond ((empty? s) (list v))
+          ((contains? s v) s)
+          ((&lt; v (car s)) (cons v s))
+          (else (cons (car s) (add (cdr s) v)))
+          ))</code></pre>
+
+<h3>Question 8</h3>
+<pre><code>(define (intersect s t)
+    (cond ((or (empty? s) (empty? t)) nil)
+          ((= (car s) (car t)) (cons (car s) (intersect (cdr s) (cdr t))))
+          ((&lt; (car s) (car t)) (intersect (cdr s) t))
+          ((&gt; (car s) (car t)) (intersect s (cdr t)))
+          (else nil)
+          ))
+
+; Equivalent Python code, for your reference:
+;
+; def intersect(set1, set2):
+;     if empty(set1) or empty(set2):
+;         return Link.empty
+;     else:
+;         e1, e2 = set1.first, set2.first
+;         if e1 == e2:
+;             return Link(e1, intersect(set1.rest, set2.rest))
+;         elif e1 &lt; e2:
+;             return intersect(set1.rest, set2)
+;         elif e2 &lt; e1:
+;             return intersect(set1, set2.rest)
+
+(define (union s t)
+    (cond ((empty? s) t)
+          ((empty? t) s)
+          ((= (car s) (car t)) (cons (car s) (union (cdr s) (cdr t))))
+          ((&lt; (car s) (car t)) (cons (car s) (union (cdr s) t)))
+          (else (cons (car t) (union s (cdr t))))
+          ))</code></pre>
+
+<h3>Question 9</h3>
+<pre><code>; Binary search trees
+
+; A data abstraction for binary trees where nil represents the empty tree
+(define (tree entry left right) (list entry left right))
+(define (entry t) (car t))
+(define (left t) (cadr t))
+(define (right t) (caddr t))
+(define (empty? s) (null? s))
+(define (leaf entry) (tree entry nil nil))
+
+(define (in? t v)
+    (cond ((empty? t) #f)
+          ((= (entry t) v) #t)
+          ((&lt; (entry t) v) (in? (right t) v))
+          (else (in? (left t) v))
+          ))
+
+; Equivalent Python code, for your reference:
+;
+; def contains(s, v):
+;     if s.is_empty:
+;         return False
+;     elif s.entry == v:
+;         return True
+;     elif s.entry &lt; v:
+;         return contains(s.right, v)
+;     elif s.entry &gt; v:
+;         return contains(s.left, v)</code></pre>
+
+<h3>Question 10</h3>
+<pre><code>(define (as-list t)
+    (define (extend t s)
+      (if (empty? t) s
+        (extend (left t) (cons (entry t) (extend (right t) s)))
+        )
+    )
+    (extend t nil)
+
+)</code></pre>
+:ET

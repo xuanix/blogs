@@ -1,0 +1,113 @@
+---
+layout:     post
+title: "Basic Concept of Convex Optimization"
+subtitle:   "KKT condition and Lagrange dual."
+author: "Tianxiang Gao"
+date: "April 14, 2015"
+header-img: "img/post-bg-02.jpg"
+comments: true
+---
+Convext optimization have been widely used in data science area. This blog will cover some basic knowledge about it, such as Lagrange dual and KKT conditions. I will not state the function is whether convex or not, becasue that will confuse people if they don't have those background.
+
+## Lagrange Dual Problem
+
+The standard form of any optimization problem is 
+\begin{equation} 
+max\\{f(x):c(x)\geq 0_{m\times 1}\\},\label{opt}
+\end{equation}
+
+where $f(x):\mathbb{R}^n\mapsto \mathbb{R}$ and $c(x):\mathbb{R}^n\mapsto \mathbb{R}^m$.
+
+To easily and clearly derive the lagrange dual problme, I take **linear optimization problem** as an example. Every linear optimization problem can formulated as 
+
+\begin{align} 
+&\underset{x}{\text{max}}& & c^Tx \newline 
+& \text{subject to}
+& & Ax \leq b 
+\end{align}
+
+where $\,x\in \mathbb{R}^n, c\in \mathbb{R}^n, b\in \mathbb{R}^m, A\in\mathbb{R}^{m\times n}$. This is the primal problem. If this problem is hard to solve, we could solve its lagrange dual problem instead. Let's derivative its lagrange dual problem. 
+
+We drop the constrain $Ax\leq b$ by introducing a multiplier $y \in \mathbb{R}_+^m$ and adding the result to the objective function in terms of penalty. The new objective function is knwon as **Lagrange function**
+
+\begin{equation}
+	L_p(x, y) = c^Tx + y^T(b-Ax)
+\end{equation}
+
+Because $y \geq 0$ and $b-Ax\geq 0$, we know that 
+
+\begin{equation}
+	L_p(x,y) \geq c^Tx \label{lagrange equation}
+\end{equation}
+
+Assume $y$ is given, we want to maximize Lagrange function with respective to $x$. Hence, the minimum of this objective function is a function of $y$, which is known as **dual function**
+
+\begin{align} 
+	g(y)&= \underset{x}{\text{max}} \, L_p(x, y)\newline
+	 &= \underset{x}{\text{max}} \,c^Tx + y^T(b-Ax)\newline
+	 &= \underset{x}{\text{max}} \,(c^T-y^TA)x + y^Tb=
+	 \begin{cases}
+	y^Tb  & \text{ if } x\ge y^TA=c^T \newline
+	+\infty & \text{ otherwise } 
+	\end{cases}
+\end{align}
+
+Based on \eqref{lagrange equation}, for any feasible solutions $x$ and $y$, $g(y)$ is greater than or equal to the maximum of primal objective function $c^Tx$. So the minimum of $g(y)$ is equal to the maximum of $c^Tx$. We formulate the **lagrange dual problem** 
+
+\begin{align} 
+&\underset{y}{\text{min}}& & g(y)=b^Ty \newline 
+& \text{subject to}
+& & A^Ty = c\newline
+& & & y \geq 0 
+\end{align}
+
+## KKT condition
+
+KKT condition stands for **Karush-Kuhn-Tucher** condition. The KKT condition is that for any optimization problem \eqref{opt}, if $x^\*$ is local minimum that satisifes some *regularity conditions* (see below), there exists a vector $\,\lambda\in \mathbb{R}^m$ such that
+\begin{align} 
+&\nabla f(x)+\lambda^T \nabla c(x)=0_{n\times 1} \newline 
+& c(x) \geq 0_{m\times 1}\newline
+& \lambda \geq 0_{m\times 1}\newline
+& \lambda^Tc(x) = 0_{m\times 1} 
+\end{align}
+
+In order to for a minum point $x^{*}$ to satisfy the above KKT conditions, the problem should satisfy some **regularity conditions**. Since we use linear programming as an example, we only list **linearity constrain qualification**, that is, $c(x)$ is a set of affine functions. Affine function has formulation $\beta^Tx+\beta_0$.
+
+In linear programming above (2)-(3), KKT condition includes (3),(10),(11), and 
+\begin{equation}
+	y^T(b-A^Tx)=0
+\end{equation}
+
+Note that KKT conditions are both sufficient and necessary for optimlity. On anthoer word, *for any given optimal solution $x_0$ to linear programming if and only if there exists \lambda_0 that satisfies the KKT conditions*. On the otherhand, *For general nonlinear programming, KKT conditions are neither sufficient nor necessary for optimality*.
+
+Back to lagrange dual problems, we can prove **weak duality** and **strong duality** by using KKT conditons.
+
+#### Theorm of weak duality
+>If *x* and *y* are feasible solutions to $max\\{c^Tx:Ax\leq b\\}$ and $min\\{b^Ty:A^Ty\geq c, y\geq 0\\}$, respectively, then $c^Tx \leq b^Ty$.
+
+#### Proof
+
+> Since *x* and *y* are feasible, we have
+\begin{equation}
+	0\leq (b-Ax)^Ty=b^Ty-(Ax)^Ty=b^Ty-y^T Ax,
+\end{equation}
+and
+\begin{equation}
+	0\leq (A^Ty-c)^Tx=y^TAx-c^Tx.
+\end{equation}
+Therefore, $c^Tx\leq y^TAx \leq b^Ty$.
+
+#### Theorm of Strong duality
+>If *x* and *y* are optimal solutions to $max\\{c^Tx:Ax\leq b\\}$ and $min\\{b^Ty:A^Ty\geq c, y\geq 0\\}$, respectively, then $c^Tx = b^Ty$.
+
+#### Proof
+
+> Since *x* and *y* are optimal, by last KKT condition (15), we have
+\begin{equation}
+	0= (b-Ax)^Ty=b^Ty-(Ax)^Ty=b^Ty-y^TAx,
+\end{equation}
+and
+\begin{equation}
+	0= (A^Ty-c)^Tx=y^TAx-c^Tx.
+\end{equation}
+Therefore, $c^Tx= y^TAx= b^Ty$.

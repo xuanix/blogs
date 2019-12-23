@@ -1,0 +1,133 @@
+I"<h3>Introduction</h3>
+<p>We will build a text-based adventure game.</p>
+
+<h3>Interpreters</h3>
+<p>When yuou talk about an interpreter, there are two language that are at work:</p>
+
+<ul>
+  <li>
+    <p>The language being interpreted. We also call this the language being implemented. We use Python to implement calc and Scheme. The main Python distribution (know as CPython) is implemented in C.</p>
+  </li>
+  <li>
+    <p>The underlying implementation language. From aobve python, python, and C respectively.</p>
+  </li>
+</ul>
+
+<p>Note that the underlying language need not be different from the implemented language. In the previous incarnation of CS61A, students were introduced to a Scheme interpreter writeen in Scheme. CS61A in Summer 2012 covered a Python interepreter written in Python! This idea is is called Metacircular Evaluation.</p>
+
+<p>Each interpreter has five parts:</p>
+
+<ul>
+  <li>
+    <p>Lexer - first operation called by REPL. The lexer turns the user input string into atomic pieces (tokens) that are like “words” of the implemented language. In adventure, this part is combined with the parser in <code>adv_parse</code> in the line <code>tokens = line.split()</code>.</p>
+  </li>
+  <li>
+    <p>Parse - takes the tokens and organizes them in a data structure that the underlying language understands. For our adventure game, holding the tokens in a tuple is enough. For Scheme, we use deep linked lists (linked lists whose elements can also be linked lists) to represent hierarchy and recursion.</p>
+  </li>
+  <li>
+    <p>Evaluator - takes in the aforementioned sequence and interprets it accordingly to the rules of the language. The evaluator may call <em>apply</em> to apply an evaluated operator to its evaluated operands.</p>
+  </li>
+  <li>
+    <p>Apply - applies the operator to the argument values. Apply may call the evaluator to do some work… this is possibly the most important example of Mutual Recursion. Ever.</p>
+  </li>
+  <li>
+    <p>Read-Eval-Print-Loop (REPL for short) - the loop that waits for user input, passes it to the parser and then the evaluator, and then prints out the result.</p>
+  </li>
+</ul>
+
+<p>Here’s how all the pieces fit together:</p>
+
+<pre><code>              ____________________________________________
+              |                                            |
+              |_____     _________     __________    ______|
+User Input --&gt;|Lexer|--&gt; | Parser |--&gt; |Evaluator|--&gt;|Print|--&gt; Output
+              |_____|    |________|    |_________|   |_____|
+              |                        __^_v____           |
+              ^                       |Apply    |          v
+              ^ REPL                  |_________|          v
+              |____________________________________________|</code></pre>
+
+<h3>Adventure</h3>
+<p><code>adventure</code>: our REPL. This function reads player input, calls <code>adv_parse</code> to get an expression out (represented as a tuple), and then calls adv_eval to perform the actions. It prints the results accordingly. Then it makes a recursive call to itself in order to take in the next command.</p>
+
+<p>The player is represented as a <code>Person</code> object. The interpreter will allow the player to move the <code>Person</code> through the game and interact with the various aspects of the world.</p>
+
+<h3>Question 1</h3>
+<pre><code>def adv_parse(line):
+    """ Parses adventure.py commands
+
+    Handles things differently when
+    the first part of the string is 'give'
+    or 'ask'
+
+    &gt;&gt;&gt; adv_parse('look')
+    ('look', '')
+    &gt;&gt;&gt; adv_parse('take rubber ducky')
+    ('take', 'rubber ducky')
+    &gt;&gt;&gt; adv_parse('give rubber ducky to Andrew')
+    ('give', 'rubber ducky', 'Andrew')
+    &gt;&gt;&gt; adv_parse('ask Andrew for advice about the midterm')
+    ('ask', 'Andrew', 'advice about the midterm')
+    """
+    tokens = line.split()
+    if not tokens: # empty list
+        raise SyntaxError('No command given')
+    token = tokens.pop(0) # https://docs.python.org/3/tutorial/datastructures.html
+    if token == 'give':
+        to_index = tokens.index('to')
+        return ('give', ' '.join(tokens[0:to_index]), tokens[-1])
+    elif token == 'ask':
+        for_index = tokens.index('for')
+        return ('ask', tokens[0], ' '.join(tokens[for_index+1:]))
+    else: # Only split out the operator, the rest must be the operand
+        return (token, ' '.join(tokens))</code></pre>
+
+<h3>Question 2</h3>
+<pre><code>def adv_eval(exp):
+    """
+    &gt;&gt;&gt; from cs61a_world import *
+    &gt;&gt;&gt; Place.current = SodaHall
+    &gt;&gt;&gt; adv_eval(adv_parse('take rubber ducky'))
+    'Player 1 takes the rubber ducky'
+    &gt;&gt;&gt; Place.current = WerdnasHouse
+    &gt;&gt;&gt; adv_eval(adv_parse('give rubber ducky to Werdna'))
+    'Werdna takes the rubber ducky'
+    """
+    if is_operator(exp): # Use the underlying eval to grab the
+        return eval(exp) # function that implements the action.
+    if is_person(exp):
+        return Person.people[exp]
+    elif isinstance(exp, str): # If we're describing something,
+        return exp             # just output it.
+    elif exp[0] == 'give':
+        return give(adv_eval(exp[-1]), adv_eval(exp[1]))
+    elif exp[0] == 'ask':
+        return ask(adv_eval(exp[1]), adv_eval(exp[-1]))
+    else:
+        return adv_apply(adv_eval(exp[0]), adv_eval(exp[1]))</code></pre>
+
+<h3>Question 3</h3>
+<pre><code>def adv_apply(operator, operand):
+    return operator(operand)</code></pre>
+
+<h3>Question 4</h3>
+<pre><code>def stuff(_):
+    print("You look through your stuff... you see")
+    for item in me.inventor:
+        print(item.name + ' - ' + item.description)
+    return "-- End of stuff --"</code></pre>
+
+<h3>Question 5</h3>
+<pre><code>python3 adventure.py</code></pre>
+
+<h2>Conclusion</h2>
+
+<ul>
+  <li>Interpreters allow us to directly interact with the computer through a language.</li>
+  <li>Interpreters are made of REPL, a parser, an evaluator, and an apply’er. They interct with each other in specific ways.</li>
+  <li>There are two languages when talking about an interpreter: the underlying language vs language being implemented.</li>
+  <li>Special forms have their own rules for being evaluated. They don’t get handled in apply.</li>
+  <li>In adventure.py, the adventure game language is iterpreted by the Python program. You talk to the computer in advanture talk which gets translated to actions in the underlying Python language.</li>
+  <li>No tree recursion between <code>adv_eval</code> and <code>adv_apply</code>: our simple game language doesn’t need it. However, think about what why mutual recursion is necessary in Scheme.</li>
+</ul>
+:ET

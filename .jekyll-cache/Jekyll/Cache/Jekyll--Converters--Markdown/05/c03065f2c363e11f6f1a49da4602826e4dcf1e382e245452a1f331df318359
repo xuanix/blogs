@@ -1,0 +1,30 @@
+I"Í<h2 id="introduction">Introduction</h2>
+
+<p>Comments in UNIX usually has three parts: <strong>comment</strong> itself, <strong>arguments</strong> in order to make comments to work, <strong>flags</strong> which are ways to specify modified behavior for commands.</p>
+<pre><code>rm -r tmp</code></pre>
+
+<p>Here is an example commend in UNIX. <code>rm</code> is comment itself, <code>-r</code> is flag to recursively remove a specified directory, and <code>temp</code> is argument, in this case, itâ€™s the specified directory.</p>
+
+<h2 id="directories">Directories:</h2>
+
+<ul>
+  <li><code>ls</code>: <strong>list</strong> files and directories (folders).</li>
+  <li><code>mkdir</code>: <strong>make</strong> a new <strong>directory</strong>.</li>
+  <li><code>cd</code>: <strong>change directory</strong>.</li>
+  <li><code>rm -r</code>: <strong>remove</strong> a specified directory <strong>recursively</strong>.</li>
+</ul>
+
+<h2 id="files">Files:</h2>
+<ul>
+  <li><code>cat</code>: displays the contents of a file on the screen.</li>
+  <li><code>mv</code>: <strong>moves</strong> a file/directory to another file/directory. Can be used for <strong>rename</strong>. <code>..</code> <strong>parent</strong> directory. <code>.</code> <strong>current</strong> directory.</li>
+  <li><code>cp</code>: <strong>copies</strong> a file to another file/directory.</li>
+  <li><code>rm</code>: <strong>removes</strong> a file.</li>
+</ul>
+
+<h2 id="miscellaneous">Miscellaneous:</h2>
+<ul>
+  <li><code>echo</code>echo: <strong>echo</strong>(repeat) the words typed. <br /><code>echo "" &gt; file.extention</code> can be used to create new file.</li>
+  <li><code>man some_command</code>: displays <strong>manual</strong> pages for a specified command</li>
+</ul>
+:ET

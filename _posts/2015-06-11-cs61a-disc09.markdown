@@ -1,0 +1,285 @@
+---
+layout:     post
+title: "CS61A-Discussion 09"
+subtitle:   "Interpreters and tail calls"
+author: "Tianxiang Gao"
+date: "Jun 11, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+<h2>1 Calculator</h2>
+
+<h3>1.1 Representing Expressions</h3>
+A Calculator expression is just like a Scheme list. To represent Scheme lists in Python, we use <code>Pair</code> objects. For example, the list <code>(+ 1 2)</code> is represented as <code>Pair('+', Pair(1, Pair(2, nil)))</code>. 
+
+In addition to <code>Pair</code> objects, we include a <code>nil</code> object to represent the empty list. Both <code>Pair</code> instances and <code>nil</code> have methods.
+
+* <code>__len__</code>, which returns the length of the list.
+* <code>__getitem__</code>, which allows indexing into the pair.
+* <code>apply_to_all</code>, which applies a function, <code>fn</code>, to all of the elements in the list.
+* <code>to_py_list</code>, which returns a Python list with the same elements.
+
+<pre><code>class nil:
+    """The empty list"""
+    def __len__(self):
+        return 0
+
+    def apply_to_all(self, fn):
+        return self
+
+    def __repr__(self):
+        return 'nil'
+
+    def __str__(self):
+        return '()'
+
+nil = nil() # this hides the nil class *forever*
+
+class Pair:
+    """docstring for Pair
+    >>> Pair(1)
+    Pair(1, nil)
+    >>> Pair(1, Pair(2))
+    Pair(1, Pair(2, nil))
+    """
+    def __init__(self, first, second=nil):
+        self.first, self.second = first, second
+
+    def __len__(self):
+        n, second = 0, self.second
+        while isinstance(second, Pair):
+            n += 1
+            second = second.second
+        if second is not nil:
+            raise TypeError("length attempted on improper list")
+
+    def __getitem__(self, k):
+        if k == 0:
+            return self.first
+        if k < 0:
+            raise IndexError("negative index into list")
+        elif self.second is nil:
+            raise IndexError("list index out of bounds")
+        elif not isinstance(self.second, Pair):
+            raise TypeError("ill-formed list")
+        return self.second[k-1]
+
+    def apply_to_all(self, fn):
+        """Returns a Scheme list after applying Python function
+        fn over self."""
+        applied = fn(self.first)
+        if self.second is nil or isinstance(self.second, Pair):
+            return Pair(applied, self.second.apply_to_all)
+        else:
+            raise TypeError("ill-formed list")
+
+    def to_py_list(self):
+        """Returns a Python list containing the elements of this
+        Scheme list."""
+        y, result = self, []
+        while y is not nil:
+            result.append(y.first)
+            if not isinstance(y.second, Pair) and y.second is not nil:
+                raise TypeError("ill-formed list")
+            y = y.second
+        return result
+
+    def __repr__(self):
+        return 'Pair({0}, {1})'.format(repr(self.first), repr(self.second))
+    
+    def __str__(self):
+        result = '(' + str(self.first)
+        second = self.second
+        while isinstance(second, Pair):
+            result += ' ' + str(second.first)
+            second = second.second
+        if second is not nil:
+            result += ' . ' + str(second)
+        return result + ')' </code></pre>
+
+<h3>1.2 Questions</h3>
+<ol>
+<li>Draw the box and pointer diagram and translate the following Python representation of Calculator expressions into the proper Scheme syntax:</li>
+<pre><code>>>> Pair('+', Pair(1, Pair(2, Pair(3, Pair(4, nil)))))
+>>> Pair('+', Pair(1, Pair(Pair('*', Pair(2, Pair(3, nil))),
+nil)))</code></pre>
+<img src="{{site.baseurl}}/img/cs61a/disc09-1.2.jpg">
+<li>Translate the following Calculator expressions into calls to the Pair constructor.</li>
+<pre><code>> (+ 1 2 (- 3 4))</code></pre>
+<pre><code>>>> Pair('+', Pair(1, Pair(2, Pair(Pair('-', Pair(3, Pair(4, nil))), nil))))</code></pre>
+
+<pre><code> (+ 1 (* 2 3) 4)</code></pre>
+<pre><code>>>> Pair('+', Pair(1, Pair(Pair('*', Pair(2, Pair(3, nil))), Pair(4, nil))))</code></pre>
+</ol>
+
+<h3>1.3 Evaluation</h3>
+Evaluation discovers the form of an expression and executes a corresponding evaluation rule.
+We'll go over two such expressions now:
+
+<ol> 
+<li> <em>Primitive</em> expressions are evaluated directly. e.g. "1" just evaluates to itself.</li>
+<li> <em>Call</em> expressions are evaluated in the same way you've been doing then by hand all semester:
+    <ol type="(a)">
+        <li> <strong>Evalutate</strong> the operator.</li>
+        <li> <strong>Evalutate</strong> the operands from left ot right.</li>
+        <li> <strong>Apply</strong>Apply the operator to the operands.</li>
+    </ol>
+</li> 
+</ol> 
+Here's <code>calc_eval</code>
+<pre><code>def calc_eval(exp):
+    if not isinstance(exp, Pair): # primitive expression
+        return exp
+    else: # call expression
+        # Step 1: evaluate the operator.
+        operator = exp.first
+        # Step 2: evaluate the operands.
+        operands = exp.second
+        args = operands.apply_to_all(calc_eval).to_py_list()
+    # Step 3: apply the operator to the operands
+    return calc_apply(operator, args)</code></pre>
+
+How do we apply the operator? We'll dispatch on the operator name with <code>calc_apply</code>:
+<pre><code>def calc_apply(operator, args):
+    if operator == '+':
+        return sum(args)
+    elif operator == '-':
+        if len(args) == 1:
+            return -args[0]
+        else:
+            return args[0] - sum(args[1:])
+    elif operator == '*':
+        return reduce(mul, args, 1)
+    elif operator == '/':
+        if len(args) == 0:
+            raise TypeError(operator + ' requires at least 1 argument')
+        elif len(args) == 1；
+            return 1/args[0]
+        else:
+            return reduce(truediv, args[1:], args[0])
+    else:
+        raise TypeError(operator + ' is an unknown operator')</code></pre>
+
+<h3>1.4 Questions</h3>
+<ol>
+<li>Suppose we typed each of the following expressions into the Calculator interpreter.How many calls to <code>calc_eval</code> would they each generate? How many calls to <code>calc_apply</code>?</li>
+<pre><code>>(+ 2 4 6 8)</code></pre>
+5 calls to <code>calc_eval</code>. 1 call to <code>calc_apply</code>.
+<pre><code>> (+ 2 (* 4 (- 6 8)))</code></pre>
+7 calls to <code>calc_eval</code>. 3 call to <code>calc_apply</code>.
+
+<li>Division operator</li>
+<pre><code>def calc_apply(operator, args):
+    if operator == '+':
+        return sum(args)
+    elif operator == '-':
+        if len(args) == 1:
+            return -args[0]
+        else:
+            return args[0] - sum(args[1:])
+    elif operator == '*':
+        return reduce(mul, args, 1)
+    elif operator == '/':
+        if 0 in args[1:]:
+            raise ZeroDivisionError
+        elif len(args) < 2:
+            raise TypeError(’too few args’)
+        else:
+            return reduce(truediv, args[1:],args[0])</code></pre>
+
+<li>We can't handle <code>and</code> in the apply step since it is a special form: it is short-circuited, and needed to create a special case for it in <code>calc_eval</code>.</li>
+<li>Implement <code>and</code></li>
+<pre><code>def eval_and(operands):
+    curr = operands
+    last = True
+    while curr is not nil:
+        last = calc_eval(curr.first)
+        if last == False:
+            return False
+        curr = curr.second
+    return last</code></pre>
+</ol>
+
+<h2>2 Tail Calls</h2>
+Scheem implements tail-call optimization, which allows programmers to write recursive functions that use a constant amount of space. A **tail call** occurs when a function calls another function as its last action. As the tail call is the last action for the current frame, Scheme won't make any further variable lookups in the frame. Therefore, the frame is no longer needed, and we can remove it from memory. 
+
+Consider this version of <code>factorial</code> that does not use tail calls:
+<pre><code>(define (fact n)
+    (if (= n 0) 1
+        (* n (fact (- n 1)))))</code></pre>
+
+After calling <code>(fact (- n 1))</code>, the function still needs to multiply that result with <code>n</code>
+
+However, we can rewrite this function using a helper function that remembers the temporary product that we have calculated so far in each recursive step.
+<pre><code>(define (fact n)
+    (define (fact-iter n prod)
+    (if (= n 0) prod
+        (fact_iter (- n 1) (* n prod))))
+    (fact-iter n 1))</code></pre>
+<code>fact-iter</code>makes single recursive call that is the last expression to be evaluated, so it is a tail call. Tail recursive processes can take a **constant** amount of memory because each recursive call frame does not need to be saved. Our original implementation of <code>fact</code> required the program to keep each frame open because the last expression multiplies the recursive result with <code>n</code>. Therefore, at each frame, we need to remember the current value of <code>n</code>.
+
+In contrast, the tail recursive <code>fact-iter</code> does not require the interpreter to remember the values for *n* or *prod* in each frame. Once a new recursive frame is created, the old one can be dropped, as all the information needed is included in the new frame. Therefore, we can carry out the calculation using only enough memory for a single frame.
+
+<h3>2.1 Identifying tail calls</h3>
+A function call is a tail call if it is in a **tail context**. We consider the following to be tail contexts:
+
+* the last sub-expression in a <code>lambda</code>'s body
+* the second or third sub-expression in a <code>if</code> form
+* any of the non-predicate sub-expressions in a <col>cond</col> form
+* the last sub-expression in an <code>and</code> or an <code>or</code> form
+* the last sub-expression in a <code>begin</code>'s body
+
+<h3>2.2 Questions</h3>
+<ol>
+<li>Identify whether the following functions contain a recursive tail call. Also indicate if it uses a constant number of frames.</li>
+
+<pre><code>(define (question-a x)
+    (if (= x 0)
+        0
+        (+ x (question-a (- x 1)))))
+</code></pre>
+It doesn't contain a tail call and use linear number of frames.
+
+<pre><code>(define (question-b x y)
+    (if (= x 0)
+        y
+        (question-b (- x 1) (+ y x))))
+</code></pre>
+It contains a tail call which is the third sub-expression <code>if</code> and use a constant number of frames.
+
+<pre><code>(define (question-c x y)
+    (if (> x y)
+        (question-c (- y 1) x)
+        (question-c (+ x 10) y)))
+</code></pre>
+It contains second and third sub-expression <code>if</code> for tail call and use a constant number of frames.
+
+<pre><code>(define (question-d n)
+    (if (question-d n)
+    (question-d (- n 1))
+    (question-d (+ n 10))))</code></pre>
+Both of the recursive calls are in a tail context, so they are both tail calls. However, the if predicate, <code>(question-d n)</code>, is another recursive call which is not in the tail context, so this function does not use a constant number of frames.
+
+<li>Write a tail recursive function that returns the *n*th fibonacci number. We define <code>fib(0) = 1</code> and <code>fib(1)=1</code></li>
+
+<pre><code>(define (fib n)
+    (define (fib_iter n pre curr)
+        (if (< n 2) 
+            curr
+            (fib_iter (- n 1) curr (+ pre curr))))
+    (fib_iter n 0 1))
+</code></pre>
+
+<h3> 2.3 Extra Questions</h3>
+<ol>
+<li>Write a tail recursive function, <code>reverse</code>, that takes in a Scheme list and returns a reversed copy. </li>
+<pre><code>(define (reverse lst)
+    (define (reverse_iter lst new)
+        (if (nil? lst)
+            nil
+            (reverse_iter (cdr lst) (cons (car lst) new))))
+    (reverse_iter lst nil))
+
+</code></pre>
+</ol>
+
+</ol>

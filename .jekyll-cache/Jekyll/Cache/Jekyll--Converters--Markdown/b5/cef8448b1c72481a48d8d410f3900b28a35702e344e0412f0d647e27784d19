@@ -1,0 +1,130 @@
+I"�<h3>Question 1</h3>
+<p>We’ve seen that we can give new names to existing functions. Fill in the blanks in the following function definition for adding a to the absolute value of b, without calling abs.</p>
+<pre><code>from operator import add, sub
+
+def a_plus_abs_b(a, b):
+    """Return a+abs(b), but without calling abs.
+
+    &gt;&gt;&gt; a_plus_abs_b(2, 3)
+    5
+    &gt;&gt;&gt; a_plus_abs_b(2, -3)
+    5
+    """
+    if b &lt; 0:
+        f = sub
+    else:
+        f = add
+    return f(a, b)
+</code></pre>
+
+<h3>Question 2</h3>
+<p>Write a function that takes three positive numbers and returns the sum of the squares of the two largest numbers. Use only a single expression for the body of the function:</p>
+
+<pre><code>def two_of_three(a, b, c):
+    """Return x*x + y*y, where x and y are the two largest members of the
+    positive numbers a, b, and c.
+
+    &gt;&gt;&gt; two_of_three(1, 2, 3)
+    13
+    &gt;&gt;&gt; two_of_three(5, 3, 1)
+    34
+    &gt;&gt;&gt; two_of_three(10, 2, 8)
+    164
+    &gt;&gt;&gt; two_of_three(5, 5, 5)
+    50
+    """
+    return max(a*a+b*b, a*a+c*c, b*b+c*c)
+</code></pre>
+
+<h3>Question 3</h3>
+<p>Let’s try to write a function that does the same thing as an if statement.</p>
+<pre><code>def if_function(condition, true_result, false_result):
+    """Return true_result if condition is a true value, and
+    false_result otherwise.
+
+    &gt;&gt;&gt; if_function(True, 2, 3)
+    2
+    &gt;&gt;&gt; if_function(False, 2, 3)
+    3
+    &gt;&gt;&gt; if_function(3==2, 3+2, 3-2)
+    1
+    &gt;&gt;&gt; if_function(3&gt;2, 3+2, 3-2)
+    5
+    """
+    if condition:
+        return true_result
+    else:
+        return false_result
+</code></pre>
+
+<p>The function above does <em>not</em> do the same thing as <code>if</code> in all cases. To prove this fact, write functions <code>c</code>, <code>t</code>, and <code>f</code> such that <code>with_if_statement</code> returns the number <code>1</code>, but <code>with_if_function</code> does not (it can do anything else):</p>
+
+<pre><code>def with_if_statement():# Either t() or f() is evaluated
+    """
+    &gt;&gt;&gt; with_if_statement()
+    1
+    """
+    if c():
+        return t()
+    else:
+        return f()
+
+def with_if_function():# All expression are evaluated
+    return if_function(c(), t(), f())
+
+def c():
+    return False
+
+def t():
+    None
+
+def f():
+    return 1
+</code></pre>
+
+<h3>Question 4</h3>
+<p><strong>Hailstone sequence</strong></p>
+<pre><code>def hailstone(n):
+    """Print the hailstone sequence starting at n and return its
+    length.
+
+    &gt;&gt;&gt; a = hailstone(10)
+    10
+    5
+    16
+    8
+    4
+    2
+    1
+    &gt;&gt;&gt; a
+    7
+    """
+    steps = 0
+    while n != 1:
+        print(n)
+        if n % 2 == 0: # even
+            n = n // 2
+        else:
+            n = n * 3 + 1
+        steps = steps + 1
+    print(n)
+    return steps
+</code></pre>
+
+<h3>Question 5: Challenge Prolem (optional)</h3>
+<p>Write a one-line program that prints itself, using only the following features of the Python language:</p>
+<ul>
+  <li>Number literals</li>
+  <li>Assignment statements</li>
+  <li>String literals that can be expressed using single or double quotes</li>
+  <li>The arithmetic operators <code>+</code>, <code>-</code>, <code>*</code>, and <code>/</code></li>
+  <li>The built-in <code>print</code> function</li>
+  <li>The built-in <code>eval</code> function, which evaluates a string as a Python expression</li>
+  <li>The built-in <code>repr</code> function, which returns an expression that evaluates to its argument</li>
+</ul>
+
+<p>You can concatenate two strings by adding them together with + and repeat a string by multipying it by an integer. Semicolons can be used to separate multiple statements on the same line.</p>
+
+<pre><code>s = 'print("s = " + repr(s) + "; eval(s)")'; eval(s)
+</code></pre>
+:ET

@@ -1,0 +1,96 @@
+I"ž<h2>Introduction</h2>
+<p>The basic way to create tables in SQL:</p>
+<pre><code>select [columns] from [tables] where [condition] order by [order]</code></pre>
+
+<p>There are fundamental operatons you can perform:</p>
+
+<ul>
+  <li>comparisons: =, &gt;, &lt;, &lt;= , &gt;=, &lt;&gt;</li>
+  <li>booleans: and, or</li>
+  <li>arithmatic: +, -, *, /</li>
+</ul>
+
+<p>A table defined within <code>with</code> clause may have a single recurive case that defines output rows interms of other output rows.</p>
+
+<pre><code>sqlite&gt; with
+   ...&gt;   fib(pre, cur) as (
+   ...&gt;     select 0, 1 union
+   ...&gt;     select cur, pre+cur from fib
+   ...&gt;     where cur &lt;= 20
+   ...&gt; )
+   ...&gt; select pre from fib;
+0
+1
+1
+2
+3
+5
+8
+13</code></pre>
+
+<p>In addition, you can also perform string manipulation, such as combining strings (concatonation) with the <code>||</code> operator:</p>
+
+<pre><code>sqlite&gt; select 'hello' || ' ' || 'World!';
+hello World!</code></pre>
+
+<h2>Questions</h2>
+<h3>Question 1: What will SQL print?</h3>
+<p>Inspect the schema of the tables that created by writing:</p>
+<pre><code>sqlite&gt; .schema</code></pre>
+<pre><code>sqlite&gt; SELECT * FROM states;
+Select all records in states table
+
+sqlite&gt; SELECT state FROM states LIMIT 10;
+select 10 states columns from states table.
+
+sqlite&gt; SELECT s.state, a.s2 FROM states as s, adjacencies as a WHERE s.state = a.s1;
+Select each state and its neighbors states.
+
+sqlite&gt; SELECT a1.s1, a2.s2 FROM adjacencies as a1, adjacencies as a2 WHERE a1.s2 = a2.s1; 
+Select states and its two neighbors away.
+
+</code></pre>
+
+<h3>Question 2: Adjacent</h3>
+<pre><code>create table california as 
+  select s1, s2 from adjacencies as a where a.s1 = 'CA';</code></pre>
+
+<h3>Question 3: Distance</h3>
+<pre><code>create table distances as
+  with
+    distance(start, end, hops) as (
+      -- REPLACE THIS LINE
+      select a.s1, a.s2, 1 from adjacencies as a where a.s1 &lt;&gt; a.s2 union
+      select d.start, a.s2, hops+1 from distance as d, adjacencies as a where d.end = a.s1 and hops &lt; 15
+    )
+  select * from distance;</code></pre>
+
+<h3>Question 4: Three-Hop   </h3>
+<pre><code>create table three_hops as
+  select distinct(c.s2) from adjacencies as a, adjacencies as b, adjacencies as c where a.s2 = b.s1 and b.s2 = c.s1 and a.s1 = 'CA';</code></pre>
+
+<h2>Extra Questions</h2>
+
+<h3>Question 5: Alphabetical Path</h3>
+<pre><code>create table alphabetical_paths as
+  with
+    paths(s, n, last) as (
+      select state, 1, state from states union
+      select s || ',' || s2, n+1, s2 from paths, adjacencies where last = s1 and s1 &lt; s2
+    )
+  select s from paths where n &gt; 6 order by -n;</code></pre>
+
+<h3>Question 6: Inland Distances</h3>
+<pre><code>create table inland_distances as
+  with
+    inland(start, end, hops) as (
+      select state, state, 0 from landlocked union
+      select start, s2, hops + 1
+        from inland, adjacencies, landlocked
+        where end = s1 and s2 = state and hops &lt; 8
+    )
+  select s1 as start, s2 as end, 2 as hops from adjacencies union
+  select start.s1 as start, end.s2 as end, hops+2 as hops
+    from adjacencies as start, adjacencies as end, inland
+    where start.s2 = start and end.s1 = end;</code></pre>
+:ET

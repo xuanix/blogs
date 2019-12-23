@@ -1,0 +1,150 @@
+---
+layout:     post
+title: "CS61A-Lab 8"
+subtitle:   "Linked Lists and Sets"
+author: "Tianxiang Gao"
+date: "Jun 01, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+
+<h2>Linked Lists</h2>
+<hr>
+<h3>Question 1</h3>
+<pre><code>def slice_link(link, start, end):
+    """Slices a Link from start to end (as with a normal Python list).
+
+    >>> link = Link(3, Link(1, Link(4, Link(1, Link(5, Link(9))))))
+    >>> slice_link(link, 1, 4)
+    Link(1, Link(4, Link(1)))
+    """
+    if start != 0:
+        return slice_link(link.rest, start-1,end-1)
+    if end != 0:
+        return Link(link.first, slice_link(link.rest, start, end-1))
+    else:
+        return Link.empty
+</code></pre>
+
+<h2>Sets</h2>
+<hr>
+<h3>Question 2</h3>
+<pre><code>def union(s1, s2):
+    """Returns the union of two sets.
+
+    >>> r = {0, 6, 6}
+    >>> s = {1, 2, 3, 4}
+    >>> t = union(s, {1, 6})
+    >>> t
+    {1, 2, 3, 4, 6}
+    >>> union(r, t)
+    {0, 1, 2, 3, 4, 6}
+    """
+    union_set = set()
+    {union_set.add(el) for el in s1}
+    {union_set.add(el) for el in s2}
+    return union_set
+</code></pre>
+
+<h3>Question 3</h3>
+<pre><code>def intersection(s1, s2):
+    """Returns the intersection of two sets.
+
+    >>> r = {0, 1, 4, 0}
+    >>> s = {1, 2, 3, 4}
+    >>> t = intersection(s, {3, 4, 2})
+    >>> t
+    {2, 3, 4}
+    >>> intersection(r, t)
+    {4}
+    """
+    intersect_set = set()
+    for el1 in s1:
+        if el1 == el2:
+            intersect_set.add(el1)
+    return intersect_set</code></pre>
+
+<h3>Question 4</h3>
+<pre><code>def extra_elem(a,b):
+    """B contains every element in A, and has one additional member, find
+    the additional member.
+
+    >>> extra_elem(['dog', 'cat', 'monkey'],  ['dog',  'cat',  'monkey',  'giraffe'])
+    'giraffe'
+    >>> extra_elem([1, 2, 3, 4, 5], [1, 2, 3, 4, 5, 6])
+    6
+    """
+    return list(set(b)-set(a))[0]</code></pre>
+
+<h3>Question 5</h3>
+<pre><code>def find_duplicates(lst):
+    """Returns True if lst has any duplicates and False if it does not.
+
+    >>> find_duplicates([1, 2, 3, 4, 5])
+    False
+    >>> find_duplicates([1, 2, 3, 4, 2])
+    True
+    """
+    return len(lst) != len(set(lst))</code></pre>
+
+<h2>Extra Questions</h2>
+<hr>
+<h3>Question 6</h3>
+<pre><code>def add_up(n, lst):
+    """Returns True if any two non identical elements in lst add up to any n.
+
+    >>> add_up(100, [1, 2, 3, 4, 5])
+    False
+    >>> add_up(7, [1, 2, 3, 4, 2])
+    True
+    >>> add_up(10, [5, 5])
+    False
+    """
+    diff = {n-el for el in lst if n-el != el}
+    return bool(intersection(diff, set(lst)))</code></pre>
+
+<h3>Question 7</h3>
+<pre><code>def pow(n,k):
+    """Computes n^k.
+
+    >>> pow(2, 3)
+    8
+    >>> pow(4, 2)
+    16
+    """
+    if k == 0:
+        return 1
+    if k % 2 == 0:
+        return pow(n,k//2)**2
+    else:
+        return pow(n,k//2)**2 * n
+    return </code></pre>
+
+<h3>Question 8</h3>
+<pre><code>def missing_no(lst):
+    """lst contains all the numbers from 1 to n for some n except some
+    number k. Find k.
+
+    >>> missing_no([1, 0, 4, 5, 7, 9, 2, 6, 3])
+    8
+    >>> missing_no(list(filter(lambda x: x != 293, list(range(2000)))))
+    293
+    """
+    return sum(range(max(lst)+1)) - sum(lst)</code></pre>
+
+<h3>Question 9</h3>
+<pre><code>def find_duplicates(lst):
+    """Returns True if lst has any duplicates and False if it does not.
+
+    >>> find_duplicates([1, 2, 3, 4, 5])
+    False
+    >>> find_duplicates([1, 2, 3, 4, 2])
+    True
+    """
+    prev_set = set()
+    for i, elem in enumerate(lst):
+        if elem in prev_set:
+            return True
+        prev_set.add(elem)
+        if i - k >= 0:
+            prev_set.remove(lst[i - k])
+    return False</code></pre>

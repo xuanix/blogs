@@ -1,0 +1,54 @@
+---
+layout:     post
+title: "CS61A-Homework 9"
+subtitle:   "Section 4.3"
+author: "Tianxiang Gao"
+date: "Jun 17, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+If you want to list all dogs with a name that starts with "h", you should write:
+<pre><code>select name from dogs where 'h' <= name and name < 'i';</code></pre>
+
+<h3>Question 1</h3>
+<pre><code>create table size_of_dogs as
+select name, size from dogs, sizes where min < height and height <= max;
+</code></pre>
+
+<h3>Question 2</h3>
+<pre><code>create table by_height as
+select child from parents, dogs where parent = name order by -height;
+</code></pre>
+
+<h3>Question 3</h3>
+<pre><code>create table sentences as
+  with
+    siblings(first, second) as (
+      select a.child, b.child from parents as a, parents as b 
+        where a.parent = b.parent and a.child > b.child 
+    )
+  select first || ' and ' || second || ' are ' || a.size || ' siblings' 
+    from siblings, size_of_dogs as a, size_of_dogs as b 
+    where a.size = b.size and a.name = first and b.name = second;
+</code></pre>
+
+<h3>Question 4</h3>
+<pre><code>create table stacks as
+  with 
+    stack_recur(dogs, total, n, max) as (
+      select name, height, 1, height from dogs union
+      select dogs || ', ' || name, total+height, n+1, height 
+        from stack_recur, dogs
+        where n < 4 and max < height
+    )
+select dogs, total from stack_recur 
+  where total >= 170 and n = 4 order by total;</code></pre>
+
+<h3>Question 5</h3>
+<pre><code>select max(height), name from dogs group by height/10 having count(name) > 1;
+</code></pre>
+
+<h3>Question 6</h3>
+<pre><code>select a.child as first, b.parent as second from parents as a, parents as b 
+  where a.parent = b.child union
+  select a.child, c.parent from parents as a, parents as b, parents as c 
+    where a.parent = b.child and b.parent = c.child;</code></pre>

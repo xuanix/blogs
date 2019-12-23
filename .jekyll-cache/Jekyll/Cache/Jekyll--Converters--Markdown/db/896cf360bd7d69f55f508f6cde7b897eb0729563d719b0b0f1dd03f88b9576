@@ -1,0 +1,208 @@
+I"
+ <p>In this blog, we only consider <strong>square</strong> matricies. The properties we used or derivatived works for all square matrices. If some properties that can be extended to other kind of matrices, they will be noted. In addition, methods or formulas used in this blog can be reviewed in an online course, <a href="http://ocw.mit.edu/courses/mathematics/18-06sc-linear-algebra-fall-2011/">Linear Algribra</a> which is offered by <a href="http://www-math.mit.edu/~gs/">Prof. Gilbert Strang</a> on <a href="http://ocw.mit.edu/index.htm">MIT Open Courseware</a>.</p>
+
+<p>No introduction of previous knwoledge are here. Instead, I will just go through main steps, but whenever needs, the knowledge will be introduced.</p>
+
+<p>Typically, we need to derivate</p>
+
+<div>
+\begin{equation}
+ \frac{\partial }{\partial x}det(A)\label{1}
+\end{equation}
+</div>
+
+<p>where $A$ is a $n\times n$ square matrix and any such kind of matrix can be representative as</p>
+
+<div>
+\begin{equation}
+A_{n\times n} =
+ \begin{bmatrix}
+  a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} \newline
+  a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2n} \newline
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \newline
+  a_{n1} &amp; a_{n2} &amp; \cdots &amp; a_{nn}
+ \end{bmatrix}
+ \end{equation}
+</div>
+
+<p>and each element $a_{ij}$ is a function of a scalar $x$. In \eqref{1}, $det(A)$ is to denote the <strong>Determinant</strong> of $A$ that is the product of <em>pivots</em> multiplying $(-1)^m$, where $m$ is the number of row exchanges. Sometimes, $det(A)$ write as <span>$|A|$</span>, but I use $det(A)$ here.</p>
+
+<h2 id="multivariable-chain-rule">Multivariable Chain Rule</h2>
+
+<p>Let $x=x(t)$ and $y=y(t)$ be differentiable at $t$ and suppose that $z=f(x,y)$ is differentiable at the point $[x(t), y(t)]$. Then $z=f[x(t), y(t)]$ is differentiable and</p>
+
+<div>
+\begin{equation}
+	\frac{\partial z}{\partial t}=\frac{\partial z}{\partial x}\frac{\partial x}{\partial t}
+	+\frac{\partial z}{\partial y}\frac{\partial y}{\partial t}.
+\end{equation}
+</div>
+
+<p>The <a href="http://en.wikipedia.org/wiki/Chain_rule">proof</a> is on the wiki for those who are interested in. Here, instead, we can just intuitively understand it through an example of transport. We have a batch of goods needed to be delivered from city $z$ to $t$. We decided to use two different ways to ship them, one is expedited shipping $x$, another is regular shipping $y$. Though the batch of goods have been divided into two parts and shipped through two different ways. However, at the end, we sum the goods and they are equal to the original.</p>
+
+<p>Thus, we can condiser \eqref{1} to be divided into $n^2$ parts wrt each <span>$a_{ij}$</span>. Condiser each $a_{ij}$ as a method to deliver the part to $x$. Then, we obtain</p>
+
+<div>
+\begin{equation}
+ \frac{\partial }{\partial x}det(A) 
+ = \sum_{i=1}^{n}\sum_{j=1}^{n}\frac{\partial det(A)}{\partial a_{ij}}\frac{\partial a_{ij}}{\partial x}\label{4}
+\end{equation}
+</div>
+
+<h2 id="laplace-expansion">Laplace Expansion:</h2>
+
+<p>Laplace expansion also is known as <strong>Co-factor formula</strong></p>
+
+<div>
+\begin{equation}
+	det(A)=\sum_{j=1}^{n}a_{ij}C_{ij}
+\end{equation}
+</div>
+
+<p>where the <em>co-factor</em> $C_{ij}$ is equal to $(-1)^{i+j}$ multiplying the determiant of the matrix that results from $A$ by removing the $i^{th}$ row and the $j^{th}$ column.</p>
+
+<p>Thus,</p>
+
+<div>
+\begin{equation}
+	\frac{\partial det(A)}{\partial a_{ij}} = C_{ij}
+\end{equation}
+</div>
+
+<p>So \eqref{4} is equal to</p>
+
+<div>
+\begin{align}
+ \frac{\partial }{\partial x}det(A) 
+ &amp;= \sum_{i=1}^{n}\sum_{j=1}^{n}\frac{\partial det(A)}{\partial a_{ij}}\frac{\partial a_{ij}}{\partial x}\nonumber \newline 
+  &amp;= \sum_{i=1}^{n}\sum_{j=1}^{n}C_{ij}\frac{\partial a_{ij}}{\partial x}\label{7}
+\end{align}
+</div>
+
+<h2 id="adjugate-matrix-and-co-factor-matrix">Adjugate matrix and Co-factor matrix</h2>
+<p>We can generate the <strong>co-factor matrix of A</strong>, denote $C$ by calculating all co-factor $C_{ij}$ and puting them into a matrix</p>
+
+<div>
+\begin{equation}
+C_{n\times n} =
+ \begin{bmatrix}
+  C_{11} &amp; C_{12} &amp; \cdots &amp; C_{1n} \newline
+  C_{21} &amp; C_{22} &amp; \cdots &amp; C_{2n} \newline
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \newline
+  C_{n1} &amp; C_{n2} &amp; \cdots &amp; C_{nn}
+ \end{bmatrix}
+ \end{equation}
+</div>
+
+<p>We also extends $\frac{\partial A}{\partial x}$</p>
+
+<div>
+\begin{equation}
+\frac{\partial A}{\partial x} =
+ \begin{bmatrix}
+  \frac{\partial a_{11}}{\partial x} &amp; \frac{\partial a_{12}}{\partial x} &amp; \cdots &amp; \frac{\partial a_{1n}}{\partial x} \newline
+  \frac{\partial a_{21}}{\partial x} &amp; \frac{\partial a_{22}}{\partial x} &amp; \cdots &amp; \frac{\partial a_{2n}}{\partial x} \newline
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \newline
+  \frac{\partial a_{n1}}{\partial x} &amp; \frac{\partial a_{n2}}{\partial x} &amp; \cdots &amp; \frac{\partial a_{nn}}{\partial x}
+ \end{bmatrix}
+\end{equation}
+<div>
+
+<strong>Adjugate matrix</strong> is the transpose of Co-factor matrix $C$ and denote as $adj(A)$.
+We multiply $adj(A)$ by $\frac{\partial A}{\partial x}$ and obtain
+
+<div>
+\begin{equation}
+adj(A)\frac{\partial A}{\partial x} =
+ \begin{bmatrix}
+  \sum_{i=1}^{n}C_{i1}\frac{\partial a_{i1}}{\partial x} &amp; \sum_{i=1}^{n}C_{i1}\frac{\partial a_{i2}}{\partial x} &amp; \cdots &amp; \sum_{i=1}^{n}C_{i1}\frac{\partial a_{in}}{\partial x} \newline
+  \sum_{i=1}^{n}C_{i2}\frac{\partial a_{i1}}{\partial x} &amp; \sum_{i=1}^{n}C_{i2}\frac{\partial a_{i2}}{\partial x} &amp; \cdots &amp; \sum_{i=1}^{n}C_{i2}\frac{\partial a_{in}}{\partial x} \newline
+  \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \newline
+  \sum_{i=1}^{n}C_{in}\frac{\partial a_{i1}}{\partial x} &amp; \sum_{i=1}^{n}C_{in}\frac{\partial a_{i2}}{\partial x} &amp; \cdots &amp; \sum_{i=1}^{n}C_{in}\frac{\partial a_{in}}{\partial x}
+ \end{bmatrix}
+\end{equation}
+</div>
+
+Take the sume of the diagonal of the matrix above, that is definition of the <strong>Trace</strong>, and for any suqare matrix $A$, its trace denotes as $Tr(A)$. Hence, we obtian
+
+<div>
+\begin{equation}
+	Tr(adj(A)\frac{\partial A}{\partial x})= \sum_{i=1}^{n}\sum_{j=1}^{n}C_{ij}\frac{\partial a_{ij}}{\partial x}
+\end{equation}
+</div>
+
+which is equal to \eqref{7}. Then we obtain
+
+<div>
+\begin{equation}
+	\frac{\partial det(A)}{\partial x} = Tr(adj(A)\frac{\partial A}{\partial x})
+\end{equation}
+</div>
+
+which is known as <strong>Jacobi's formula</strong>. We have an important corollary
+
+<div>
+\begin{equation}
+	\frac{\partial In \; det(A)}{\partial x} = Tr(A^{-1}\frac{\partial A}{\partial x})
+\end{equation}
+</div>
+
+by using property of adjugade matrix 
+
+<div>
+\begin{equation}
+	A\; adj(A) = det(A)\; I_{n\times n}
+\end{equation}
+</div>
+
+If A is invertiable
+
+<div>
+\begin{equation}
+	A^{-1}= \frac{1}{det(A)}\; adj(A)
+\end{equation}
+</div>
+
+In another blog, I used directly derivative the $det(A)$. If you are interested, please take a look at it.
+
+<h2> Leibnize Formula</h2>
+
+We have <strong>Leibnize formula</strong> to calcualte the $det(A)$
+
+<div>
+\begin{equation}
+	det(A)=\sum_{\sigma\in P_n} \color{blue}{sgn(\sigma)} \prod_{i=1}^{n}a_{i,\color{red}{\sigma(i)}}
+\end{equation}
+</div>
+
+where $P_n$ is the set of all permutation of (1,2,..,n), and 
+
+<div>
+\begin{gather*}
+\color{blue}{sgn(\sigma)} =
+\begin{cases}
+1 &amp; \text{if $\sigma$ is even permutaiton}\newline
+-1 &amp; \text{otherwise}
+\end{cases}
+\end{gather*}
+</div>
+
+Example.
+
+<div>
+\begin{align}
+	det(A_{3\times 3}) = 
+	\color{blue}{(-1)^0}a_{1,\color{red}{1}}a_{2,\color{red}{2}}a_{3,\color{red}{3}}
+	+\color{blue}{(-1)^1}a_{1,\color{red}{1}}a_{2,\color{red}{3}}a_{3,\color{red}{2}}
+	+\color{blue}{(-1)^1}a_{1,\color{red}{2}}a_{2,\color{red}{1}}a_{3,\color{red}{3}}\newline
+	+\color{blue}{(-1)^2}a_{1,\color{red}{2}}a_{2,\color{red}{3}}a_{3,\color{red}{1}}
+	+\color{blue}{(-1)^2}a_{1,\color{red}{3}}a_{2,\color{red}{1}}a_{3,\color{red}{2}}
+	+\color{blue}{(-1)^1}a_{1,\color{red}{3}}a_{2,\color{red}{2}}a_{3,\color{red}{1}}
+\end{align}
+</div>
+
+Based on this formula, we know
+
+* There are $n!$ products in the formulate since there are $n!$ permutation for a $n\times n$ matrix.
+</div></div>
+:ET

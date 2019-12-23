@@ -1,0 +1,288 @@
+---
+layout:     post
+title: "CS61A-Discussion 05"
+subtitle:   "Mutable Data and Nonlocal"
+author: "Tianxiang Gao"
+date: "May 21, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+
+<h2>1 Mutating Lists</h2> 
+
+**Mutability** means that the object's contents can be changed. *Mutable* objects includes *lists* and *dictionaries*. Instead, a lot of other objects are *immutable* such as *numberic types*, *tuples*, and *strings*.
+
+<h3>1.1 What would python output?</h3>
+
+<ol>
+<li></li>
+<pre><code>>>> lst1 = [1, 2, 3]
+>>> lst2 = lst1
+>>> lst2 is lst1
+True</code></pre>
+
+<li></li>
+<pre><code>>>> lst1.append(4)
+>>> lst1
+[1, 2, 3, 4]</code></pre>
+
+<li></li>
+<pre><code>>>> lst2
+[1, 2, 3, 4]</code></pre>
+
+<li></li>
+<pre><code>>>> lst2[1] = 42
+>>> lst2
+[42, 2, 3, 4]
+</code></pre>
+
+<li></li>
+<pre><code>>>> lst1
+[42, 2, 3, 4]
+</code></pre>
+
+<li></li>
+<pre><code>>>> lst1 = lst1 + [5]
+>>> lst1
+[42, 2, 3, 4, 5]
+</code></pre>
+
+<li></li>
+<pre><code>>>> lst2
+[42, 2, 3, 4]
+</code></pre>
+
+<li></li>
+<pre><code>>>> lst2 is lst1
+False
+</code></pre>
+</ol>
+<br>
+
+<h3>2 List Methods</h3>
+
+They are called using *dot notation*, in the form <code>lst.method()</code>. Some common list methods:
+
+<ul>
+    <li><code>lst.append(el)</code></li>
+    <li><code>lst.insert(i, el)</code></li>
+    <li><code>lst.sort()</code></li>
+    <li><code>lst.remove(el)</code> removes the first <code>el</code></li>
+    <li><code>lst.index(el)</code></li>
+</ul>
+
+<h3>2.1 List Mutation Questions</h3>
+<ol>
+<li><code>square_elements</code></li>
+<pre><code>def square_elements(lst):
+    """Squares every element in lst.
+    >>> lst = [1, 2, 3]
+    >>> square_elements(lst)
+    >>> lst
+    [1, 4, 9]
+    """
+    for i in range(len(lst)):
+        lst[i] = lst[i] ** 2
+</code></pre>
+
+<li><code>reverse_list(lst)</code></li>
+<pre><code>def reverse_list(lst):
+    """Reverses lst in-place (mutating the original list).
+    >>> lst = [1, 2, 3, 4]
+    >>> reverse_list(lst)
+    >>> lst
+    [4, 3, 2, 1]
+    >>> pi = [3, 1, 4, 1, 5]
+    >>> reverse_list(pi)
+    >>> pi
+    [5, 1, 4, 1, 3]
+    """
+    for i in range(len(lst)//2):
+        lst[i], lst[len(lst)-i-1] = lst[len(lst)-i-1], lst[i]
+</code></pre>
+</ol>
+
+<h3>2.2 Extra Practice</h3>
+<ol>
+<li><code>add_this_many(x, y, lst)</code></li>
+<pre><code>def add_this_many(x, y, lst):
+    """Adds y to the end of lst the number of times x occurs.
+    >>> lst = [1, 2, 4, 2, 1]
+    >>> add_this_many(1, 5, lst)
+    >>> lst
+    [1, 2, 4, 2, 1, 5, 5]
+    """
+    count = sum([1 for el in lst if el == x])
+    for _ in range(count):
+        lst.append(y)
+</code></pre>
+
+<li><code>remove_all(el, lst)</code></li>
+<pre><code>def remove_all(el, lst):
+    """Removes all instances of el from lst.
+    >>> x = [3, 1, 2, 1, 5, 1, 1, 7]
+    >>> remove_all(1, x)
+    >>> x
+    [3, 2, 5, 7]
+    """
+    while el in lst:
+        lst.remove(el)</code></pre>
+</ol>
+
+<h2>3 Dictionaries</h2>
+**Dictionaries** consist of *key* and *value*. *Key* is *immutable* such as *numbers*, *strings*, and *tuples*.
+<pre><code>>>> pokemon = {'pikachu': 25, 'dragonair': 148, 'mew': 151}
+>>> pokemon['pikachu']
+25
+>>> pokemon['jolteon'] = 135
+>>> pokemon
+{'mew': 151, 'jolteon': 135, 'pikachu': 25, 'dragonair': 148}
+>>> pokemon['ditto']=25
+>>> pokemon
+{'mew': 151, 'jolteon': 135, 'pikachu': 25, 'ditto': 25, 'dragonair': 148}
+
+</code></pre>
+
+<h3>3.1 What would python output?</h3>
+<ol>
+<li></li>
+<pre><code>>>> 'mewtow' in pokemon
+False
+
+>>> len(pokemon)
+5
+
+>>> pokemon['ditto'] = pokemon['jolteon']
+>>> pokemon[('diglett', 'diglett', 'diglett')] = 51
+>>> pokemon[25] = 'pikachu'
+>>> pokemon
+{'ditto': 135, ('diglett', 'diglett', 'diglett'): 51, 25: 'pikachu', 'dragonair': 148, 'pikachu': 25, 'jolteon': 135, 'mew': 151}
+
+>>> pokemon['mewtwo'] = pokemon['mew'] * 2
+>>> pokemon
+{'ditto': 135, ('diglett', 'diglett', 'diglett'): 51, 25: 'pikachu', 'dragonair': 148, 'pikachu': 25, 'jolteon': 135, 'mew': 151, 'mewtwo':302}
+
+>>> pokemon[['firetype', 'flying']] = 146
+TypeError: unhashable type: 'list'
+</code></pre>
+</ol>
+
+Based on the questions above, we know that *immutable* objects such as *list* cannot be used as *key*. However, dictionaries can be deep, meaning the *value* of a dictionary can be themselves dictionaries, see extra question 3.4.
+
+<h3>3.2 Using Dictionaries</h3>
+<ul>
+<li><code>dictionary[key] = val</code></li>
+<li><code>for key in dicttionary: do_stuff()</code></li>
+<li><code>for value in dicttionary.values(): do_stuff()</code></li>
+<li><code>for key, value in dicttionary.items(): do_stuff()</code></li>
+<li><code>del dictionary[key]</code></li>
+<li><code>dictionary.pop(key)</code></li>
+</ul>
+
+<h3>3.3 Dictionary Questions</h3>
+<ol>
+<li></li>
+<pre><code>def replace_all(d, x, y):
+    """
+    >>> d = {'foo': 2, 'bar': 3, 'garply': 3, 'xyzzy': 99}
+    >>> replace_all(d, 3, 'poof')
+    >>> d
+    {'bar': 'poof', 'garply': 'poof', 'xyzzy': 99, 'foo': 2}
+    """
+    for key in d:
+        if d[key] == x:
+            d[key] = y
+</code></pre>
+</ol>
+
+<h3>3.4 Extra Practice</h3>
+<ol>
+<li></li>
+<pre><code>def replace_all_deep(d, x, y):
+    """
+    >>> d = {1: {2: 3, 3: 4}, 2: {4: 4, 5: 3}}
+    >>> replace_all_deep(d, 3, 1)
+    >>> d
+    {1: {2: 1, 3: 4}, 2: {4: 4, 5: 1}}
+    """
+    for key in d:
+        if type(d[key]) == dict:
+            replace_all_deep(d[key], x, y)
+        elif d[key] == x:
+            d[key] = y
+</code></pre>
+
+<li></li>
+<pre><code>def remove_all(d, x):
+    """
+    >>> d = {1:2, 2:3, 3:2, 4:3}
+    >>> remove_all(d, 2)
+    >>> d
+    {2: 3, 4: 3}
+    """
+    remove_key_lst = [key for key in d if d[key]==x]
+    for key in remove_key_lst:
+        del d[key]</code></pre>
+</ol>
+
+<h2>4 Nonlocal</h2>
+The <code>nonlocal</code> keyword can be used to modify a variable in the parent frame ousider the current frame (as long as it's not the global frame.)
+<pre><code>def make_step(num):
+    def step():
+        nonlocal num
+        num = num + 1
+        return num
+    return step
+
+</code></pre>
+
+<h3>4.1 Nonlocal Environment Diagrams</h3>
+<ol>
+<li>Draww the environment diagram</li>
+<pre><code>>>> s = make_step(3)
+>>> s()
+>>> s()
+</code></pre>
+<img src="{{site.baseurl}}/img/cs61a/disc05-4-1-1.jpg" style="width:710px">
+</ol>
+
+<h3>4.2 Nonlocal Misconceptions</h3>
+For each of the following pieces of code, explain what’s wrong with the use of nonlocal.
+<ol>
+<li></li>
+<pre><code>a = 5
+def add_one(x):
+nonlocal x
+x += 1
+>>> add_one(a)
+
+</code></pre>
+<code>nonlocal</code> can not be used if its parent frame does not define variable <code>x</code>. Here, <code>x</code> is already a local variable.
+
+<li></li>
+<pre><code>a = 5
+def another_add_one():
+    nonlocal a
+    a += 1
+>>> another_add_one(a)
+
+</code></pre>
+<code>Nonlocal is not appliable for variables in the global frame.</code>
+<li>Given the definition of <code>make_shopkeeper</code> below, draw the environment diagram.</li>
+
+<pre><code>def make_shopkeeper(total_gold):
+    def buy(cost):
+        nonlocal total_gold
+        if total_gold < cost:
+            return ’Go farm some more champions’
+        total_gold = total_gold - cost
+        return total_gold
+    return buy
+    
+infinity_edge, zeal, gold = 3800, 1100, 3800
+shopkeeper = make_shopkeeper(gold - 1000)
+shopkeeper(zeal)
+shopkeeper(infinity_edge)</code></pre>
+
+<img src="{{site.baseurl}}/img/cs61a/disc05-4-3-1.jpg" style="width:710px">
+
+</ol>

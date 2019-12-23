@@ -1,0 +1,178 @@
+I"�<h2 id="discussion-02-recursion-and-tree-recusion">Discussion 02: Recursion and Tree Recusion</h2>
+<p>Three common steps in recursive definition</p>
+
+<ul>
+  <li>Base case</li>
+  <li>Recursive call with <em>leap of faith</em>: assume a recursive call is correct</li>
+  <li>Use Recursive call to solve</li>
+</ul>
+<hr />
+
+<h2 id="recursion">Recursion</h2>
+
+<h3 id="11-cool-questions">1.1 Cool Questions!</h3>
+
+<ol>
+<li>Print out a countdown using recursion. </li>
+<pre><code>def coundown(n):
+    if n &lt;= 0:
+        return
+    print(n) 
+    coundown(n-1)
+</code></pre>
+
+<li>Is there an easy way to change countdown to count up instead?</li>
+
+<pre><code>def counup(n):
+    if n &lt;= 0:
+        return 
+    counup(n-1)
+    print(n)
+</code></pre>
+
+<li>Write a procedure expt(base, power), which implements the exponent function. For example, expt(3, 2) returns 9, and expt(2, 3) returns 8. Assume power is always an integer. Use recursion, not pow!</li>
+
+<pre><code>def expt(base, power):
+    if power == 1:
+        return base
+    return expt(base, power - 1) * base
+</code></pre>
+
+<li>Fill in the is prime function, which returns True if n is a prime number and False otherwise.<br />
+Hint: We wrote this iteratively last week, but this time use recursion!</li>
+<pre><code>def is_prime(n):
+    def prime_test(k):
+        if k &gt;= n:
+                return True
+        if n % k == 0:
+            return False
+        return prime_test(k+1)
+    return prime_test(2)
+</code></pre>
+
+<li>Write sum primes up to(n), which sums up every prime up to and including n. Assume you have an is prime() predicate.</li>
+<pre><code>def sum_primes_up_to(n):
+    if n == 1:
+        return n
+    elif is_prime(n):
+        return n + sum_primes_up_to(n-1)
+    else:
+        return sum_primes_up_to(n-1)
+</code></pre>
+<li>Draw an environment diagram for the following code:</li>
+<pre><code>def rec(x, y):
+    if y &gt; 0:
+        return x * rec(x, y - 1)
+    return 1
+rec(3, 2)
+</code></pre>
+<img src="/blogs/img/cs61a/disc02-06.jpg" style="width:710px" />
+Bonus question: what does this function do?
+<pre><code>pow(x, y)
+</code></pre>
+</ol>
+<p><br /></p>
+
+<h2 id="tree-recursion">Tree Recursion</h2>
+
+<h3 id="21-exercises">2.1 Exercises</h3>
+<ol>
+<li>I want to go up a flight of stairs that has n steps. I can either take 1 or 2 steps each time. How many different ways can I go up this flight of stairs? Write a function count stair ways that solves this problem for me.</li>
+<pre><code>def count_stair_ways(n):
+    if n == 1:
+        return 1
+    if n == 2:
+        return 2
+    return count_stair_ways(n-1) + count_stair_ways(n-2)
+</code></pre>
+
+<li>Pascal’s triangle is a useful recursive definition that tells us the coefficients in the expansion of the polynomial $(x + a)^n$
+. Each element in the triangle has a coordinate, given by the row it is on and its position in the row (which you could call its column).
+Every number in Pascal’s triangle is defined as the sum of the item above it and the item that is directly to the upper left of it. If there is a position that does not have an entry, we treat it as if we had a 0 there.<br />
+Define the procedure pascal(row, column) which takes a row and a column, and finds the value at that position in the triangle. Don’t use the closed-form solution, if
+you know it.</li>
+<pre><code>def pascal(row, column):
+    if column == 0:
+        return 1
+    if row == 0:
+        return 0
+    return pascal(row-1, column) + pascal(row-1, column-1)
+</code></pre>
+
+<li>The TAs want to print handouts for their students. However, for some unfathomable reason, both the printers are broken; the first printer only prints multiples of $n_1$, and the second printer only prints multiples of $n_2$. Help the TAs figure out whether or not it is possible to print an exact number of handouts!<br />
+First try to solve without a helper function. Also try to solve using a helper function and adding up to the sum.</li>
+<pre><code>
+def has_sum_without_helper(sum, n1, n2):
+    if sum % n1 == 0 or sum % n2 == 0:
+        return True
+    if sum &lt; min(n1, n2):
+        return False
+    return has_sum_without_helper(sum-n1, n1, n2) or has_sum_without_helper(sum_n2, n1, n2)
+
+def has_sum_with_helper(sum, n1, n2):
+    def helper(cur_sum):
+        if cur_sum == sum:
+            return True
+        if cur_sum &gt; sum:
+            return False
+        return helper(cur_sum+n1) or helper(cur_sum+n2)
+    return helper(0)
+</code></pre>
+</ol>
+
+<p><br /></p>
+
+<h3 id="22-extra-questions">2.2 Extra Questions</h3>
+<ol>
+<li>The next day, the printers break down even more! Each time they are used, Printer A prints a random x copies 50 ≤ x ≤ 60, and Printer B prints a random y copies 130 ≤ y ≤ 140. The TAs also relax their expectations: they are satisfied as long as they get at least lower, but no more than upper, copies printed. (More than upper copies is unacceptable because it wastes too much paper.) <br />
+Hint: Try using a helper function.</li>
+<pre><code>
+def sum_range(lower, upper):
+    def printed(printed_lower, printed_upper):
+        if printed_upper &gt; upper:
+            return False
+        elif lower &lt;= printed_lower:
+            return True
+        else:
+            return printed(printed_lower+50, printed_upper+60) or printed(printed_lower+130, printed_upper+140)
+    return printed(0, 0)
+</code></pre>
+</ol>
+<p><br /></p>
+
+<h2 id="3-iteration-vs-recursion">3 Iteration vs. Recursion</h2>
+
+<p><strong>factorial</strong></p>
+<pre><code>
+def factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * factorial_recursive(n-1)
+
+def factorial_iterative(n):
+    total = 1
+    while n &gt; 1:
+        total = total * n
+        n = n - 1
+    return total
+</code></pre>
+
+<p><strong>fibonacci</strong></p>
+<pre><code>
+def fib_r(n):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fib_r(n - 1) + fib_r(n - 2)
+
+def fib_i(n):
+    curr, next = 0, 1
+    while n &gt; 0:
+        curr, next = next, curr + next
+        n = n - 1
+    return curr
+</code></pre>
+:ET

@@ -1,0 +1,169 @@
+I"B<h3>1. Word Cup</h3>
+<ol type="a">
+  <li>Write the output displayed by the interactive Python interpreter when the expression is evaluated.</li>
+
+<pre><code>def square(x):
+    return x * x
+
+def argentina(n):
+    print(n)
+    if n &gt; 0:
+        return lambda k: k(n+1)
+    else:
+        return 1 / n
+
+def germany(n):
+    if n &gt; 1:
+        print(’hallo ’)
+    if argentina(n-2) &gt;= 0:
+        print(’bye ’)
+    return argentina(n+2)
+</code></pre>
+
+<pre><code>
+&gt;&gt;&gt; print(1, print(2))
+2
+1 None
+&gt;&gt;&gt; argentina(0)
+0
+Error
+&gt;&gt;&gt; argentina(1)(square)
+1
+4
+&gt;&gt;&gt; germany(1)(square)
+-1
+3
+16
+&gt;&gt;&gt; germany(2)(germany)
+hallo
+0
+Error
+</code></pre>
+  <li>Fill in the blank with an expression so that the whole expression below evaluates to a number.</li>
+<pre><code>
+(lambda t: argentina(t)(germany)(square))(0.5)
+</code></pre>  
+</ol>
+
+<h3>2. Envy, Iron, Mint</h3>
+<ol type="a">
+<li>Fill in the environment diagram that results from executing the code below until the entire program is finished, an error occurs, or all frames are filled.</li>
+<pre><code>def peace(today):
+    harmony = love+2
+    return harmony + today(love+1)
+
+def joy(peace):
+    peace, love = peace+2, peace+1
+    return love // harmony
+
+love, harmony = 3, 2
+peace(joy)
+</code></pre>
+<img src="/blogs/img/cs61a/midterm01-2a.jpg" />
+<li>Fill in the environment diagram that results from executing the code below until the entire program is finished, an error occurs, or all frames are filled.</li>
+<pre><code>def k(g, b):
+    def n(s, a):
+        return g-p
+    return b(n(b, p))
+
+g, p = 3, 7
+k(p+1, lambda s: g+3)
+</code></pre>
+<img src="/blogs/img/cs61a/midterm01-2b.jpg" />
+</ol>
+
+<h3>3. Express Yourself</h3>
+<ol style="a">
+<li>A k-bonacci sequence starts with K-1 zeros and then a one. Each subsequent element is the sum of the previous K elements</li>
+<pre><code>def kbonacci(n, k):
+    """ Return element N of a K- bonacci sequence .
+    &gt;&gt;&gt; kbonacci (3, 4)
+    1
+    &gt;&gt;&gt; kbonacci (9, 4)
+    29
+    &gt;&gt;&gt; kbonacci (4, 2)
+    3
+    &gt;&gt;&gt; kbonacci (8, 2)
+    21
+    """
+    if n &lt; k - 1:
+        return 0
+    elif n == k - 1:
+        return 1
+    else:
+        total = 0
+    i = n - k
+    while i &lt; n:
+        total = total + kbonacci(i, k)
+        i += 1
+    return total
+</code></pre>
+<li>Fill in the blanks of the following functions defined together in the same file. Assume that all
+arguments to all of these functions are positive integers that do not contain any zero digits.</li>
+<pre><code>def combine(left , right):
+    """ Return all of LEFT ’s digits followed by all of RIGHT ’s digits ."""
+    factor = 1
+    while factor &lt;= right:
+        factor = factor * 10
+    return left * factor + right
+
+def reverse(n):
+    """ Return the digits of N in reverse .
+    &gt;&gt;&gt; reverse (122543)
+    345221
+    """
+    if n &lt; 10:
+        return n
+    else:
+        return combine(n % 10, reverse(n // 10))
+
+def remove(n, digit):
+    """ Return all digits of N that are not DIGIT , for DIGIT less than 10.
+    &gt;&gt;&gt; remove (243132, 3)
+    2412
+    &gt;&gt;&gt; remove (243132, 2)
+    4313
+    &gt;&gt;&gt; remove ( remove (243132, 1), 2)
+    433
+    """
+    removed = 0
+    while n != 0:
+        n , last = n // 10, n % 10
+        if last != digit:
+            removed = removed * 10 + last
+    return reverse(removed)
+</code></pre>
+</ol>
+
+<h3>4. Lambda at Last</h3>
+<ol style="a">
+<li>Fill in the blank below with an expression so that the second line evaluates to 2014. You may only use the names two_thousand, two, k, four, and teen and parentheses in your expression (no numbers, operators, etc.).</li>
+<pre><code>two_thousand = lambda two: lambda k: k(two)(two)
+two_thousand(7)(lambda four: lambda teen: 2000 + four + teen)
+</code></pre>
+
+<li>The if_fn returns a two-argument function that can be used to select among alternatives, similar to an if statement. Fill in the return expression of factorial so that it is defined correctly for non-negative arguments. You may only use the names if_fn, condition, a, b, n, factorial, base, and recursive and parentheses in your expression (no numbers, operators, etc.).</li>
+<pre><code>def if_fn(condition):
+    if condition:
+        return lambda a, b: a
+    else:
+        return lambda a, b: b
+
+def factorial(n):
+    """ Compute N! for non - negative N. N! = 1 * 2 * 3 * ... * N.
+    &gt;&gt;&gt; factorial (3)
+    6
+    &gt;&gt;&gt; factorial (5)
+    120
+    &gt;&gt;&gt; factorial (0)
+    1
+    """
+    def base():
+        return 1
+    def recursive():
+        return n * factorial(n-1)
+    return if_fn(n)(recursive, base)()
+
+</code></pre>
+</ol>
+:ET

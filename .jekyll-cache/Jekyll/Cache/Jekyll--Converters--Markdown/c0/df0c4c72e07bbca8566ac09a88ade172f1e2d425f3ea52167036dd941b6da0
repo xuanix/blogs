@@ -1,0 +1,184 @@
+I"�<h2 id="discussion-03-recursion-and-tree-recusion">Discussion 03: Recursion and Tree Recusion</h2>
+<p>We don’t have to worry about <em>how</em> code is implemented, but just have to know <em>what</em> it does.</p>
+
+<ul>
+  <li><strong>Constructors</strong> are functions that build the abstract data type</li>
+  <li><strong>Selectors</strong> are functions that retrieve information from the data type</li>
+</ul>
+<hr />
+
+<h2 id="1-data-abstraction">1 Data Abstraction</h2>
+
+<h3 id="11-data-abstraction-practice">1.1 Data Abstraction Practice</h3>
+
+<ol>
+<li>Hadley Cycle. Write a function <code>near_thirty(city, diff)</code> that checks whether an input city is within <code>diff</code> degrees of 30 degrees N or 30 degrees S.</li>
+<pre><code>def near_thirty(city, diff):
+    city_lat = get_lat(city)
+    return abs(city_lat - 30) &lt;= 30 or abs(city_lat + 30) &lt;= 30
+</code></pre>
+
+<li>Implement <code>closer_city</code>, a function that takes a latitude, longitude, and two cities, and returns the name of the city that is relatively closer to the provided latitude and
+longitude.</li>
+
+<pre><code>def closer_city(lat, lon, city1, city2):
+    target_city = make_city('new', lat, lon)
+    dist1 = distance(target_city, city1)
+    dist2 = distance(target_city, city2)
+    return get_name(city1) if dist1 &lt; dist2 else get_name(city2)
+</code></pre>
+</ol>
+<p><br /></p>
+
+<h2 id="2-lets-be-rational">2 Let’s be rational!</h2>
+
+<h3 id="21-rational-number-practice">2.1 Rational Number Practice</h3>
+<ol>
+<li>Write a function that returns the given rational number <code>x</code> raised to positive power <code>e</code>.</li>
+<pre><code>from math import pow
+def rational_pow(x,e):
+    return 1 if e == 0 else mul_rational(x, rational_pow(x, e-1))
+</code></pre>
+<li>The irrational number $e ≈ 2.718$ can be generated from an infinite series. Write a function <code>approx_e</code> that returns a rational number approximation of <code>e</code> to <code>iter</code> amount of iterations. We’ve provided a factorial function.</li>
+<pre><code>def factorial(n):
+    return 1 if n == 0 else n * factorial(n-1)
+
+def approx_e(iter=100):
+    e = rational(0, 1)
+    for i in range(iter):
+        e = add_rationals(e, rational(1, factorial(i)))
+    return e</code></pre>
+
+<li>Implement <code>inverse_rational</code> and <code>div_rationals</code></li>
+<pre><code>def inverse_rational(x):
+    """Returns the inverse of the given non-zero rational
+    number"""
+    n = number(x)
+    d = denom(x)
+    return rational(d, n)
+
+def div_rationals(x, y):
+    """Returns x / y for given rational x and non-zero
+    rational y"""
+    return mul_rational(x, inverse_rational(y))
+</code></pre>
+</ol>
+
+<h2 id="my-life-for-abstraction">My Life for Abstraction</h2>
+
+<h3 id="31-lists-or-zerg-rush">3.1 Lists, or Zerg Rush!</h3>
+<ol>
+<li>Implement the constructors and selectors for the unit data abstraction using lists. Each unit will have a string catchphrase and an integer amount of damage.</li>
+<pre><code>def make_unit(catchphrase, damage):
+    return [catchphrase, damage]
+
+def get_catchphrase(unit):
+    return unit[0]
+
+def get_damage(unit):    
+    return unit[1]</code></pre>
+</ol>
+
+<h3 id="32-data-abstraction-violations-or-i-long-for-combat">3.2 Data Abstraction Violations, or, I Long For Combat!</h3>
+<p>Data abstraction violations happen when we assume we know something about how our data is represented. For example, if we use pairs and we forget to use a selector and instead use the index.</p>
+<ol>
+<li>Let’s simulate a battle between units!</li>
+<pre><code>def battle(first, second):
+    """Simulates a battle between the first and second unit
+    &gt;&gt;&gt; zealot = make_unit('My life for Aiur!', 16)
+    &gt;&gt;&gt; zergling = make_unit('GRAAHHH!', 5)
+    &gt;&gt;&gt; winner = battle(zergling, zealot)
+    GRAAHHH!
+    My life for Aiur!
+    &gt;&gt;&gt; winner is zealot
+    True
+    """
+    print(get_catchphrase(first))
+    print(get_catchphrase(second))
+    return first if get_damage(first) &gt; get_damage(second) else second
+</code></pre>
+</ol>
+
+<h3 id="33-functional-pairs-or-we-require-more-minerals">3.3 Functional Pairs, or, We Require More Minerals</h3>
+
+<pre><code>def pair(x, y):
+    """Return a function that represents a pair."""
+    def get(index):
+        if index == 0:
+            return x
+        elif index == 1:
+            return y
+    return get
+
+def select(p, i):
+    """Return the element at index i of pair p"""
+    return p(i)
+</code></pre>
+
+<ol>
+<li>Write constructors and selectors for a data abstraction that combines an integer amount
+of minerals and gas together into a bundle. Use functional <code>pair</code> and <code>select</code>.</li>
+<pre><code>def make_resource_bundle(minerals, gas):
+    return pair(minerals, gas)
+
+def get_minerals(bundle):
+    return select(bundle, 0)
+
+def get_gas(bundle):
+    return select(bundle, 1)
+</code></pre>
+</ol>
+
+<h3 id="34-putting-it-all-together">3.4 Putting It All Together</h3>
+<ol>
+<li>Let’s make a <code>building</code> pair that is constructed with a unit data type and a resource bundle data type. This time take your choice of lists or functional pairs in representing a building. Make sure not to violate any data abstractions.</li>
+<pre><code>def make_building(unit, bundle):
+    return pair(unit, bundle)
+
+def get_unit(building):
+    return select(building, 0)
+
+def get_bundle(building):
+    return select(building, 1)
+</code></pre>
+<li>Implement <code>build_unit</code>.</li>
+<pre><code>def build_unit(building, bundle):
+    """Constructs a unit if given the minimum amount of
+    resources. Otherwise, prints an error message.
+    &gt;&gt;&gt; barracks = make_building(make_unit(’Go go go!’, 6),
+    ... make_resource_bundle(50, 0))
+    &gt;&gt;&gt; marine = build_unit(barracks, make_resource_bundle(20,
+    20))
+    We require more minerals!
+    &gt;&gt;&gt; marine = build_unit(barracks, make_resource_bundle(50,
+    0))
+    &gt;&gt;&gt; print(get_catchphrase(marine))
+    Go go go!
+    """
+    resource_minerals = get_minerals(bundle)
+    resource_gas = get_gas(bundle)
+
+    bundle_needed = get_bundle(building)
+    minerals_needed = get_minerals(bundle_needed)
+    gas_needed = get_gas(bundle_needed)
+
+    if resource_minerals &lt; minerals_needed:
+        return print('We require more minerals!')
+
+    if resource_gas &lt; gas_needed:
+        return print('We require more vespene gas!') 
+    
+    return get_unit(building)       
+</code></pre>
+<li>Reimplement the <code>resource</code> abstraction to use lists instead of functional pairs. Then verify that all the code that use the <code>resource</code> still works.</li>
+<pre><code>def make_resource_bundle(minerals, gas):
+    return [minerals, gas]
+
+def get_minerals(bundle):
+    return bundle[0]
+
+def get_gas(bundle):
+    return bundle[1]
+</code></pre>
+</ol>
+:ET

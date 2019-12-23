@@ -1,0 +1,67 @@
+I"B<h2>Part II: Compile-time errors</h2>
+
+<p>Running <code>emacs &amp;</code> can run the emacs but cannot access emacs directly. In fact, the emacs is being suspended. In order to access emacs, need to type <code>%emacs</code>.</p>
+
+<p>After that, <code>C-x C-f</code> and type the file whole name to open the file.</p>
+
+<p>The easistest way to compile and run <code>file.java</code> file is typing <code>javac file.java</code> in command line, which complies the java file and create <code>file.class</code> bytecode files. The name of the bytecode file is based on the class in the java file instead of the name of java file.</p>
+
+<p>In the command line, typing <code>java file</code> to really run the program.</p>
+
+<p>The corrected <code>Names.java</code> is attached.</p>
+
+<pre><code>/* Names.java */
+
+import java.io.*;
+
+/** The Names class provides a single function, main, that will
+ *   perform various manipulations of the name John Fitzgerald Kennedy. 
+ *   This is a modification of the program on page 43 of Arnow and Weiss.
+ */
+
+class Names {
+
+/** Performs various string operations on the name John Fitzgerald Kennedy.
+ *  @param arg is not used.
+ */
+  public static void main(String arg[]) {
+    String first = "John";
+    String middle = "Fitzgerald";
+    String last = "Kennedy";
+    String initials;
+    String firstInit, middleInit, lastInit;
+
+    firstInit = first.substring(0,1);
+    middleInit = middle.substring(0,1);
+    lastInit = last.substring(0,1);
+    initials = firstInit.concat(middleInit);
+    initials = initials.concat(lastInit);
+
+    System.out.println();
+    System.out.println(first + " " + middle + " " + last + " ");
+    System.out.println(initials);
+    System.out.println(last + ", " + first + " " + middle);
+    System.out.println(last + ", " + first + " " + middleInit +".");
+    System.out.println(first.toUpperCase() + " " + last.toUpperCase());
+
+    System.out.println(first + " equals john is " + first.equals("john"));
+    System.out.println(first + " equals john (ignoring case) is " 
+		       + first.equalsIgnoreCase("john"));
+    System.out.println("The character at index 3 in " + middle + " is " +
+		       middle.substring(3,4));
+    System.out.println("The index of \"gerald\" within " + middle + " is " +
+		       middle.indexOf("gerald"));
+    System.out.println("The index of \"gerald\" within " + last + " is " +
+		       last.indexOf("gerald"));
+
+    System.out.println();
+  }
+}
+</code></pre>
+
+<h2>Part IV: Emacs help</h2>
+
+<p>Type <code>C-h ?</code> would helpful if not so familiar with the emacs and help facilities.</p>
+
+<p><code>M-x sort-lines</code> helps sort the documents by SURNAME alphabetically. <code>C-x C-S</code> and “yes” to save and exit Emacs. Emacs is powerful but not so friendly to beginner. In order to save time from digging the help facilities, I just choose Sublime Text 2 in this course.</p>
+:ET

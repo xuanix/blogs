@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Write your site description here. It will be used as your sites meta description as well!">
+    <meta name="author" content="Tianxiang Gao">
+
+    <title>Basic Concept of Convex Optimization - Tianxiang's Blog</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/blogs/css/bootstrap.css">
+    <link rel="stylesheet" href="/blogs/css/style.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/blogs/css/clean-blog.css">
+    <link rel="stylesheet" href="/blogs/css/main.css">
+
+    <!-- Pygments Github CSS 
+    <link rel="stylesheet" href="/blogs/css/syntax.css"> -->
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+<body>
+
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="http://gaotx.com//blogs">
+                <h1>Tianxiang Gao</h1>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="http://gaotx.com/#intro">Home</a></li>
+            <li><a href="http://gaotx.com/#about">About</a></li>
+            <li><a href="http://gaotx.com/#portfolio">News</a></li>
+            <li><a href="http://gaotx.com/#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blogs <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="http://gaotx.com/blogs/archive">Archive</a></li>
+                <li><a href="#">Categories</a></li>
+                <li><a href="#">Tags</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('/blogs/img/post-bg-02.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Basic Concept of Convex Optimization</h1>
+                    
+                    <h2 class="subheading">KKT condition and Lagrange dual.</h2>
+                    
+                    <span class="meta">Posted by Tianxiang Gao on April 14, 2015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<p>Convext optimization have been widely used in data science area. This blog will cover some basic knowledge about it, such as Lagrange dual and KKT conditions. I will not state the function is whether convex or not, becasue that will confuse people if they don’t have those background.</p>
+
+<h2 id="lagrange-dual-problem">Lagrange Dual Problem</h2>
+
+<p>The standard form of any optimization problem is 
+\begin{equation} 
+max\{f(x):c(x)\geq 0_{m\times 1}\},\label{opt}
+\end{equation}</p>
+
+<p>where $f(x):\mathbb{R}^n\mapsto \mathbb{R}$ and $c(x):\mathbb{R}^n\mapsto \mathbb{R}^m$.</p>
+
+<p>To easily and clearly derive the lagrange dual problme, I take <strong>linear optimization problem</strong> as an example. Every linear optimization problem can formulated as</p>
+
+<p>\begin{align} 
+&amp;\underset{x}{\text{max}}&amp; &amp; c^Tx \newline 
+&amp; \text{subject to}
+&amp; &amp; Ax \leq b 
+\end{align}</p>
+
+<p>where $\,x\in \mathbb{R}^n, c\in \mathbb{R}^n, b\in \mathbb{R}^m, A\in\mathbb{R}^{m\times n}$. This is the primal problem. If this problem is hard to solve, we could solve its lagrange dual problem instead. Let’s derivative its lagrange dual problem.</p>
+
+<p>We drop the constrain $Ax\leq b$ by introducing a multiplier $y \in \mathbb{R}_+^m$ and adding the result to the objective function in terms of penalty. The new objective function is knwon as <strong>Lagrange function</strong></p>
+
+<p>\begin{equation}
+	L_p(x, y) = c^Tx + y^T(b-Ax)
+\end{equation}</p>
+
+<p>Because $y \geq 0$ and $b-Ax\geq 0$, we know that</p>
+
+<p>\begin{equation}
+	L_p(x,y) \geq c^Tx \label{lagrange equation}
+\end{equation}</p>
+
+<p>Assume $y$ is given, we want to maximize Lagrange function with respective to $x$. Hence, the minimum of this objective function is a function of $y$, which is known as <strong>dual function</strong></p>
+
+<p>\begin{align} 
+	g(y)&amp;= \underset{x}{\text{max}} \, L_p(x, y)\newline
+	 &amp;= \underset{x}{\text{max}} \,c^Tx + y^T(b-Ax)\newline
+	 &amp;= \underset{x}{\text{max}} \,(c^T-y^TA)x + y^Tb=
+	 \begin{cases}
+	y^Tb  &amp; \text{ if } x\ge y^TA=c^T \newline
+	+\infty &amp; \text{ otherwise } 
+	\end{cases}
+\end{align}</p>
+
+<p>Based on \eqref{lagrange equation}, for any feasible solutions $x$ and $y$, $g(y)$ is greater than or equal to the maximum of primal objective function $c^Tx$. So the minimum of $g(y)$ is equal to the maximum of $c^Tx$. We formulate the <strong>lagrange dual problem</strong></p>
+
+<p>\begin{align} 
+&amp;\underset{y}{\text{min}}&amp; &amp; g(y)=b^Ty \newline 
+&amp; \text{subject to}
+&amp; &amp; A^Ty = c\newline
+&amp; &amp; &amp; y \geq 0 
+\end{align}</p>
+
+<h2 id="kkt-condition">KKT condition</h2>
+
+<p>KKT condition stands for <strong>Karush-Kuhn-Tucher</strong> condition. The KKT condition is that for any optimization problem \eqref{opt}, if $x^*$ is local minimum that satisifes some <em>regularity conditions</em> (see below), there exists a vector $\,\lambda\in \mathbb{R}^m$ such that
+\begin{align} 
+&amp;\nabla f(x)+\lambda^T \nabla c(x)=0_{n\times 1} \newline 
+&amp; c(x) \geq 0_{m\times 1}\newline
+&amp; \lambda \geq 0_{m\times 1}\newline
+&amp; \lambda^Tc(x) = 0_{m\times 1} 
+\end{align}</p>
+
+<p>In order to for a minum point $x^{*}$ to satisfy the above KKT conditions, the problem should satisfy some <strong>regularity conditions</strong>. Since we use linear programming as an example, we only list <strong>linearity constrain qualification</strong>, that is, $c(x)$ is a set of affine functions. Affine function has formulation $\beta^Tx+\beta_0$.</p>
+
+<p>In linear programming above (2)-(3), KKT condition includes (3),(10),(11), and 
+\begin{equation}
+	y^T(b-A^Tx)=0
+\end{equation}</p>
+
+<p>Note that KKT conditions are both sufficient and necessary for optimlity. On anthoer word, <em>for any given optimal solution $x_0$ to linear programming if and only if there exists \lambda_0 that satisfies the KKT conditions</em>. On the otherhand, <em>For general nonlinear programming, KKT conditions are neither sufficient nor necessary for optimality</em>.</p>
+
+<p>Back to lagrange dual problems, we can prove <strong>weak duality</strong> and <strong>strong duality</strong> by using KKT conditons.</p>
+
+<h4 id="theorm-of-weak-duality">Theorm of weak duality</h4>
+<blockquote>
+  <p>If <em>x</em> and <em>y</em> are feasible solutions to $max\{c^Tx:Ax\leq b\}$ and $min\{b^Ty:A^Ty\geq c, y\geq 0\}$, respectively, then $c^Tx \leq b^Ty$.</p>
+</blockquote>
+
+<h4 id="proof">Proof</h4>
+
+<blockquote>
+  <p>Since <em>x</em> and <em>y</em> are feasible, we have
+\begin{equation}
+	0\leq (b-Ax)^Ty=b^Ty-(Ax)^Ty=b^Ty-y^T Ax,
+\end{equation}
+and
+\begin{equation}
+	0\leq (A^Ty-c)^Tx=y^TAx-c^Tx.
+\end{equation}
+Therefore, $c^Tx\leq y^TAx \leq b^Ty$.</p>
+</blockquote>
+
+<h4 id="theorm-of-strong-duality">Theorm of Strong duality</h4>
+<blockquote>
+  <p>If <em>x</em> and <em>y</em> are optimal solutions to $max\{c^Tx:Ax\leq b\}$ and $min\{b^Ty:A^Ty\geq c, y\geq 0\}$, respectively, then $c^Tx = b^Ty$.</p>
+</blockquote>
+
+<h4 id="proof-1">Proof</h4>
+
+<blockquote>
+  <p>Since <em>x</em> and <em>y</em> are optimal, by last KKT condition (15), we have
+\begin{equation}
+	0= (b-Ax)^Ty=b^Ty-(Ax)^Ty=b^Ty-y^TAx,
+\end{equation}
+and
+\begin{equation}
+	0= (A^Ty-c)^Tx=y^TAx-c^Tx.
+\end{equation}
+Therefore, $c^Tx= y^TAx= b^Ty$.</p>
+</blockquote>
+
+
+                <hr>
+
+                <div id="disqus_thread"></div>
+                    <script type="text/javascript">
+                        /* * * CONFIGURATION VARIABLES * * */
+                        var disqus_shortname = 'gaotx';
+                        
+                        /* * * DON'T EDIT BELOW THIS LINE * * */
+                        (function() {
+                            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                        })();   
+                    </script>
+                    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/blogs/2015/04/13/maximal-margin-classifier/" data-toggle="tooltip" data-placement="top" title="Suport vector machine #2 - Maximal margin classifier">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <a href="mailto:gaotx88@gmail.com"><i class="svg-icon email"></i></a>
+                <a href="http://facebook.com/gaotx"><i class="svg-icon facebook"></i></a>
+                <a href="http://github.com/gaotx"><i class="svg-icon github"></i></a>
+                <a href="http://linkedin.com/in/gaotx"><i class="svg-icon linkedin"></i></a>
+                <a href="https://twitter.com/gaotx88"><i class="svg-icon twitter"></i></a>
+                <div class="footertext">
+                  <p class="copyright">&copy; 2014-<script>document.write((new Date()).getFullYear().toString()); </script> Tianxiang Gao | Hosted by <a href="https://github.com">GitHub</a> &amp; Powered by <a href="http://jekyllrb.com/">Jekyll.</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+    <!-- jQuery -->
+<script src="/blogs/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/blogs/js/bootstrap.min.js "></script>
+
+<script src="/blogs/js/jquery.easing.min.js "></script>
+<script src="/blogs/js/jquery.scrollTo.js "></script>
+<script src="/blogs/js/wow.min.js "></script>
+<!-- Custom Theme JavaScript -->
+<script src="/blogs/js/custom.js "></script>
+
+<!-- Equation numberling -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+
+<!-- MathJax.js -->
+<script type="text/javascript"
+  src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!--- Inline equation-->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$']]}
+});
+</script>
+<script type="text/javascript" src="path-to-mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+    
+
+</body>
+
+</html>

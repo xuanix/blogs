@@ -1,0 +1,119 @@
+I""<h3>Question 1</h3>
+<pre><code>def deep_map(f, s):
+    """Return a Link with the same structure as s but with fn mapped over
+    its elements and any elements of linked lists contained anywhere within it.
+
+    &gt;&gt;&gt; s = Link(1, Link(Link(2, Link(3)), Link(4)))
+    &gt;&gt;&gt; deep_map(lambda x: x * x, s)
+    Link(1, Link(Link(4, Link(9)), Link(16)))
+    &gt;&gt;&gt; s # unchanged
+    Link(1, Link(Link(2, Link(3)), Link(4)))
+    &gt;&gt;&gt; deep_map(lambda x: 2 * x, Link(s, Link(Link(Link(5)))))
+    Link(Link(2, Link(Link(4, Link(6)), Link(8))), Link(Link(Link(10))))
+    """
+    first = deep_map(f, s.first) if isinstance(s.first, Link) else f(s.first)
+    rest = deep_map(f, s.rest) if isinstance(s.rest, Link) else Link.empty
+    return Link(first, rest)</code></pre>
+
+<h3>Question 2</h3>
+<pre><code>def reverse(s):
+    """Return a linked list with the elements of s in reverse order.
+
+    &gt;&gt;&gt; s = Link(3, Link(5, Link(4, Link(6))))
+    &gt;&gt;&gt; reverse(s)
+    Link(6, Link(4, Link(5, Link(3))))
+    &gt;&gt;&gt; s
+    Link(3, Link(5, Link(4, Link(6))))
+    """
+    def helper(fn, link, init):
+        if link is Link.empty:
+            return init
+        return helper(fn, link.rest, fn(link.first, init))
+    return helper(Link, s, Link.empty)</code></pre>
+
+<h3>Question 3</h3>
+<pre><code>def has_cycle(s):
+    """Return whether Link s contains a cycle.
+
+    &gt;&gt;&gt; s = Link(1, Link(2, Link(3)))
+    &gt;&gt;&gt; s.rest.rest.rest = s
+    &gt;&gt;&gt; has_cycle(s)
+    True
+    &gt;&gt;&gt; t = Link(1, Link(2, Link(3)))
+    &gt;&gt;&gt; has_cycle(t)
+    False
+    """
+    def helper(s, t):
+        if s is Link.empty or t is Link.empty:
+            return False
+        elif s == t or helper(s, t.rest):
+            return True
+        else:
+            return False
+    return helper(s, s.rest)</code></pre>
+
+<h4>Question 4</h4>
+<pre><code>class Mobile:
+    """A binary mobile has branches; each branch has a weight or a mobile.
+
+    &gt;&gt;&gt; m = Mobile(Branch(1, Weight(2)), Branch(2, Weight(1)))
+    &gt;&gt;&gt; m.weight
+    3
+    &gt;&gt;&gt; m.is_balanced()
+    True
+    &gt;&gt;&gt; m.left.contents = Mobile(Branch(1, Weight(1)), Branch(2, Weight(1)))
+    &gt;&gt;&gt; m.weight
+    3
+    &gt;&gt;&gt; m.left.contents.is_balanced()
+    False
+    &gt;&gt;&gt; m.is_balanced() # All submobiles must be balanced for m to be balanced
+    False
+    &gt;&gt;&gt; m.left.contents.right.contents.weight = 0.5
+    &gt;&gt;&gt; m.left.contents.is_balanced()
+    True
+    &gt;&gt;&gt; m.is_balanced()
+    False
+    &gt;&gt;&gt; m.right.length = 1.5
+    &gt;&gt;&gt; m.is_balanced()
+    True
+    """
+    def __init__(self, left, right):
+        for v in (left, right):
+            if type(v) != Branch:
+                raise TypeError(str(v) + ' is not a Branch')
+        self.left = left
+        self.right = right
+
+    @property
+    def weight(self):
+        """The total weight of the mobile."""
+        return self.left.contents.weight + self.right.contents.weight
+
+    def is_balanced(self):
+        """True if and only if the mobile is balanced."""
+        mobile_balance = self.left.torque == self.right.torque
+        lc, rc = self.left.contents, self.right.contents
+        return mobile_balance and lc.is_balanced() and rc.is_balanced()
+
+class Branch:
+    """A branch of a binary mobile."""
+    def __init__(self, length, contents):
+        if type(contents) not in (Weight, Mobile):
+            raise TypeError(str(contents) + ' is not a Weight or Mobile')
+        self.length = length
+        self.contents = contents
+
+    @property
+    def torque(self):
+        """The torque on the branch"""
+        return self.length * self.contents.weight
+
+class Weight:
+    """A weight at the end of a branch."""
+    def __init__(self, weight):
+        self.weight = weight
+
+    def is_balanced(self):
+        return True
+</code></pre>
+:ET

@@ -1,0 +1,201 @@
+I"¹<h3>1. Mutater-tot</h3>
+<pre><code>def ready ( betty ):
+    print ( len ( betty ))
+    betty [0]. append ( betty )
+    return betty [0:1]
+
+def get_set ( s ):
+    ready ( s )
+    return s . pop ()
+
+def go ( on , up ):
+    if up :
+        return go ( on [0] , up -1)
+    else :
+        return on
+
+f = [1 , [2]]
+g = [[3 , 4] , [5] , 6]
+h = [g , g ]</code></pre>
+
+<pre><code>
+&gt;&gt;&gt; f.pop()
+[2]
+
+&gt;&gt;&gt; h[1].pop()
+6
+
+&gt;&gt;&gt; g[g[1][0]-g[0][1]]
+[5]
+
+&gt;&gt;&gt; len(ready(g))
+2
+1
+
+&gt;&gt;&gt; g[0][2][0][1]
+4
+
+&gt;&gt;&gt; ready(get_set(h))[0][0]
+2
+3
+3
+
+&gt;&gt;&gt; [len(go(h, k)) for k in range(3)]
+[1, 3, 4]
+
+</code></pre>
+
+<h3>Question 2</h3>
+<ol type="a">
+    <li>Fill in the environment diagram</li>
+        <img src="/blogs/img/cs61a/midterm02-2a.jpg" />
+    <li>Fill in the environment diagram</li>
+        <img src="/blogs/img/cs61a/midterm02-2b.jpg" />
+</ol>
+
+<h3>Question 3</h3>
+<ol type="a">
+<li>Implement <code>objectify(t)</code></li>
+<pre><code>def objectify ( t ):
+    """ Return a Tree instance equivalent to a tree represented as a list .
+    &gt;&gt;&gt; m = tree (2)
+    &gt;&gt;&gt; m
+    [2]
+    &gt;&gt;&gt; objectify (m)
+    Tree (2)
+    &gt;&gt;&gt; r = tree (3 , [ tree (4 , [ tree (5) , tree (6)]) , tree (7 , [ tree (8)])])
+    &gt;&gt;&gt; r
+    [3 , [4 , [5] , [6]] , [7 , [8]]]
+    &gt;&gt;&gt; objectify (r)
+    Tree (3 , [ Tree (4 , [ Tree (5) , Tree (6)]) , Tree (7 , [ Tree (8)])])
+    """
+    return Tree(t.entry, [objectify(b) for b in t.branches])
+</code></pre>
+
+<li>What is the time of growth by cally <code>objectify?</code></li>
+$\theta (n)$
+
+<li>Implement <code>closest</code></li>
+<pre><code>def closest ( t ):
+    """ Return the smallest difference between an entry and the sum of the
+    entries of its branches .
+    &gt;&gt;&gt; t = Tree (8 , [ Tree (4) , Tree (3)])
+    &gt;&gt;&gt; closest (t) # |8 - (4 + 3)| = 1
+    1
+    &gt;&gt;&gt; closest ( Tree (5 , [t])) # Same minimum as t
+    1
+    &gt;&gt;&gt; closest ( Tree (10 , [ Tree (2) , t])) # |10 - (2 + 8)| = 0
+    0
+    &gt;&gt;&gt; closest ( Tree (3)) # |3 - 0| = 3
+    3
+    &gt;&gt;&gt; closest ( Tree (8 , [ Tree (3 , [ Tree (1 , [ Tree (5)])])])) # |3 - 1| = 2
+    2
+    &gt;&gt;&gt; sum ([])
+    0
+    """
+    diff = abs(t.entry - sum([b.entry for b in t.branches]))
+    return min([diff] + [closest(b) for b in t.branches])
+</code></pre>
+<li>Implement <code>double_up</code></li>
+<pre><code>def double_up ( s ):
+    """ Mutate s by inserting elements so that each element is next to an equal .
+    &gt;&gt;&gt; s = Link (3 , Link (4))
+    &gt;&gt;&gt; double_up (s) # Inserts 3 and 4
+    2
+    &gt;&gt;&gt; s
+    Link(3, Link(3, Link(4, Link(4))))
+    &gt;&gt;&gt; t = Link (3 , Link (4 , Link (4 , Link (5))))
+    &gt;&gt;&gt; double_up (t) # Inserts 3 and 5
+    2
+    &gt;&gt;&gt; t
+    Link (3, Link(3, Link(4, Link(4, Link (5, Link(5))))))
+    &gt;&gt;&gt; u = Link (3 , Link (4 , Link (3)))
+    &gt;&gt;&gt; double_up (u) # Inserts 3 , 4 , and 3
+    3
+    &gt;&gt;&gt; u
+    Link (3, Link(3, Link(4, Link(4, Link(3, Link(3))))))
+    """
+    if s is Link.empty :
+        return 0
+    elif s.rest is Link.empty :
+        s.rest = Link(s.first)
+        return 1
+    elif s.first == s.rest.first :
+        return double_up( s.rest.rest )
+    else :
+        s.rest = Link(s.first, s.rest)
+        return 1 + double_up(s.rest.rest)</code></pre>
+</ol>
+
+<h3>Question 4</h3>
+<ol type="a">
+<li>Implement <code>look</code> method in <code>Dress</code> class.</li>
+<pre><code>Class Dress :
+    """ What color is the dress ?
+    &gt;&gt;&gt; blue = Dress('blue')
+    &gt;&gt;&gt; blue.look()
+    'blue'
+    &gt;&gt;&gt; gold = Dress('gold')
+    &gt;&gt;&gt; gold.look()
+    'gold'
+    &gt;&gt;&gt; blue.look() # 2 does not evenly divide 3; changes to gold
+    &gt;&gt;&gt; Dress('black'). look()
+    'black'
+    &gt;&gt;&gt; gold.look() # 2 does not evenly divide 5; changes to black
+    &gt;&gt;&gt; gold.look() # 3 evenly divides 6Â 
+    'black'
+    &gt;&gt;&gt; Dress('white'). look()
+    'white'
+    &gt;&gt;&gt; gold.look() # 4 evenly divides 8
+    'black'
+    &gt;&gt;&gt; blue.look() # 3 evenly divides 9
+    'gold'
+    """
+    seen = 0
+    color = None
+
+    def __init__(self, color):
+        self.color = color
+        self.seen = 0
+
+    def look(self):
+        Dress.seen += 1 
+        self.seen += 1
+        if Dress.seen % self.seen == 0:
+            Dress.color = self.color
+            return self.color
+        else :
+            self.color = Dress.color
+
+</code></pre>
+
+<li>Implement <code>decrypt</code> function.</li>
+<pre><code>def decrypt (s, d):
+    """ List all possible decoded strings of s.
+    &gt;&gt;&gt; codes = {
+    ...     'alan': 'spooky',
+    ...     'al': 'drink',
+    ...     'antu': 'your',
+    ...     'turing': 'ghosts',
+    ...     'tur': 'scary',
+    ...     'ing': 'skeletons',
+    ...     'ring': 'ovaltine'
+    ... }
+    &gt;&gt;&gt; decrypt('alanturing', codes)
+    ['drink your ovaltine', 'spooky ghosts', 'spooky scary skeletons']
+    """
+    if s =='':
+        return []
+    ms = []
+    if s in d:
+        ms.append(d[s])
+    for k in range(len(s)):
+        first, suffix = s[: k], s[k :]
+        if first in d:
+            for rest in decrypt(suffix, d):
+                ms.append(d[first] + ' ' + rest)
+    return ms
+
+</code></pre>
+</ol>
+:ET

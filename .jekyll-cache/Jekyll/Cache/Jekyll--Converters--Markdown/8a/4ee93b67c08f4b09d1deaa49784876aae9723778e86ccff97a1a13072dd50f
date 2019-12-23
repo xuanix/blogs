@@ -1,0 +1,199 @@
+I"Ý<h2 id="trees">Trees</h2>
+<h3>Question 1</h3>
+
+<pre><code>def countdown_tree():
+    """Return a tree that has the following structure.
+
+    &gt;&gt;&gt; print_tree(countdown_tree())
+    10
+      9
+        8
+      7
+        6
+          5
+    """
+    return tree(10, [tree(9,
+                            [tree(8)]),
+                     tree(7, 
+                            [tree(6,
+                                    [tree(5)])])])
+
+</code></pre>
+
+<h3>Question 2</h3>
+<pre><code>def size_of_tree(t):
+    """Return the number of entries in the tree.
+
+    &gt;&gt;&gt; print_tree(numbers)
+    1
+      2
+      3
+        4
+        5
+      6
+        7
+    &gt;&gt;&gt; size_of_tree(numbers)
+    7
+    """
+    return 1 + sum([size_of_tree(branch) for branch in branches(t)])
+
+</code></pre>
+
+<h2 id="dictionaries">Dictionaries</h2>
+
+<h3>Question 3<h3>
+<pre><code>def counter(message):
+    """ Returns a dictionary of each word in message mapped
+    to the number of times it appears in the input string.
+
+    &gt;&gt;&gt; x = counter('to be or not to be')
+    &gt;&gt;&gt; x['to']
+    2
+    &gt;&gt;&gt; x['be']
+    2
+    &gt;&gt;&gt; x['not']
+    1
+    &gt;&gt;&gt; y = counter('run forrest run')
+    &gt;&gt;&gt; y['run']
+    2
+    &gt;&gt;&gt; y['forrest']
+    1
+    """
+    word_list = message.split()
+    word_dict = {}
+    for word in word_list:
+        if word in word_dict:
+            word_dict[word] += 1
+        else:
+            word_dict[word] = 1
+    return word_dict
+
+</code></pre>
+
+<h3>Question 4: What does Python print?</h3>
+<pre><code>&gt;&gt;&gt; lst = [1, 2, 3, 4, 5, 6]
+&gt;&gt;&gt; lst[4] = 1
+&gt;&gt;&gt; lst
+[1, 2, 3, 4, 1, 6]
+
+&gt;&gt;&gt; lst[2:4] = [9, 8]
+&gt;&gt;&gt; lst
+[1, 2, 9, 8, 1, 6]
+
+&gt;&gt;&gt; lst[3] = ['hi', 'bye']
+&gt;&gt;&gt; lst
+[1, 2, 9, ['hi', 'bye'], 1, 6]
+</code></pre>
+
+<pre><code>&gt;&gt;&gt; lst[3:] = ['oski', 'bear']
+&gt;&gt;&gt; lst
+[1, 2, 9, 'oski', 'bear']
+
+&gt;&gt;&gt; lst[1:3] = [2, 3, 4, 5, 6, 7, 8]
+&gt;&gt;&gt; lst
+[1, 2, 3, 4, 5, 6, 7, 8, 'oski', 'bear']
+</code></pre>
+
+<pre><code>&gt;&gt;&gt; lst == lst[:]
+True
+
+&gt;&gt;&gt; lst is lst[:]
+False
+
+&gt;&gt;&gt; a = lst[:]
+&gt;&gt;&gt; a[0] = 'oogly'
+&gt;&gt;&gt; lst
+[1, 2, 3, 4, 5, 6, 7, 8, 'oski', 'bear']
+</code></pre>
+
+Extra Questions
+---------------------------
+
+<h3>Question 5</h3>
+<pre><code>def height(t):
+    """Return the depth of the deepest node in the tree.
+
+    &gt;&gt;&gt; height(tree(1))
+    0
+    &gt;&gt;&gt; height(tree(1, [tree(2), tree(3)]))
+    1
+    &gt;&gt;&gt; print_tree(numbers)
+    1
+      2
+      3
+        4
+        5
+      6
+        7
+    &gt;&gt;&gt; height(numbers)
+    2
+    """
+    if is_leaf(t):
+        return 0
+    if branches(t):
+        return 1 + max([height(b) for b in branches(t)])
+</code></pre>
+
+<h3>Question 6</h3>
+<pre><code>def acorn_finder(t):
+    """Returns True if t contains a node with the value 'acorn' and
+    False otherwise.
+
+    &gt;&gt;&gt; sproul = tree('roots', [tree('branch1', [tree('leaf'), tree('acorn')]), tree('branch2')])
+    &gt;&gt;&gt; acorn_finder(sproul)
+    True
+    &gt;&gt;&gt; acorn_finder(numbers)
+    False
+    """
+    if root(t) == 'acorn':
+        return True
+    return any([acorn_finder(b) for b in branches(t)] + [False])
+
+</code></pre>
+
+<h3>Question 7</h3>
+<pre><code>from functools import reduce
+from operator import add
+def preorder(t):
+    """Return a list of the entries in this tree in the order that they
+    would be visited by a preorder traversal (see problem description).
+
+    &gt;&gt;&gt; preorder(numbers)
+    [1, 2, 3, 4, 5, 6, 7]
+    &gt;&gt;&gt; preorder(tree(2, [tree(4, [tree(6)])]))
+    [2, 4, 6]
+    """
+
+    return reduce(add, [preorder(branch) for branch in branches(t)], [root(t)])
+
+</code></pre>
+
+Dictionaries + Shakespeare
+----------------------------------
+
+<h3>Question 8</h3>
+<pre><code>def build_successors_table(tokens):
+    """Return a dictionary: keys are words; values are lists of
+    successors.
+
+    &gt;&gt;&gt; text = ['We', 'came', 'to', 'investigate', ',', 'catch', 'bad', 'guys', 'and', 'to', 'eat', 'pie', '.']
+    &gt;&gt;&gt; table = build_successors_table(text)
+    &gt;&gt;&gt; sorted(table)
+    [',', '.', 'We', 'and', 'bad', 'came', 'catch', 'eat', 'guys', 'investigate', 'pie', 'to']
+    &gt;&gt;&gt; table['to']
+    ['investigate', 'eat']
+    &gt;&gt;&gt; table['pie']
+    ['.']
+    &gt;&gt;&gt; table['.']
+    ['We']
+    """
+    table = {}
+    prev = '.'
+    for word in tokens:
+        if prev not in table:
+            table[prev] = []
+        table[prev] += [word]
+        prev = word
+    return table</code></pre>
+</h3></h3>
+:ET

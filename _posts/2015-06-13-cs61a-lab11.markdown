@@ -1,0 +1,367 @@
+---
+layout:     post
+title: "CS61A-Lab 11"
+subtitle:   "Iterators, Generators, and Streams"
+author: "Tianxiang Gao"
+date: "Jun 13, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+<h2>Iteratiors</h2>
+<pre><code>for elem in iterable:
+    # do something</code></pre>
+
+<code>for</code> loops only work with *iterable*, that means the object must implement the *iterable interface*, which contains <code>__iter__</code> method. An object that implement the <code>__next__</code> method is called an *iterator* and the *iterator interface* that the object implemnt both <code>__iter__</code> and <code>__next__</code> methods.
+
+<table>
+  <tbody><tr>
+    <th>Iterator</th>
+    <th>Iterable</th>
+  </tr>
+  <tr>
+    <td> __iter__ </td>
+    <td> __iter__ </td>
+  </tr>
+    <tr><td> __next__ </td>
+    <td> ----- </td>
+  </tr>
+</tbody></table>
+
+One analogy: an iterable is a book (one can flip through the pages) and an iterator is a bookmark (saves the position and can then locate the next page).
+
+<pre><code>
+class AnIterator:
+    def __init__(self):
+        self.current = 0
+    def __next__(self):
+        if self.current > 5:
+            raise StopIteration
+        self.current += 1
+        return self.current
+    def __iter__(self):
+        return self
+</code></pre>
+
+<h3>Question 1</h3>
+<pre><code>class IteratorA(object):
+    """docstring for IteratorA"""
+    def __init__(self):
+        self.start = 5
+    def __next__(self):
+        if self.start == 100:
+            raise StopIteration
+        self.start += 5
+        return self.start
+    def __iter__(self):
+        return self</code></pre>
+
+It works.
+
+<pre><code>class IteratorB:
+    """docstring for IteratorB"""
+    def __init__(self):
+        self.start = 5
+
+    def __iter__(self):
+        return self  </code></pre>
+It doesn't work since calling <code>__iter__</code> does not return object that has <code>__next__</code> method.
+
+<pre><code>class IteratorC:
+    """docstring for IteratorC"""
+    def __init__(self):
+        self.start = 5
+    def __next__(self):
+        if self.start == 10:
+            raise StopIteration
+        self.start += 5
+        return self.start</code></pre>
+
+It fails to implement the iterator interfaces because doesn't have <code>__iter__</code> method. The <code>for</code> loop needs to call <code>__iter__</code> first, since an iterabl is not necessary an iterator.
+
+<pre><code>class IteratorD:
+    """docstring for IteratorC"""
+    def __init__(self):
+        self.start = 5
+    def __next__(self):
+        self.start += 1
+        return self.start
+    def __iter__(self):
+        return self</code></pre>
+
+This is an infinite sequence. 
+
+<h3>Question 2</h3>
+
+<pre><code>class IteratorRestart:
+    """
+    >>> i = IteratorRestart(2, 7)
+    >>> for item in i:
+    ...     print(item)
+    2
+    3
+    4
+    5
+    6
+    7
+    >>> for item in i:
+    ...     print(item)
+    2
+    3
+    4
+    5
+    6
+    7
+    """
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+        self.current = start
+
+    def __next__(self):
+        if self.current > self.end:
+            raise StopIteration
+        self.current += 1
+        return self.current - 1
+
+    def __iter__(self):
+        self.current = self.start
+        return self</code></pre>
+
+<h2>Generators</h2>
+A generator is a special type of iterator that can be written using a <code>yield</code> statement:
+<pre><code>
+def &lt;generator_function&gt;():
+    &lt;variable&gt; = &lt;something&gt;
+    while &lt;predicate&gt;:
+        yield &lt;something&gt;
+        &lt;increment variable&gt;
+</code></pre>
+
+<pre><code>def generator():
+    print("Starting here")
+    i = 0
+    while i < 6:
+        print("Before yield")
+        yield i
+        print("After yield")
+        i += 1
+>>> g = generator()
+>>> g # what type of object is this?
+<generator object ...>
+
+>>> iter(g)
+<generator object ...>
+
+>>> next(g)
+Starting here
+Before yield
+0
+
+>>> next(g)
+After yield
+Before yield
+1</code></pre>
+
+You might have noticed from the Iterator section that the Iterator defined without a <code>__next__</code> method failed to run in the <code>for</code> loop. However, this is not always the case.
+
+<h3>Question 3</h3>
+<pre><code>def countdown(n):
+    """
+    >>> for number in countdown(5):
+    ...     print(number)
+    ...
+    5
+    4
+    3
+    2
+    1
+    0
+    """
+    while n >= 0:
+            yield n
+            n -= 1
+
+class Countdown:
+    """
+    >>> for number in Countdown(5):
+    ...     print(number)
+    ...
+    5
+    4
+    3
+    2
+    1
+    0
+    """
+    def __init__(self, n):
+        self.n = n
+    def __iter__(self):
+        return self
+    def __next__(self):
+        if self.n < 0:
+            raise StopIteration
+        self.n -= 1
+        return self.n + 1</code></pre>
+
+<h3>Question 4</h3>
+<pre><code>def hailstone(n):
+    """
+    >>> for num in hailstone(10):
+    ...     print(num)
+    ...
+    10
+    5
+    16
+    8
+    4
+    2
+    1
+    """
+    while True:
+        yield n
+        if n == 1:
+            return n
+        elif n % 2 == 0:
+            n //= 2
+        else:
+            n = 3 * n + 1</code></pre>
+
+<h2>Extra Questions</h2>
+<h3>Streams</h3>
+A *stream* is another example of a lazy sequence. A steam is a lazily evaluated Linked List. In other words, the steam's elemnts (except for the first element) are only evaluated when the values are needed.
+<pre><code>class Steam:
+    class empty:
+        def __repr__(self):
+            return 'Steram.empty'
+    empty = empty()
+    def __init__(self, first, compute_rest=lambda: Steam.empty) 
+        assert callable(compute_rest), 'computer_rest must be callable.'
+        self.first = first
+        self._compute_rest = compute_rest
+    @property
+    def rest(self):
+        """Return the rest of the stream, computing it if necessary."""
+        if self._compute_rest is not None:
+            self._rest = self._compute_rest()
+            self._compute_rest = None
+        return self._rest
+    def __repr__(self):
+        return 'Steam({0}, &lt;...&gt;)'.format(repr(self.first))
+</code></pre>
+
+Instead of specifying all of the elemnts in <code>__init__</code>, we provide a function <code>compute_rest</code>, that encapsulates the algroithm used to calculate remaining elemnts of the steam. Remember that the code in the function body is not evaluated until it is called, which lets us implement the desired evaluation behavior.
+
+This implementation of steams also uses *memoization*. The first time a program asks <code>Steam</code> for its <code>rest</code> field, the <code>Steam</code> code computes the required value using <code>compute_rest</code>, saves the resulting values, and then reutrns it. After that, every time the <code>rest</code> field is referenced, the stored value is simply returned and it is not computed again.
+
+Here is an example:
+<pre><code>def make_integer_stream(first=1):
+    def compute_rest():
+        return make_integer_stream(first+1)
+    return Stream(first, compute_rest)</code></pre>
+
+We start out with a stream whose first element is <code>1</code>, and whose <code>compute_rest</code> function creates *another stream*. So when we do compute the <code>rest</code>, we get another stream whose first elemnt is one greater than the previous element, and whose <code>compute_rest</code> creats another stream.
+
+<h3>Question 5</h3>
+<pre><code>def add_streams(s1, s2):
+    """Returns a stream that is the sum of s1 and s2.
+
+    >>> stream1 = make_integer_stream()
+    >>> stream2 = make_integer_stream(9)
+    >>> added = add_streams(stream1, stream2)
+    >>> added.first
+    10
+    >>> added.rest.first
+    12
+    >>> added.rest.rest.first
+    14
+    """
+    def compute_rest():
+        return add_streams(s1.rest, s2.rest)
+    return Stream(s1.first + s2.first, compute_rest)</code></pre>
+
+<h3>Question 6</h3>
+<pre><code>def make_fib_stream():
+    """Return a stream containing the Fib sequence.
+
+    >>> fib = make_fib_stream()
+    >>> fib.first 
+    0
+    >>> fib.rest.first
+    1
+    >>> fib.rest.rest.rest.rest.first
+    3
+    """
+    return fib_stream_generator()
+    
+def fib_stream_generator(pre=0, curr=1):
+    def compute_rest():
+        return fib_stream_generator(curr, pre + curr)
+    return Stream(pre, compute_rest)</code></pre>
+
+<pre><code>def make_fib_stream2():
+    def compute_rest():
+        return add_streams(make_fib_stream2(), make_fib_stream2().rest)
+    return Stream(0, lambda: Stream(1, compute_rest))</code></pre>
+
+<h3>Higher Order Functions on Streams</h3>
+Naturally, as the theme has always been in this class, we can abstract our stream procedures to be higher order. Take a look at <code>filter_stream</code>:
+
+<pre><code>def filter_stream(filter_func, stream):
+    """Return the filtered stream by filter_func
+    >>> s = make_integer_stream()
+    >>> f = filter_stream(lambda x: x % 2 == 0, s)
+    >>> f
+    Stream(2, <...>)
+    >>> f.first
+    2
+    >>> f.rest.first
+    4
+    >>> f.rest.rest
+    Stream(6, <...>)
+    >>> f.rest.rest.rest
+    Stream(8, <...>)
+    >>>
+    """ 
+    def make_filtered_rest():
+        return filter_stream(filter_func, stream.rest)
+    if stream is Stream.empty:
+        return stream
+    elif filter_func(stream.first):
+        return Stream(stream.first, make_filtered_rest)
+    else:
+        return filter_stream(filter_func, stream.rest)
+</code></pre>
+
+<h3>Question 7</h3>
+<pre><code>def map_stream(fn, s):
+    if s is Stream.empty:
+        return s
+    def compute_rest():
+        return map_stream(fn, s.rest)
+    return Stream(fn(s.first), compute_rest)
+
+def my_stream():
+    def compute_rest():
+        return add_streams(map_stream(lambda x: 2 * x, my_stream()), my_stream())
+    return Stream(1, compute_rest)
+</code></pre>
+1, 3, 9, 27, 81, ...
+
+<h3>Question 8</h3>
+<pre><code>def interleave(stream1, stream2):
+    """Return a stream with alternating values from stream1 and stream2.
+
+    >>> ints = make_integer_stream(1)
+    >>> fib = make_fib_stream()
+    >>> alternating = interleave(ints, fib)
+    >>> alternating.first
+    1
+    >>> alternating.rest.first
+    0
+    >>> alternating.rest.rest.first
+    2
+    >>> alternating.rest.rest.rest.first
+    1
+    """     
+    if stream1 is Stream.empty:
+        return Stream.empty
+    return Stream(stream1.first, lambda: interleave(stream2, stream1.rest))</code></pre>

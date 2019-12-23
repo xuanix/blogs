@@ -1,0 +1,138 @@
+I"�<h3>Introduction: MapReduce</h3>
+<p>MapReduce is a programming paradigm developed by Google, which allows a programmer to process large ammouts of data in parallel on many computers.</p>
+
+<p>A computation in MapReduce consists two components: <strong>mapper</strong> and <strong>reducer</strong>.</p>
+
+<ul>
+<li><strong>mapper</strong> takes an input file, and prints out a series of key-value pairs:</li>
+<pre><code>age 29
+name cecilia
+job gradstudent
+salary 42
+</code></pre>
+In this example, the key-value pairs are:
+<pre><code>{age: 29, name: cecilia, job: gradstudent, salary: 42}
+</code></pre>
+<li><strong>reducer</strong> takes the (sorted) output from the mapper, and outputs a single value for each key. The mapper's output will be sorted according to the key.</li>
+</ul>
+
+<p>This lab is split up into two parts: 1. <strong>Serial MapReduce</strong>: to introduce MapReduce framework, we will first use a <em>non-parallelized</em> version. Even with this limitation, we can still do quite a lot of data processing! 2. <strong>Parallelized MapReduce</strong>: the real power of MapReduce comes from parallelization. The same MapReduce jobs from Part 1 can be executed much faster by using multiple computers(i.e. a cluster) at the same time. For this lab, we will be using <em>Hadoop</em>, an open source implementation of the MapReduce paradignm.</p>
+
+<h2>Part 1: Serial MapReduce</h2>
+<h3>Example: Line-Counting</h3>
+<p>Our first exercise will be counting the number of lines in one of Shakespear’s plays.</p>
+
+<p>To formulate this as MapReduce problem, we need to define an appropriate <code>mapper</code> and <code>reducer</code> function.</p>
+
+<p>What the <code>mapper</code> does: for each line in a text file, the mapper outputs a <em>key-value</em> pair. What should our key-value pairs be for our line counting example?</p>
+
+<ul>
+<li><strong>key</strong>: in our example, we don't care about the contents of each line -- there's no need to classify each line. Thus, our key can just be the string 'line'.</li>
+<li><strong>value</strong>: we want to count each line exactly once. Thus, our value can just be the number 1.</li>
+</ul>
+<p>For example,</p>
+
+<pre><code>so much depends
+upon
+a red wheel
+barrow
+glazed with rain
+water
+beside the white
+chickens.</code></pre>
+
+<p>(notice there are 8 lines); it then outputs a sequence of key-value pairs like this:</p>
+
+<pre><code>'line'  1
+'line'  1
+'line'  1
+'line'  1
+'line'  1
+'line'  1
+'line'  1
+'line'  1</code></pre>
+
+<p>The <code>reducer</code> takes this sequence and simply adds up all the values tha are associated with the key ‘line’.</p>
+<pre><code>'line'  8</code></pre>
+
+<p><code>line_count.py</code> is the mapper, which takes input from <code>stdin</code>(i.e. <em>standard in</em>) and outputs one key-value pair of each line to <code>stdout</code> (i.e. <em>standard out</em>, which is typically the terminal output).</p>
+
+<p>Let’s run <code>line_count.py</code> by feeding it <code>the_tempest.text</code>. The question is, how do we give <code>the_tempest.txt</code> to <code>line_count.py</code> via <code>stdin</code>? We’ll use the Unix pipe <code>|</code> feature:</p>
+<pre><code>chmode +x line_count.py</code></pre>
+<p>This command lines <em>change mode</em> of file <em>line_count.py</em> to <em>executable</em>.</p>
+
+<p>Once you’re made <code>line_count.py</code> executable, type in the following command:</p>
+<pre><code>cat the_tempest.tx | ./line_count.py</code></pre>
+
+<p><code>cat</code> will display the contents of a given file to <code>stdout</code>.</p>
+
+<p>If you’ve completed <code>line_count.py</code> correctly, your terminal output should be full of key-value pairs like:</p>
+<pre><code>'line' 1
+'line' 1
+'line' 1
+...
+'line' 1</code></pre>
+
+<p>Unix pipe-ing takes the output of one program (in this case, the <code>cat</code> program), and ‘pipes’ it as the input to another program (typically via <code>stdin</code>). This technique of piping programs together is called “modular programming” and is ubiquitous in Unix-sytle programming. Modular programming allows us to write small, simple programs and chain them together to accomplish complicated tasks.</p>
+
+<h3>The reducer: sum.py</h3>
+
+<p>In your current directory should be the file <code>sum.py</code>. The body of this file should be:</p>
+<pre><code>#!/usr/bin/env python3
+
+import sys
+from ucb import main
+from mr import values_by_key, emit
+
+@main
+def run():
+    for key, value_iterator in values_by_key(sys.stdin):
+        emit(key, sum(value_iterator))</code></pre>
+
+<p>Let’s break down the process:</p>
+<ol>
+<li><code>values_by_key</code> is a function that reads input from <code>stdin</code>, and groups all key-value pairs that have the same key. For exmaple</li>
+<pre><code>'line'  1
+'line'  1
+'line'  1</code></pre>
+will turn into the following pair:
+
+<pre><code>('line', [1, 1, 1])</code></pre>
+
+<em>Note: the second element should actually be an iterator, not a Python list; it is represented with square brackets for visual clarity.</em>
+
+<li>The variables <code>key</code> and <code>value_iterator</code> get bound to their respective values in the example above</li>
+<pre><code>key: 'line'
+value_iterator: [1, 1, 1]</code></pre>
+
+<li>For each of these key-iterator pairs, <code>sum.py</code> will add up the values in the iterator and output this new value with the same key:</li>
+<pre><code>'line'  3</code></pre>
+The <code>emit</code> function prints out a key and a value in the format shown above. <code>emit</code> also handles logistics for parallelization, which becomes important in Part 2 of the lab.
+</ol>
+
+<h3>Putting it all together</h3>
+<p>Now that we have the <strong>mapper</strong> and <strong>reducer</strong> defined, let’s put it all together in the (simplified) MapReduce framework: Map -&gt; Sort -&gt; Reduce</p>
+
+<p>Once you’ve doen this, issue the following Unix command:</p>
+<pre><code>cat the_tempest.txt | ./line_count.py | sort | ./sum.py</code></pre>
+
+<p>Notice that we’re using the Unix program <code>sort</code>, which is a built-in Unix program. As you’d expect, <code>sort</code> will, give a file, sort the lines of the file - by default, it will sort it alphabetically.</p>
+
+<h3>Exercises</h3>
+<h3>Question 1:</h3>
+<pre><code>import sys
+from ucb import main
+from mr import values_by_key, emit
+
+def count_words(line):
+	for word in ['the', 'he', 'she', 'it', 'thee']:
+		count = line.count(word)
+		if count &gt; 0:
+			emit(word, count)
+
+@main
+def run():
+    for line in sys.stdin:
+    	count_words(line)</code></pre>
+
+:ET

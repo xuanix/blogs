@@ -1,0 +1,100 @@
+---
+layout:     post
+title: "CS61A-Homework 4"
+subtitle:   "Section 2.2"
+author: "Tianxiang Gao"
+date: "May 14, 2015"
+header-img: "img/post-bg-02.jpg"
+---
+<h3>Question 1</h3>
+
+<pre><code>def interval(a, b):
+    """Construct an interval from a to b."""
+    return [a, b]
+
+def lower_bound(x):
+    """Return the lower bound of interval x."""
+    return x[0]
+
+def upper_bound(x):
+    """Return the upper bound of interval x."""
+    return x[1]
+</code></pre>
+
+<h3>Question 2</h3>
+
+<pre><code>def div_interval(x, y):
+    """Return the interval that contains the quotient of any value in x divided
+    by any value in y.
+
+    Division is implemented as the multiplication of x by the reciprocal of y.
+
+    >>> str_interval(div_interval(interval(-1, 2), interval(4, 8)))
+    '-0.25 to 0.5'
+    """
+    assert upper_bound(y) < 0 or lower_bound(y) > 0, 'Divided by zero' 
+    reciprocal_y = interval(1/upper_bound(y), 1/lower_bound(y))
+    return mul_interval(x, reciprocal_y)
+</code></pre>
+
+<h3 class="question" id="q3">Question 3</h3>
+
+<pre><code>def sub_interval(x, y):
+    """Return the interval that contains the difference between any value in x
+    and any value in y.
+
+    >>> str_interval(sub_interval(interval(-1, 2), interval(4, 8)))
+    '-9 to -2'
+    """
+    lower = lower_bound(x) - upper_bound(y)
+    upper = upper_bound(x) - lower_bound(y)
+    return interval(lower, upper)</code></pre>
+
+<h3 class="question" id="q4">Question 4</h3>
+
+<pre><code># These two intervals give different results for parallel resistors:
+a = interval(1,2)
+b = interval(1,2)
+print(str_interval(par1(a, b)), '!=', str_interval(par2(a, b)))
+
+</code></pre>
+
+<h3 class="question" id="q5">Question 5</h3>
+
+<pre><code>def multiple_references_explanation():
+    return """The mulitple reference problem exists in part1
+    because r1 and r2 are refered in mul_interval and add_interval respectively, 
+    in the mean while r1 and r2 only are refered onece."""
+</code></pre>
+
+<h3 class="question" id="q6">Question 6</h3>
+
+<p>Write a function <code>quadratic</code> that returns the interval of all values
+<code>f(t)</code> such that <code>t</code> is in the argument interval <code>x</code> and <code>f(t)</code> is a
+<a href="http://en.wikipedia.org/wiki/Quadratic_function">quadratic function</a>:</p>
+
+<pre><code>f(t) = a*t*t + b*t + c</code></pre>
+
+<p>Make sure that your implementation returns the smallest such interval,
+one that does not suffer from the multiple references problem.</p>
+
+<p><em>Hint</em>: the derivative <code>f'(t) = 2*a*t + b</code>, and so the extreme
+point of the quadratic is <code>-b/(2*a)</code>:</p>
+
+<pre><code>def quadratic(x, a, b, c):
+    """Return the interval that is the range of the quadratic defined by
+    coefficients a, b, and c, for domain interval x.
+
+    &gt;&gt;&gt; str_interval(quadratic(interval(0, 2), -2, 3, -1))
+    '-3 to 0.125'
+    &gt;&gt;&gt; str_interval(quadratic(interval(1, 3), 2, -3, 1))
+    '0 to 10'
+    """
+    extremum = -b /(2*a)
+    f = lambda t: a*t*t + b*t + c
+    l, u, e = map(f, (lower_bound(x), upper_bound(x), extremum))
+    if extremum >= lower_bound(x) and extremum <= upper_bound(x):
+        return interval(min(l,u,e), max(l,u,e))
+    else:
+        return interval(min(l,u), max(l,u))</code></pre>
+

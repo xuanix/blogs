@@ -1,0 +1,16 @@
+# Site settings
+title: Tianxiang
+header-img: img/home-bg.jpg
+email: gaotx88@gmail.com
+description: "Tianxiang‘s blogs - academic and daily life"
+baseurl: "/blogs"
+url: "http://gaotx.com"
+
+# Build settings
+markdown: kramdown
+highlighter: pygments
+permalink: pretty
+paginate: 5
+exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
+plugins:
+  - jekyll-paginate

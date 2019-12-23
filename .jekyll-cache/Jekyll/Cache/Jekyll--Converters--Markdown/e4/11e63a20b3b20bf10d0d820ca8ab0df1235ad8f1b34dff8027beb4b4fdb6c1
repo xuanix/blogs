@@ -1,0 +1,214 @@
+I"�(<p><strong class="date">05/04/2015.</strong></p>
+
+<h2 id="reading-11-reading-12-and-lecture">Reading 1.1, Reading 1.2 and Lecture</h2>
+
+<ul>
+  <li>
+    <p>An <strong>Expression</strong> describes a computation and evaluates to a value. All expression can use <em>function call notation</em>, known as <strong>Call Expression</strong>. <em>Anatomy</em> of a call expression are <strong>Operator</strong> and <strong>operand</strong>.</p>
+  </li>
+  <li>
+    <p>Python defines a very large number of functions, but some of them are not available by default. Instead, one need to <strong>Import Library Functions</strong>.</p>
+  </li>
+  <li>
+    <p>In python, computational objects can be refered by <strong>names</strong>, that can be maintained and tracked in some of memory known as <strong>Environment</strong>.</p>
+  </li>
+  <li>
+    <p>We use <strong>Expression Tree</strong> to understand and evaluate nested expressions.</p>
+  </li>
+  <li>
+    <p><strong>Pure functions</strong> have input and return output, whereas <strong>Non-Pure Functions</strong> have additional <strong>side effects</strong> such as <code>print</code> function which return <code>None</code> but its side effect displays the printed value.</p>
+  </li>
+</ul>
+
+<h2 id="lab-00">lab 00</h2>
+
+<ul>
+  <li>Introduction
+    <ul>
+      <li>Comments in UNIX usually has three parts: <strong>comment</strong> itself, <strong>arguments</strong> in order to make comments to work, <strong>flags</strong> which are ways to specify modified behavior for commands.
+        <pre><code>rm -r tmp</code></pre>
+      </li>
+      <li>Here is an example commend in UNIX. <code>rm</code> is comment itself, <code>-r</code> is flag to recursively remove a specified directory, and <code>temp</code> is argument, in this case, it’s the specified directory.</li>
+    </ul>
+  </li>
+  <li>Directories:
+    <ul>
+      <li><code>ls</code>: <strong>list</strong> files and directories (folders).</li>
+      <li><code>mkdir</code>: <strong>make</strong> a new <strong>directory</strong>.</li>
+      <li><code>cd</code>: <strong>change directory</strong>.</li>
+      <li><code>rm -r</code>: <strong>remove</strong> a specified directory <strong>recursively</strong>.</li>
+    </ul>
+  </li>
+  <li>Files:
+    <ul>
+      <li><code>cat</code>: displays the contents of a file on the screen.</li>
+      <li><code>mv</code>: <strong>moves</strong> a file/directory to another file/directory. Can be used for <strong>rename</strong>. <code>..</code> <strong>parent</strong> directory. <code>.</code> <strong>current</strong> directory.</li>
+      <li><code>cp</code>: <strong>copies</strong> a file to another file/directory.</li>
+      <li><code>rm</code>: <strong>removes</strong> a file.</li>
+    </ul>
+  </li>
+  <li>Miscellaneous:
+    <ul>
+      <li><code>echo</code>echo: <strong>echo</strong>(repeat) the words typed.</li>
+      <li><code>man some_command</code>: displays <strong>manual</strong> pages for a specified command</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="lab-01">Lab 01</h2>
+
+<ul>
+  <li><strong>Running doctests</strong>
+    <ul>
+      <li>
+        <pre><code>python3 -m doctest lab01.py</code></pre>
+      </li>
+      <li>Running the code above to <strong>debug</strong> the function.</li>
+      <li>
+        <pre><code>def my_email():
+"""Return your last name as a string.
+
+&gt;&gt;&gt; my_email() != 'oski@berkeley.edu'
+True
+"""
+return 'jane.doe@berkeley.edu'</code></pre>
+      </li>
+      <li>Content quoted by <code>"""</code> is <strong>docstring</strong>. Within the <em>docstring</em>, lines begin with <code>&gt;&gt;&gt;</code> are <strong>doctests</strong>.</li>
+      <li>Be default, doctests only output <strong>failures</strong>. If one prefer to see all, call “verbose”</li>
+      <li>
+        <pre><code>python3 -m doctest -v lab01.py</code></pre>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong class="date">05/05/2015.</strong></p>
+
+<h2 id="reading-13-and-14">Reading 1.3 and 1.4</h2>
+
+<ul>
+  <li>The <em>scope</em> of <strong>Local Names</strong> only survives in its local frame.</li>
+  <li>Functions usually have three core attributes: <em>domain</em> (formal parameters), <em>range</em> (return), and <em>intent</em> (relationship between the two).</li>
+  <li>When designing functions, <strong>docstring</strong> introduces the function, which must be quoted by <code>"""</code>. One can call <code>help(function)</code> to see its docstring (type <code>q</code> to quit help). <code>#</code> to comment.</li>
+  <li>Set up <strong>Default Argument Values</strong> for convinent.</li>
+</ul>
+
+<h2 id="lecture">Lecture</h2>
+
+<ul>
+  <li><strong>Names</strong> is one of <em>primitive expressions (number, name, string)</em> that can be <em>bound</em> to refer a value or an <em>object (function)</em>.</li>
+  <li><em>Names</em> are stored in <em>environment</em> also called <strong>Frame</strong>. Calling a function creates a specific <strong>Local Frame</strong>. The root frame is <strong>Global Frame</strong>. If a name cannot be found in local frame, then try to find it in global frame such as <code>max</code>. <em>Name</em> between local frame and global frame can be <strong>repeated</strong>.</li>
+  <li><strong>Assignment</strong> statements evaluate expressions starts at <em>right</em> of = from left to right. <em>Bind</em> all names to the <em>left</em> of = to those resulting values <em>in the current frame</em>.</li>
+  <li><em>Assignment</em> is one simple means of <strong>abstraction</strong>: binds names to values, while <strong>Function defination</strong> is a more powerfull abstraction: binds names to expressions. Every function can be considered as an <em>object</em>. To define a function has the form</li>
+</ul>
+
+<pre>
+&gt;&gt;&gt; def &lt;name&gt;(&lt;formal parameters&gt;): 
+          return &lt;return expression&gt;</pre>
+
+<ul>
+  <li><strong>Function Signature</strong> is the first line content after <code>def</code>; The rest is <strong>Function body</strong>. The following lines must <strong>indented</strong>.</li>
+  <li><em>Adding a local frame</em> is the first step of <em>calling user-defined functions</em>.</li>
+  <li>Name evaluation firstly looks in <em>local frame</em>. If not found, try <em>global frame</em> such as <code>max</code>. To clearly understand, draw <strong>environment diagrams</strong>.</li>
+  <li><strong>Pure Functions</strong> have <em>input</em> and return <em>output</em>, whereas <em>Non-Pure Functions</em> have additional <strong>side effect</strong> to change the state of interpreter or computer. For example, <code>print</code> returns <code>None</code> and displays contents by side effect.</li>
+</ul>
+
+<p><strong class="date">05/06/2015.</strong></p>
+
+<h2 id="reading-15">Reading 1.5</h2>
+
+<ul>
+  <li><strong>Control statement</strong> consists of <strong>expression</strong> (<strong>headers</strong>), and <strong>suites</strong>.</li>
+  <li><strong>Boolean contexts</strong>. <code>0, None, False</code> are false values.</li>
+  <li>Functions return a <em>boolean values</em> typically begin with <code>is</code>, not followed by an <em>underscore</em>. (e.g. isfinite).</li>
+  <li>Use <code>assert</code> statement to <strong>Testing</strong>, and contexts are quoted by <code>'</code>. Test files are write in a neighboring file with suffix   <em>_text.py</em>.</li>
+</ul>
+
+<pre>&gt;&gt;&gt; def fib_test():
+        assert fib(2) == 1, 'The 2nd Fibonacci number should be 1'
+        assert fib(3) == 1, 'The 3rd Fibonacci number should be 1'
+        assert fib(50) == 7778742049, 'Error at the 50th Fibonacci number'
+</pre>
+<ul>
+  <li><strong>Doctests</strong>. <em>Simple test directly</em> in the <em>docstring</em> of a function. First line is <em>description</em> of function, followed by a <strong>blank line</strong>. such as</li>
+</ul>
+
+<pre>
+&gt;&gt;&gt; def sum_naturals(n):
+    """Return the sum of the first n natural numbers.
+
+    &gt;&gt;&gt; sum_naturals(10)
+    55
+    &gt;&gt;&gt; sum_naturals(100)
+    5050
+    """
+    total, k = 0, 1
+    while k &lt;= n:
+        total, k = total + k, k + 1
+    return total
+</pre>
+
+<ul>
+  <li>All <em>global functions</em> can test by <strong>doctest module</strong></li>
+</ul>
+
+<pre>
+&gt;&gt;&gt; from doctest import testmod
+&gt;&gt;&gt; testmod()
+TestResults(failed=0, attempted=2)
+
+</pre>
+<ul>
+  <li>If want to test one function, use</li>
+</ul>
+
+<pre>
+&gt;&gt;&gt; from doctest import run_docstring_examples
+&gt;&gt;&gt; run_docstring_examples(sum_naturals, globals(), True)
+</pre>
+<ul>
+  <li>All doctests <em>in one file</em> can be run by starting Python with doctest</li>
+</ul>
+
+<pre>
+&gt;&gt;&gt; python3 -m doctest &lt;python_source_file&gt;</pre>
+
+<h2 id="lecture-1">Lecture</h2>
+
+<ul>
+  <li>In <strong>Multiple Environments</strong>, the <em>last</em> generated frame is considered as <em>earliest frame</em> of the current environment</li>
+  <li>Test function by <strong>doctest</strong> within <strong>docstring</strong>.</li>
+  <li><strong>Conditional statement</strong>, <code>if, elif, else</code></li>
+  <li><strong>Iteration statement</strong>, <code>while</code></li>
+</ul>
+
+<p><strong class="date">05/07/2015.</strong></p>
+
+<ul>
+  <li>A <strong>guide</strong> to designing function: each function has one job, don’t repeat yourself, and <strong>generally</strong> define function.</li>
+  <li>Function can be used as <strong>arguments</strong>, <strong>return</strong>, <strong>locally defined</strong>.</li>
+</ul>
+
+<h2 id="extra-lecture-1">Extra Lecture 1</h2>
+<ul>
+  <li><strong>Lambda Expressions</strong></li>
+</ul>
+<pre>
+&gt;&gt;&gt; square = lambda x: x * x
+</pre>
+<p>Read it in English: Define a function with formal parameter x that returns the value of “x * x”.</p>
+
+<ul>
+  <li><strong>Newton’s Method</strong></li>
+</ul>
+
+<p>Newton’s method quickly finds accurate approximations to <em>zeros</em> of differentiable function. In another word, finds $x_0$ in $f(x)$ such that $f(x_0)=0$, where $x_0$ is known as <strong>zero</strong> of $f(x)$.</p>
+
+<p><img src="/blogs/img/newton.png" /></p>
+
+<p>Given a function $f$ and initial <em>guess</em> x, improve current $x$ by using slop (derivative) $f^\prime (x)$. Based on the current length $-f(x)$ from $0$, the $x$ need to change $\frac{f(x)}{f^\prime (x)}$ according to $tan(\alpha)$. So x can be updated by</p>
+
+<p><script type="math/tex">x = x-\frac{f(x)}{f^\prime (x)}</script></p>
+<h4 id="lets-implement-newtons-method">Let’s implement newton’s method</h4>
+
+:ET

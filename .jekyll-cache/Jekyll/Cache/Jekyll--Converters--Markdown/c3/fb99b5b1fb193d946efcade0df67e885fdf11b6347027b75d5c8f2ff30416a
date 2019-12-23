@@ -1,0 +1,237 @@
+I"0<h2>Basics</h2>
+<hr />
+
+<p><code>Question 1: Primitives</code></p>
+<pre><code>scm&gt; 1          ; Anything following a ';' is a comment
+1
+scm&gt; 1.0
+1.0
+scm&gt; -27
+-27
+scm&gt; #t
+True
+scm&gt; #f
+False
+scm&gt; "A string"
+"A string"
+scm&gt; 'symbol
+symbol
+scm&gt; nil
+()
+scm&gt; 
+</code></pre>
+
+<h3>Question 2; Expressions</h3>
+<p>Scheme uses Polish <em>prefix</em> notation, where operator comes before the operands.</p>
+
+<pre><code>scm&gt; (+ 3 5)
+8
+
+scm&gt; (- 10 4)
+4
+
+scm&gt; (* 7 6)
+42
+
+scm&gt; (/ 28 2)
+14
+
+scm&gt; (+ 1 2 3 4 5 6 7 8 9)
+45
+
+scm&gt; (quotient 29 5)
+5
+
+scm&gt; (remainder 29 5)
+4</code></pre>
+
+<pre><code>scm&gt; (= 1 3)
+False
+
+scm&gt; (&gt; 1 3)
+False
+
+scm&gt; (&lt; 1 3)
+True
+
+scm&gt; (or #t #f)
+True
+
+scm&gt; (and #t #t)
+True
+
+scm&gt; (and #t #f (/ 1 0))        ; Short-Circuiting
+False
+
+scm&gt; (not #t)
+False</code></pre>
+
+<pre><code>scm&gt; (define x 3)               ; Defining Variables
+x
+
+scm&gt; x
+3
+
+scm&gt; (define y (+ x 4))
+y
+
+scm&gt; y
+7</code></pre>
+
+<h2>Defining functions</h2>
+<pre><code>(define (&lt;name&gt; &lt;args&gt;) &lt;body&gt;)</code></pre>
+
+<pre><code>(define (cube x)
+  (* x x x)
+)</code></pre>
+
+<h2>Control structures</h2>
+<hr />
+
+<pre><code>(if &lt;condition&gt;
+    &lt;true_result&gt;
+    &lt;false_result&gt;
+    )</code></pre>
+
+<pre><code>; Scheme
+(if (&lt; x 0)
+    'negative           ; returns the symbol negative
+    (if (= x 0)
+        'zero           ; returns the symbol zero
+        'positive       ; returns the symbol positive
+    )
+)
+
+# Python Equivalent
+if x &lt; 0:
+    print('negative')
+else:
+    if x == 0:
+        print('zero')
+    else:
+        print('positive')</code></pre>
+
+<h3>Qustion 4: Over or under</h3>
+<pre><code>(define (over-or-under x y)
+    (if (&lt; x y) 
+         -1
+         ((if (= x y) 
+            0
+            1))
+)</code></pre>
+
+<h3>Using Conditionals</h3>
+<pre><code>(cond (&lt;condition_1&gt; &lt;result_1&gt;)
+      (&lt;condition_2&gt; &lt;result_2&gt;)
+        ...
+      (&lt;ondition_n&gt; &lt;result_n]&gt;)
+      (else &lt;result_else&gt;))                ; 'else' is optional</code></pre>
+
+<pre><code>(cond ((and (&gt; x 0) (= (modulo x 2) 0)) 'positive-even-integer)
+      ((and (&gt; x 0) (= (modulo x 2) 1)) 'positive-odd-integer)
+      ((= x 0) 'zero)
+      ((and (&lt; x 0) (= (modulo x 2) 0)) 'negative-even-integer)
+      ((and (&lt; x 0) (= (modulo x 2) 1)) 'negative-odd-integer))</code></pre>
+
+<h2>Lambdas</h2>
+<p>Defines a procedure in Scheme.</p>
+<pre><code>(define (&lt;name&gt; &lt;args&gt;) &lt;body&gt;)
+</code></pre>
+
+<p>Define a <code>lambda</code> in Scheme.</p>
+<pre><code>(lambda (&lt;args&gt;) &lt;body&gt;)</code></pre>
+
+<pre><code>; defining a lambda
+(lambda (x) (+ x 3))
+; calling a lambda
+((lambda (x) (+ x 3)) 7)
+</code></pre>
+
+<h3>Qustion 5: make-adder</h3>
+<pre><code>(define (make-adder num)
+  (lambda (x) (+ x num))
+)</code></pre>
+
+<h2>Lists</h2>
+<pre><code>scm&gt; (define a '(1 2 3 4))
+a
+
+scm&gt; (define b '(4 5 6))
+b
+
+scm&gt; (define empty '())
+empty
+
+scm&gt; (append '(1 2 3) '(4 5 6))
+(1 2 3 4 5 6)
+
+scm&gt; (length '(1 2 3 4 5))
+5
+
+scm&gt; (null? '(1 2 3))             ; Checks whether list is empty.
+False
+
+scm&gt; (null? '())
+True
+
+scm&gt; (null? nil)
+True</code></pre>
+
+<h3>Question 6</h3>
+<pre><code>(define structure
+  (cons (cons 1 nil) 
+        (cons 2 
+              (cons (cons 3 4 ) 
+                    (cons 5 nil))))
+)</code></pre>
+
+<h3>Question 7: Remove</h3>
+<pre><code>(define (remove item lst)
+  (cond ((null? lst) '())
+        ((= (car lst) item) (remove item (cdr lst)))
+        (else (cons (car lst) (remove item (cdr lst))))
+    )
+)</code></pre>
+
+<h2>Extra Questions</h2>
+<hr />
+
+<h3>Question 8: Composed</h3>
+<pre><code>(define (composed f g)
+  (lambda (x) (f (g x)))
+)</code></pre>
+
+<h3>Question 9: Greatest common divisor</h3>
+<pre><code>(define (max a b) (if (&gt; a b) a b))
+(define (min a b) (if (&gt; a b) b a))
+(define (gcd a b)
+    (if (or (= a 0) (= b 0))
+        (max a b)
+      (if (= (modulo (max a b) (min a b)) 0) 
+        (min a b)
+        (gcd (min a b) (remainder (max a b) (min a b)))
+        )
+    )
+)</code></pre>
+
+<h3>Question 10: Filter</h3>
+<pre><code>(define (filter f lst)
+  (cond ((null? lst) lst)
+        ((f (car lst)) (cons (car lst) (filter f (cdr lst))))
+        (else (filter f (cdr lst)))
+
+    )
+)</code></pre>
+
+<h3>Question 11: all-satisfies</h3>
+<pre><code>(define (all-satisfies lst pred)
+  (= (length lst) (length (filter pred lst)))
+)</code></pre>
+
+<h3>Question 12: Accumulate</h3>
+<pre><code>(define (accumulate combiner start n term)
+  (if (= n 0)
+      start
+      (combiner (term n) (accumulate combiner start (- n 1) term))
+      ))</code></pre>
+:ET
